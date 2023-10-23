@@ -1,10 +1,10 @@
 import time
 from datetime import datetime
 
-from SystemStorage import SystemStorage
-from learning_materials.Challenge import Challenge
-from rewards.Badge import Badge
-from utilities.Difficulty import Difficulty
+from codeVentureApp.SystemStorage import SystemStorage
+from codeVentureApp.learning_materials.Challenge import Challenge
+from codeVentureApp.rewards.Badge import Badge
+from codeVentureApp.utilities.Difficulty import Difficulty
 
 
 class ChallengeManager:

@@ -1,9 +1,9 @@
-from users.Educator import Educator
-from users.UserAccount import UserAccount
-from SystemStorage import SystemStorage
-from utilities.Role import Role
-from users.Learner import Learner
-from users.Parent import Parent
+from codeVentureApp.SystemStorage import SystemStorage
+from codeVentureApp.users.Educator import Educator
+from codeVentureApp.users.Learner import Learner
+from codeVentureApp.users.Parent import Parent
+from codeVentureApp.users.UserAccount import UserAccount
+from codeVentureApp.utilities.Role import Role
 
 
 class Administrator(UserAccount):
