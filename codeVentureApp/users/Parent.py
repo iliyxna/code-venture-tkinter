@@ -1,5 +1,5 @@
-from users.UserAccount import UserAccount
-from utilities.Role import *
+from codeVentureApp.users.UserAccount import UserAccount
+from codeVentureApp.utilities.Role import Role
 
 
 class Parent(UserAccount):
@@ -13,7 +13,7 @@ class Parent(UserAccount):
         :param username: account username
         :param password: account password
         :param firstname: parent's first name
-        :param lastname: parents's last name
+        :param lastname: parent's last name
         :param child_username: child of the parent
         """
         super().__init__(username, password, firstname, lastname, Role.PARENT)

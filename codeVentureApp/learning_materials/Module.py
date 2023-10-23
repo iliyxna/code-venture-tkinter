@@ -1,5 +1,5 @@
-from rewards.Points import Points
-from utilities.Status import *
+from codeVentureApp.rewards.Points import Points
+from codeVentureApp.utilities.Status import Status
 
 
 class Module:

@@ -1,46 +1,9 @@
-import customtkinter
-
-import LoginSystem
-from learning_materials.ChallengeManager import ChallengeManager
-from learning_materials.ModuleManager import ModuleManager
-from users.UserAccount import UserAccount
-from utilities.Role import *
-from utilities.Rank import *
-from rewards.Points import Points
-from utilities.ProgressTracker import ProgressTracker
-
-from tkinter import messagebox
-
-
-class LearnerFrame(customtkinter.CTkFrame):
-    def __init__(self, master, parent, user):
-        super().__init__(master=master)
-        self.configure(fg_color="transparent")
-        self.master = master
-        self.parent = parent
-        self.user = user
-
-        welcome_title = customtkinter.CTkLabel(master=self,
-                                               text=f'Welcome Back, {self.user.get_firstname()}!',
-                                               font=("Fixedsys", 20))
-        welcome_title.grid(row=1, columnspan=2, padx=10, pady=10)
-
-        learner_frame_title = customtkinter.CTkLabel(master=self,
-                                                     text="Learner Dashboard",
-                                                     font=("Fixedsys", 20))
-        learner_frame_title.grid(row=2, columnspan=2, padx=10, pady=10)
-
-        logout = customtkinter.CTkButton(master=self, text="Logout", command=self.confirm_logout)
-        logout.grid(row=5, columnspan=2, padx=5, pady=10)
-        print(f"User in LearnerFrame: {self.user}")
-
-    def back_to_login(self):
-        self.master.switch_frame(self.master.login_frame)
-
-    def confirm_logout(self):
-        result = messagebox.askyesno("Logout Confirmation", "Are you sure you want to sign out?")
-        if result:
-            self.back_to_login()
+from codeVentureApp.learning_materials.ChallengeManager import ChallengeManager
+from codeVentureApp.learning_materials.ModuleManager import ModuleManager
+from codeVentureApp.rewards.Points import Points
+from codeVentureApp.users.UserAccount import UserAccount
+from codeVentureApp.utilities.ProgressTracker import ProgressTracker
+from codeVentureApp.utilities.Rank import Rank
 
 
 class Learner(UserAccount):

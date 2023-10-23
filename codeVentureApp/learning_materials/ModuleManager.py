@@ -1,11 +1,8 @@
 import time
 
-from SystemStorage import SystemStorage
-from learning_materials.Module import Module
-from learning_materials.Quiz import Quiz
-from learning_materials.Solution import Solution
-from learning_materials.Tutorial import Tutorial
-from utilities.Level import Level
+from codeVentureApp.SystemStorage import SystemStorage
+from codeVentureApp.learning_materials.Module import Module
+from codeVentureApp.utilities.Level import Level
 
 
 class ModuleManager:

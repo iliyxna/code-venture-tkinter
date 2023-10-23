@@ -1,5 +1,5 @@
-from users.UserAccount import UserAccount
-from utilities.Role import *
+from codeVentureApp.users.UserAccount import UserAccount
+from codeVentureApp.utilities.Role import Role
 
 
 class Educator(UserAccount):

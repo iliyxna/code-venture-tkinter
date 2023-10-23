@@ -1,6 +1,3 @@
-from utilities.DateValidator import *
-
-
 class Badge:
     def __init__(self, badge_name, description,date=None):
         self.badge_name = badge_name

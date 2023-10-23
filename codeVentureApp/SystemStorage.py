@@ -1,6 +1,6 @@
 from typing import List
 
-from users.UserAccount import UserAccount
+from codeVentureApp.users.UserAccount import UserAccount
 
 
 class SystemStorage:
