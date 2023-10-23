@@ -1,10 +1,10 @@
 import tkinter as tk
-from tkinter import ttk
 from tkinter import messagebox
+
 import customtkinter
 
-from RegisterFrame import RegisterFrame
-from LoginFrame import LoginFrame
+from codeVentureApp.RegisterFrame import RegisterFrame
+from codeVentureApp.LoginFrame import LoginFrame
 
 
 class MainApplication(customtkinter.CTk):
@@ -64,7 +64,6 @@ class MainApplication(customtkinter.CTk):
     def show_register_frame(self):
         self.main_frame.place_forget()
         self.register_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
-
 
     def show_main_frame(self):
         # Hide the current frame
