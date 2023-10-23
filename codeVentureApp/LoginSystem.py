@@ -4,7 +4,7 @@ from tkinter import messagebox
 import customtkinter
 
 from codeVentureApp.users.LearnerFrame import LearnerFrame
-from PasswordRecoveryFrame import PasswordRecoveryFrame
+from codeVentureApp.PasswordRecoveryFrame import PasswordRecoveryFrame
 from SystemStorage import SystemStorage
 
 
