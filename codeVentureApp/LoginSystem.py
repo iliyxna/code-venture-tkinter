@@ -98,7 +98,7 @@ class LoginFrame(customtkinter.CTkFrame):
             # print(user.get_role())
             if user.get_role() == "Learner":
                 self.learner_frame = LearnerFrame(self.master, self, self.user)
-                self.master.switch_frame(self.learner_frame)
+                # self.master.switch_frame(self.learner_frame)
             else:
                 print("Under Construction")
             self.clear_entries()

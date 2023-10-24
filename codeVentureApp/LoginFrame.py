@@ -1,3 +1,4 @@
+
 from codeVentureApp.users.LearnerFrame import LearnerFrame
 from codeVentureApp.LoginSystem import PasswordRecoveryFrame
 from codeVentureApp.SystemStorage import SystemStorage
@@ -29,12 +30,12 @@ class LoginFrame(customtkinter.CTkFrame):
         # Label containing the welcome heading
         login_title = customtkinter.CTkLabel(master=self,
                                              text="Sign In",
-                                             font=("Fixedsys", 20))
+                                             font=("Fixedsys", 24))
         login_title.grid(row=1, columnspan=2, padx=10, pady=10)
 
         # Label to ask user for Username
         username_label = customtkinter.CTkLabel(master=self, text="Username: ")
-        username_label.grid(row=2, column=0, sticky=tk.E, padx=10, pady=10)
+        username_label.grid(row=2, column=0, sticky=tk.EW, padx=10, pady=10)
 
         # Variable and input widget for username
         self.username = tk.StringVar()
@@ -44,7 +45,7 @@ class LoginFrame(customtkinter.CTkFrame):
         self.entry_widget_list.append(self.username_entry)
 
         password_label = customtkinter.CTkLabel(master=self, text="Password: ")
-        password_label.grid(row=3, column=0, sticky=tk.E, padx=10, pady=10)
+        password_label.grid(row=3, column=0, sticky=tk.EW, padx=10, pady=10)
 
         # Variable and input widget for password
         self.password = tk.StringVar()
@@ -54,7 +55,6 @@ class LoginFrame(customtkinter.CTkFrame):
 
         login_button = customtkinter.CTkButton(master=self, text="Login", command=self.authenticate_login)
         login_button.grid(row=4, column=0, padx=5, pady=10)
-        # login_button.pack()
 
         forget_password_button = customtkinter.CTkButton(master=self, text="Forget Password",
                                                          command=self.show_pwd_recovery_frame)
@@ -64,12 +64,10 @@ class LoginFrame(customtkinter.CTkFrame):
                                               command=self.back_to_main)
         back_button.grid(row=5, columnspan=2, padx=5, pady=10)
 
-    # def switch_frame(self, new_frame):
-    #     self.current_frame.place_forget()
-    #     self.current_frame = new_frame  # Set the new frame as the current frame
-    #     self.current_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
-
     def clear_entries(self):
+        """
+        Method to clear all the entries
+        """
         for entry in self.entry_widget_list:
             entry.delete(0, tk.END)
 
@@ -102,9 +100,10 @@ class LoginFrame(customtkinter.CTkFrame):
             messagebox.showinfo(title="Login Successful", message="Login Successful!")
             # print(user.get_role())
             if user.get_role() == "Learner":
-                self.learner_frame = LearnerFrame(self.master, self, self.user)
+                # learner = Learner.get_learner(user)
+                self.learner_frame = LearnerFrame(master=self.master, login_frame=self, user=user)
                 self.place_forget()
-                self.learner_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+                self.learner_frame.place(relx=0, rely=0)
             else:
                 print("Under Construction")
             self.clear_entries()
@@ -113,9 +112,15 @@ class LoginFrame(customtkinter.CTkFrame):
             messagebox.showerror("Login Failed", "Login failed. Invalid username or password.")
 
     def show_pwd_recovery_frame(self):
+        """
+        Method to recover password
+        """
         self.place_forget()
         self.clear_entries()
         self.password_recovery_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
     def get_user(self):
+        """
+        Method to get the user that is logged in
+        """
         return self.username.get()

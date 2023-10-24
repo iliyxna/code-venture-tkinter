@@ -1,6 +1,6 @@
-from utilities.Rank import *
-from learning_materials.ModuleManager import ModuleManager
-from learning_materials.ChallengeManager import ChallengeManager
+from codeVentureApp.learning_materials.ChallengeManager import ChallengeManager
+from codeVentureApp.learning_materials.ModuleManager import ModuleManager
+from codeVentureApp.utilities.Rank import Rank
 
 
 class ProgressTracker:

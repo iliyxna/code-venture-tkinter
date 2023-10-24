@@ -109,7 +109,7 @@ class RegisterFrame(customtkinter.CTkFrame):
             entry.delete(0, tk.END)
 
         if self.role_dropdown is not None:
-            self.role_dropdown.set("")
+            self.role_dropdown.set("Select Role")
 
     def register_user(self):
         first_name = self.firstname.get()
@@ -144,7 +144,7 @@ class RegisterFrame(customtkinter.CTkFrame):
         self.system_storage.add_user(user)
         self.system_storage.existing_usernames.append(username)
 
-        with open("./user_details", "a", encoding="utf8") as file:
+        with open("./user_details", "a", encoding="utf8") as file:  # append mode
             # add registration into UserAccount.txt
             file.write(f"{username},{password},{first_name},{last_name},{role}\n")
 

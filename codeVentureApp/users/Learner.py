@@ -78,6 +78,9 @@ class Learner(UserAccount):
         progress_tracker = self.get_progress_tracker()
         return progress_tracker
 
+    def get_percentage_completion(self):
+        return self.get_progress_tracker().calculate_progress_percentage()
+
     def __str__(self):
         """
         String method to print the object details
@@ -87,3 +90,7 @@ class Learner(UserAccount):
                f"Learner's username : {self.get_firstname()}\n" \
                f"Current Rank: {self.get_rank().name}\n" \
                f"Current Points: {self.get_points()}\n"
+
+    def get_learner(self):
+        return self
+

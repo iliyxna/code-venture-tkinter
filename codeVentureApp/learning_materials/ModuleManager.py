@@ -1,6 +1,6 @@
 import time
 
-from codeVentureApp.SystemStorage import SystemStorage
+# from codeVentureApp.SystemStorage import SystemStorage
 from codeVentureApp.learning_materials.Module import Module
 from codeVentureApp.utilities.Level import Level
 
@@ -15,7 +15,7 @@ class ModuleManager:
         return cls._instance
 
     def __init__(self):
-        self.system_storage = SystemStorage()
+        # self.system_storage = SystemStorage()
         self.all_existing_modules = self.get_all_modules()
         self.beginner_modules = []
         self.intermediate_modules = []
@@ -32,7 +32,7 @@ class ModuleManager:
 
         # self.sort_modules()
         # update system storage
-        self.system_storage.all_modules = self.all_existing_modules
+        # self.system_storage.all_modules = self.all_existing_modules
 
         return self.all_existing_modules
 

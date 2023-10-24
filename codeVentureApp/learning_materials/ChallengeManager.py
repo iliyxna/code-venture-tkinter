@@ -1,7 +1,7 @@
 import time
 from datetime import datetime
 
-from codeVentureApp.SystemStorage import SystemStorage
+# from codeVentureApp.SystemStorage import SystemStorage
 from codeVentureApp.learning_materials.Challenge import Challenge
 from codeVentureApp.rewards.Badge import Badge
 from codeVentureApp.utilities.Difficulty import Difficulty
@@ -17,7 +17,7 @@ class ChallengeManager:
         return cls._instance
 
     def __init__(self):
-        self.system_storage = SystemStorage()
+        # self.system_storage = SystemStorage()
         self.all_existing_challenges = []
         self.easy_challenges = []
         self.medium_challenges = []
@@ -61,7 +61,7 @@ class ChallengeManager:
         self.all_existing_challenges = [test_challenge, challenge1, challenge2, challenge3]
 
         # update system storage
-        self.system_storage.all_challenges = self.all_existing_challenges
+        # self.system_storage.all_challenges = self.all_existing_challenges
 
         return self.all_existing_challenges
 

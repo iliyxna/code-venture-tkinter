@@ -9,11 +9,12 @@ from codeVentureApp.LoginFrame import LoginFrame
 
 class MainApplication(customtkinter.CTk):
 
-    def __init__(self, title, width=960, height=540):
+    def __init__(self, title, width=1080, height=800):
         super().__init__()
         self.title(title)
         self.geometry(f"{width}x{height}")
-        customtkinter.set_default_color_theme("dark-blue")
+        # customtkinter.set_default_color_theme("green")
+        self._set_appearance_mode("black")
 
         # Accessible frames from main page
         self.login_frame = LoginFrame(self)
@@ -80,4 +81,5 @@ class MainApplication(customtkinter.CTk):
 
 if __name__ == "__main__":
     root = MainApplication("Code Venture")
+    # root.attributes("-fullscreen", True)
     root.mainloop()
