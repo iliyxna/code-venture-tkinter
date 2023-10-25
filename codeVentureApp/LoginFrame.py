@@ -1,7 +1,7 @@
 from codeVentureApp.PasswordRecoveryFrame import PasswordRecoveryFrame
 from codeVentureApp.users.LearnerFrame import LearnerFrame
-
 from codeVentureApp.SystemStorage import SystemStorage
+
 import tkinter as tk
 from tkinter import messagebox
 import customtkinter
@@ -13,7 +13,7 @@ class LoginFrame(customtkinter.CTkFrame):
     def __init__(self, master):
         super().__init__(master=master)
         self.master = master
-        self.system_storage = SystemStorage()
+        self.user_storage = SystemStorage()
 
         # Store the logged-in user to be passed to child
         self.user = None  # set to None before login
@@ -97,7 +97,8 @@ class LoginFrame(customtkinter.CTkFrame):
         username = self.username.get()
         password = self.password.get()
 
-        user = self.system_storage.get_user(username, password)
+        # user = self.system_storage.get_user(username, password)
+        user = self.user_storage.get_user(username, password)
         # temporary, modify later
 
         if user is not None:

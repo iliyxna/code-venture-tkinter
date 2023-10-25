@@ -3,17 +3,18 @@ import tkinter as tk
 from tkinter import messagebox
 import customtkinter
 
-from codeVentureApp.SystemStorage import SystemStorage
+# from codeVentureApp.SystemStorageDraft import SystemStorage
 from codeVentureApp.users.Educator import Educator
 from codeVentureApp.users.Learner import Learner
 from codeVentureApp.users.Parent import Parent
+from codeVentureApp.SystemStorage import SystemStorage
 
 
 class RegisterFrame(customtkinter.CTkFrame):
     def __init__(self, master):
         super().__init__(master=master)
         self.master = master
-        self.system_storage = SystemStorage()
+        self.user_storage = SystemStorage()
         self.entry_widget_list = []  # to clear the entries in one go
         self.current_frame = self
 
@@ -126,7 +127,7 @@ class RegisterFrame(customtkinter.CTkFrame):
             return
 
         # Check if the username is unique
-        elif self.system_storage.check_existing_username(username):
+        elif self.user_storage.get_user_by_username(username) is not None:
             messagebox.showerror("Username Error", "Username already exists. Please choose a different username.")
             return
 
@@ -134,26 +135,26 @@ class RegisterFrame(customtkinter.CTkFrame):
             print(f'Selected role: {role}')
             if role == "Learner":
                 user = Learner(username, password, first_name, last_name)
-                self.system_storage.add_user(user)
+                self.user_storage.insert_user_data(user)
             elif role == "Educator":
                 user = Educator(username, password, first_name, last_name)
-                self.system_storage.add_user(user)
+                self.user_storage.insert_user_data(user)
             elif role == "Parent":
                 user = Parent(username, password, first_name, last_name)
-                self.system_storage.add_user(user)
+                self.user_storage.insert_user_data(user)
             else:
                 messagebox.showerror("Role Error", "Invalid role selection.")
                 return
 
         # Add the user to the storage
-        if self.system_storage.get_user_by_username(user.get_username()) is not None:
+        if self.user_storage.get_user_by_username(user.get_username()) is not None:
             print(user)
         else:
             print("NOT ADDED TO LIST")
 
-        with open("./user_details", "a", encoding="utf8") as file:  # append mode
-            # add registration into UserAccount.txt
-            file.write(f"{username},{password},{first_name},{last_name},{role}\n")
+        # with open("./user_details", "a", encoding="utf8") as file:  # append mode
+        #     # add registration into UserAccount.txt
+        #     file.write(f"{username},{password},{first_name},{last_name},{role}\n")
 
         # Show a success message
         messagebox.showinfo("Registration Successful", "User registration successful!")

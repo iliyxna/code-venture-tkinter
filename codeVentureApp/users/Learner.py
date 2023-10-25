@@ -25,6 +25,7 @@ class Learner(UserAccount):
         self.progress = ProgressTracker(self.get_rank())
         self.module_manager = ModuleManager()
         self.challenge_manager = ChallengeManager()
+        self.percentage_completion = 0.0
 
     def get_points(self):
         """
