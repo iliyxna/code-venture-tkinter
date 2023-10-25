@@ -2,6 +2,8 @@ import customtkinter
 import tkinter as tk
 from tkinter import messagebox
 
+from codeVentureApp.SystemStorage import SystemStorage
+
 
 class LearnerFrame(customtkinter.CTkFrame):
     def __init__(self, master, login_frame, user):
@@ -9,7 +11,8 @@ class LearnerFrame(customtkinter.CTkFrame):
         self.configure(fg_color="transparent")
         self.master = master
         self.login_frame = login_frame
-        self.user = user
+        self.system_storage = SystemStorage()
+        self.user = self.system_storage.get_user_by_username(user.get_username())
 
         """""""""""""""""""""""""""
         SIDE NAVIGATION BAR FRAME
@@ -132,7 +135,6 @@ class LearnerFrame(customtkinter.CTkFrame):
         profile_label = customtkinter.CTkLabel(master=self.profile_frame,
                                                text="USER PROFILE",
                                                font=("Cascadia Mono Bold", 16))
-        # profile_label.place(relx=0, y=100, relwidth=self.profile_frame.winfo_width())
         profile_label.place(relx=0, y=100, relwidth=self.profile_frame.winfo_width())
 
         # Set current frame
@@ -148,7 +150,6 @@ class LearnerFrame(customtkinter.CTkFrame):
                                 bg="#2b2b2b")
 
         avatar_label.place(relx=0, y=160, relwidth=self.nav_bar.winfo_width())
-        # avatar_label.place(relx=0, rely=0.18, relwidth=self.nav_bar.winfo_width())
 
         # User's full name
         name_label = customtkinter.CTkLabel(self.profile_frame,

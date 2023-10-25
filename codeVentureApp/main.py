@@ -13,7 +13,6 @@ class MainApplication(customtkinter.CTk):
         super().__init__()
         self.title(title)
         self.geometry(f"{width}x{height}")
-        # customtkinter.set_default_color_theme("green")
         self._set_appearance_mode("black")
 
         # Accessible frames from main page
@@ -38,6 +37,7 @@ class MainApplication(customtkinter.CTk):
                                                     fg_color="white",
                                                     text_color="black",
                                                     width=110,
+                                                    hover_color="#878787",
                                                     command=self.show_login_frame)
         self.login_button.grid(row=2, columnspan=2, padx=10, pady=10)
 
@@ -46,6 +46,7 @@ class MainApplication(customtkinter.CTk):
                                                        fg_color="white",
                                                        text_color="black",
                                                        width=110,
+                                                       hover_color="#878787",
                                                        command=self.show_register_frame)
         self.register_button.grid(row=3, columnspan=2, padx=10, pady=10)
 
@@ -81,5 +82,4 @@ class MainApplication(customtkinter.CTk):
 
 if __name__ == "__main__":
     root = MainApplication("Code Venture")
-    # root.attributes("-fullscreen", True)
     root.mainloop()

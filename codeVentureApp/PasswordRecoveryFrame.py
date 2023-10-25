@@ -12,7 +12,7 @@ class PasswordRecoveryFrame(customtkinter.CTkFrame):
         super().__init__(master=master)
         self.master = master
         self.login_frame = login_frame
-        self.system_storage = SystemStorage()
+        self.user_storage = SystemStorage()
         self.current_frame = self
 
         # To reset entries when change frame
@@ -65,8 +65,9 @@ class PasswordRecoveryFrame(customtkinter.CTkFrame):
         if new_password != new_password_2:
             messagebox.showerror( "Password Error", "Passwords do not match. Please try again.")
         else:
-            if self.system_storage.check_existing_username(username):
-                self.system_storage.update_user_password(username, new_password)
+            if self.user_storage.get_user_by_username(username) is not None:
+                # self.system_storage.update_user_password(username, new_password)
+                self.user_storage.update_user_password(username, new_password)
                 messagebox.showinfo("Password Reset", "Password has been reset.")
                 self.back_to_main()
             else:
