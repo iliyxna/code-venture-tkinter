@@ -9,7 +9,7 @@ from codeVentureApp.utilities.Role import Role
 class Administrator(UserAccount):
     
     def __init__(self, username, password, firstname, lastname):
-        super().__init__(username, password, firstname, lastname, Role.ADMIN)
+        super().__init__(username, password, firstname, lastname, "Admin")
         self.permissions = []
         self.system_storage = SystemStorage()
 

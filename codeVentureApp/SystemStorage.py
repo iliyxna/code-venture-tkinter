@@ -1,6 +1,7 @@
 from typing import List
 
 from codeVentureApp.users.Learner import Learner
+from codeVentureApp.users.Parent import Parent
 from codeVentureApp.users.UserAccount import UserAccount
 
 
@@ -44,6 +45,7 @@ class SystemStorage:
                                            lastname=lastname,
                                            role=role)
                     self.users.append(user_obj)
+                    self.existing_usernames.append(username)
             return True
         except FileNotFoundError:
             print(f"The file \"{self.file_path}\" does not exist!")
@@ -75,18 +77,26 @@ class SystemStorage:
 
     def add_user(self, user):
         self.users.append(user)
+        self.existing_usernames.append(user.get_username())
 
     def get_user(self, username, password):
         for user in self.users:
             if user.username == username and user.password == password:
                 if user.get_role() == "Learner":
                     return Learner(user.get_username(), user.get_password(), user.get_firstname(), user.get_lastname())
+
+                elif user.get_role() == "Parent":
+                    return Parent(user.get_username(), user.get_password(), user.get_firstname(), user.get_lastname())
         return None
 
     def get_user_by_username(self, username):
         for user in self.users:
             if user.username == username:
-                return user
+                if user.get_role() == "Learner":
+                    return Learner(user.get_username(), user.get_password(), user.get_firstname(), user.get_lastname())
+
+                elif user.get_role() == "Parent":
+                    return Parent(user.get_username(), user.get_password(), user.get_firstname(), user.get_lastname())
         return None
 
     def update_user_password(self, username, new_password):

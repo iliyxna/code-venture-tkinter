@@ -1,10 +1,12 @@
-
+from codeVentureApp.PasswordRecoveryFrame import PasswordRecoveryFrame
 from codeVentureApp.users.LearnerFrame import LearnerFrame
-from codeVentureApp.LoginSystem import PasswordRecoveryFrame
+
 from codeVentureApp.SystemStorage import SystemStorage
 import tkinter as tk
 from tkinter import messagebox
 import customtkinter
+
+from codeVentureApp.users.ParentFrame import ParentFrame
 
 
 class LoginFrame(customtkinter.CTkFrame):
@@ -25,6 +27,9 @@ class LoginFrame(customtkinter.CTkFrame):
 
         # Accessible frames from login frame
         self.learner_frame = None
+        self.parent_frame = None
+        self.educator_frame = None
+        self.admin_frame = None
         self.password_recovery_frame = PasswordRecoveryFrame(self.master, self)
 
         # Label containing the welcome heading
@@ -94,16 +99,21 @@ class LoginFrame(customtkinter.CTkFrame):
 
         user = self.system_storage.get_user(username, password)
         # temporary, modify later
+
         if user is not None:
             self.user = user
+            # print(user.get_role())
             # output a Label to show login successful in a pop-up
             messagebox.showinfo(title="Login Successful", message="Login Successful!")
             # print(user.get_role())
             if user.get_role() == "Learner":
-                # learner = Learner.get_learner(user)
                 self.learner_frame = LearnerFrame(master=self.master, login_frame=self, user=user)
                 self.place_forget()
                 self.learner_frame.place(relx=0, rely=0)
+            elif user.get_role() == "Parent":
+                self.parent_frame = ParentFrame(master=self.master, login_frame=self, user=user)
+                self.place_forget()
+                self.parent_frame.place(relx=0, rely=0)
             else:
                 print("Under Construction")
             self.clear_entries()

@@ -60,13 +60,17 @@ class PasswordRecoveryFrame(customtkinter.CTkFrame):
         # might need to add some questions (What is your childhood nickname? so that not everyone can change password)
         username = self.username.get()
         new_password = self.new_password.get()
+        new_password_2 = self.new_password_entry_two.get()
 
-        if self.system_storage.check_existing_username(username):
-            self.system_storage.update_user_password(username, new_password)
-            messagebox.showinfo("Password Reset", "Password has been reset.")
-            self.back_to_main()
+        if new_password != new_password_2:
+            messagebox.showerror( "Password Error", "Passwords do not match. Please try again.")
         else:
-            messagebox.showerror("User Not Found", "User not found. Please ensure your username is correct.")
+            if self.system_storage.check_existing_username(username):
+                self.system_storage.update_user_password(username, new_password)
+                messagebox.showinfo("Password Reset", "Password has been reset.")
+                self.back_to_main()
+            else:
+                messagebox.showerror("User Not Found", "User not found. Please ensure your username is correct.")
 
     def back_to_main(self):
         self.place_forget()

@@ -6,6 +6,7 @@ import customtkinter
 from codeVentureApp.SystemStorage import SystemStorage
 from codeVentureApp.users.Educator import Educator
 from codeVentureApp.users.Learner import Learner
+from codeVentureApp.users.Parent import Parent
 
 
 class RegisterFrame(customtkinter.CTkFrame):
@@ -125,24 +126,30 @@ class RegisterFrame(customtkinter.CTkFrame):
             return
 
         # Check if the username is unique
-        if username in self.system_storage.existing_usernames:
+        elif self.system_storage.check_existing_username(username):
             messagebox.showerror("Username Error", "Username already exists. Please choose a different username.")
             return
 
-        if role == "Learner":
-            user = Learner(username, password, first_name, last_name)
-        elif role == "Educator":
-            user = Educator(username, password, first_name, last_name)
-        elif role == "Parent":
-            messagebox.showerror("Not yet implement", "Belum lagi bos")
-            return
         else:
-            messagebox.showerror("Role Error", "Invalid role selection.")
-            return
+            print(f'Selected role: {role}')
+            if role == "Learner":
+                user = Learner(username, password, first_name, last_name)
+                self.system_storage.add_user(user)
+            elif role == "Educator":
+                user = Educator(username, password, first_name, last_name)
+                self.system_storage.add_user(user)
+            elif role == "Parent":
+                user = Parent(username, password, first_name, last_name)
+                self.system_storage.add_user(user)
+            else:
+                messagebox.showerror("Role Error", "Invalid role selection.")
+                return
 
         # Add the user to the storage
-        self.system_storage.add_user(user)
-        self.system_storage.existing_usernames.append(username)
+        if self.system_storage.get_user_by_username(user.get_username()) is not None:
+            print(user)
+        else:
+            print("NOT ADDED TO LIST")
 
         with open("./user_details", "a", encoding="utf8") as file:  # append mode
             # add registration into UserAccount.txt
