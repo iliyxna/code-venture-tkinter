@@ -1,5 +1,7 @@
 import sqlite3
 
+from codeVentureApp.users.Administrator import Administrator
+from codeVentureApp.users.Educator import Educator
 from codeVentureApp.users.Learner import Learner
 from codeVentureApp.users.Parent import Parent
 
@@ -64,7 +66,38 @@ class SystemStorage:  # change to system storage later
         self.connection.execute(table_create_query)
         self.connection.commit()
 
+        """
+        Table 4
+        """
+        table_create_query = '''CREATE TABLE IF NOT EXISTS Module_Completion_Data
+                                (
+                                id INTEGER PRIMARY KEY,
+                                username TEXT,
+                                module TEXT,
+                                completion_date TEXT
+                                )
+                                '''
+        self.connection.execute(table_create_query)
+        self.connection.commit()
+
+        """
+        Table 5
+        """
+        table_create_query = '''CREATE TABLE IF NOT EXISTS Challenge_Completion_Data
+                                (
+                                id INTEGER PRIMARY KEY,
+                                username TEXT,
+                                badge_earned TEXT,
+                                completion_date TEXT
+                                )
+                                '''
+        self.connection.execute(table_create_query)
+        self.connection.commit()
+
     def insert_user_data(self, user):
+        """
+        Query to insert user data into the User_Data and Learner_Progress table
+        """
         self.cursor.execute('''
                     INSERT INTO User_Data (username, password, firstname, lastname, role)
                     VALUES (?, ?, ?, ?, ?)
@@ -77,7 +110,9 @@ class SystemStorage:  # change to system storage later
                                        INSERT INTO Learner_Progress (username, points, rank, percentage_completion)
                                        VALUES (?, ?, ?, ?)
                                     ''', (
+                # new learners are set to default (0 points, NOVICE, 0% completion)
                 user.get_username(), user.get_points(), user.get_rank().name, user.get_percentage_completion()))
+
             self.connection.commit()
 
     def insert_child_username(self, parent, child):
@@ -102,6 +137,10 @@ class SystemStorage:  # change to system storage later
                 return Learner(username, password, firstname, lastname)
             elif role == "Parent":
                 return Parent(username, password, firstname, lastname)
+            elif role == "Educator":
+                return Educator(username, password, firstname, lastname)
+            elif role == "Admin":
+                return Administrator(username, password, firstname, lastname)
         return None
 
     def get_user_by_username(self, username):
@@ -116,6 +155,10 @@ class SystemStorage:  # change to system storage later
                 return Learner(username, password, firstname, lastname)
             elif role == "Parent":
                 return Parent(username, password, firstname, lastname)
+            elif role == "Educator":
+                return Educator(username, password, firstname, lastname)
+            elif role == "Admin":
+                return Administrator(username, password, firstname, lastname)
         return None
 
     def update_user_password(self, username, new_password):
@@ -127,6 +170,9 @@ class SystemStorage:  # change to system storage later
         self.connection.commit()
 
     def check_parent_child(self, parent_username):
+        """
+        Query to check if parent account is already linked to child account
+        """
         self.cursor.execute('SELECT * FROM Parent_Data WHERE username = ?', (parent_username,))
         user_data = self.cursor.fetchone()
         if user_data:
@@ -134,13 +180,43 @@ class SystemStorage:  # change to system storage later
         return False
 
     def get_learner_progress(self, learner_username):
+        """
+        Query to get the learner's progress data
+        """
         self.cursor.execute('SELECT * FROM Learner_Progress WHERE username = ?', (learner_username,))
         learner_data = self.cursor.fetchone()
         if learner_data:
             username, points, rank, percentage_completion = learner_data
             return username, points, rank, percentage_completion
 
+    def update_learner_rank(self, username, rank):
+        """
+        Query to update user rank
+        """
+        self.cursor.execute(
+            'UPDATE Learner_Progress SET rank = ? WHERE username = ?', (rank, username))
+        self.connection.commit()
+
+    def update_learner_percentage(self, username, percentage):
+        """
+        Query to update user percentage
+        """
+        self.cursor.execute(
+            'UPDATE Learner_Progress SET percentage_completion = ? WHERE username = ?', (percentage, username))
+        self.connection.commit()
+
+    def update_learner_points(self, username, points):
+        """
+        Query to update user earned points
+        """
+        self.cursor.execute(
+            'UPDATE Learner_Progress SET points = ? WHERE username = ?', (points, username))
+        self.connection.commit()
+
     def get_parent_data(self, parent_username):
+        """
+        Query to get the parent's data (parent and child username only)
+        """
         self.cursor.execute('SELECT * FROM Parent_Data WHERE username = ?', (parent_username,))
         parent_data = self.cursor.fetchone()
         if parent_data:

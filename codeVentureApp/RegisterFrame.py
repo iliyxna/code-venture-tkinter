@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import messagebox
 import customtkinter
 
+from codeVentureApp.users.Administrator import Administrator
 # from codeVentureApp.SystemStorageDraft import SystemStorage
 from codeVentureApp.users.Educator import Educator
 from codeVentureApp.users.Learner import Learner
@@ -12,17 +13,19 @@ from codeVentureApp.SystemStorage import SystemStorage
 
 class RegisterFrame(customtkinter.CTkFrame):
     def __init__(self, master):
+        """
+        Constructor
+        """
         super().__init__(master=master)
         self.master = master
         self.user_storage = SystemStorage()
         self.entry_widget_list = []  # to clear the entries in one go
         self.current_frame = self
 
-        # Roles used for dropdown list
+        # Roles used for dropdown list (Learner and Parent only)
         self.roles = [
             "Learner",
-            "Educator",
-            "Parent"
+            "Parent",
         ]
 
         self.configure(fg_color="transparent")  # set the frame as transparent to match default bg colour
@@ -101,12 +104,17 @@ class RegisterFrame(customtkinter.CTkFrame):
         back_button.grid(row=9, columnspan=2, padx=5, pady=10)
 
     def show_main_page(self):
-        # self.master.show_main_page()
+        """
+        Method to navigate back to the main page
+        """
         self.place_forget()
         self.master.main_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
         self.clear_entries()
 
     def clear_entries(self):
+        """
+        Method to clear all the register entries
+        """
         for entry in self.entry_widget_list:
             entry.delete(0, tk.END)
 
@@ -114,6 +122,11 @@ class RegisterFrame(customtkinter.CTkFrame):
             self.role_dropdown.set("Select Role")
 
     def register_user(self):
+        """
+        Method to register as a user.
+        Note that only learners and parents can register. Educators and admins cannot register as they
+        are added manually into the database.
+        """
         first_name = self.firstname.get()
         last_name = self.lastname.get()
         username = self.username.get()
@@ -121,8 +134,13 @@ class RegisterFrame(customtkinter.CTkFrame):
         password_confirmation = self.password2.get()
         role = self.role_dropdown.get()
 
+        if (len(first_name) == 0 or len(last_name) == 0 or len(username) == 0 or len(password) == 0 or
+                len(password_confirmation) == 0):
+            messagebox.showerror("Empty Field Error", "Please fill in all the entries.")
+            return
+
         # Check if passwords match
-        if password != password_confirmation:
+        elif password != password_confirmation:
             messagebox.showerror("Password Error", "Passwords do not match. Please try again.")
             return
 
@@ -136,9 +154,6 @@ class RegisterFrame(customtkinter.CTkFrame):
             if role == "Learner":
                 user = Learner(username, password, first_name, last_name)
                 self.user_storage.insert_user_data(user)
-            elif role == "Educator":
-                user = Educator(username, password, first_name, last_name)
-                self.user_storage.insert_user_data(user)
             elif role == "Parent":
                 user = Parent(username, password, first_name, last_name)
                 self.user_storage.insert_user_data(user)
@@ -146,15 +161,12 @@ class RegisterFrame(customtkinter.CTkFrame):
                 messagebox.showerror("Role Error", "Invalid role selection.")
                 return
 
+        # debugging purposes
         # Add the user to the storage
         if self.user_storage.get_user_by_username(user.get_username()) is not None:
             print(user)
         else:
             print("NOT ADDED TO LIST")
-
-        # with open("./user_details", "a", encoding="utf8") as file:  # append mode
-        #     # add registration into UserAccount.txt
-        #     file.write(f"{username},{password},{first_name},{last_name},{role}\n")
 
         # Show a success message
         messagebox.showinfo("Registration Successful", "User registration successful!")

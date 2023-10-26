@@ -2,6 +2,7 @@ import customtkinter
 import tkinter as tk
 from tkinter import messagebox
 
+from codeVentureApp.ProgressTrackerFrame import ProgressTrackerFrame
 from codeVentureApp.SystemStorage import SystemStorage
 
 
@@ -13,6 +14,9 @@ class LearnerFrame(customtkinter.CTkFrame):
         self.login_frame = login_frame
         self.system_storage = SystemStorage()
         self.user = self.system_storage.get_user_by_username(user.get_username())
+
+        (self.username, self.points,
+         self.rank, self.percentage_completion) = self.system_storage.get_learner_progress(self.user.get_username())
 
         """""""""""""""""""""""""""
         SIDE NAVIGATION BAR FRAME
@@ -91,40 +95,41 @@ class LearnerFrame(customtkinter.CTkFrame):
 
         self.welcome_frame.place(relx=0.05, y=100, relwidth=0.65)
 
+        self.robot_image = tk.PhotoImage(file='images/BMO.png')
+        bmo_label = tk.Label(self.welcome_frame,
+                             image=self.robot_image,
+                             borderwidth=0,
+                             anchor="w",
+                             bg="#2b2b2b")
+        # bmo_label.place(relx=0, rely=0.73, relwidth=self.nav_bar.winfo_width())
+        bmo_label.grid(rowspan=2, column=0, padx=20, pady=20, sticky="w")
+
         welcome_title = customtkinter.CTkLabel(master=self.welcome_frame,
                                                text=f'Welcome Back, {self.user.get_firstname()}!',
                                                font=("Fixedsys", 24),
                                                anchor="w",
                                                justify="left"
                                                )
-        welcome_title.grid(row=0, column=0, padx=20, pady=20, sticky="w")
+        welcome_title.grid(row=0, column=1, padx=20, pady=20, sticky="sw")
 
         welcome_message = customtkinter.CTkLabel(master=self.welcome_frame,
                                                  text=f'You have completed '
-                                                      f'{self.user.get_percentage_completion()}% '
+                                                      f'{self.percentage_completion}% '
                                                       f'of your modules.\n'
-                                                      f'Take on some new modules and challenges to improve your '
+                                                      f'Take on some new modules and challenges to improve \nyour '
                                                       f'results!\n',
                                                  anchor="w",
                                                  justify="left"
                                                  )
-        welcome_message.grid(row=1, column=0, padx=20, pady=20, sticky="w")
+        welcome_message.grid(row=1, column=1, padx=20, sticky="nw")
 
         """""""""""""""
         Progress Frame
         """""""""""""""
-        self.progress_frame = customtkinter.CTkFrame(self.learner_frame, corner_radius=20)
+        # self.progress_frame = customtkinter.CTkFrame(self.learner_frame, corner_radius=20)
+        self.progress_frame = ProgressTrackerFrame(self.learner_frame, self.user)
 
-        self.progress_frame.place(relx=0.05, y=280, relwidth=0.65)
-
-        # self.welcome_frame.configure(fg_color="transparent")
-        progress_label = customtkinter.CTkLabel(master=self.progress_frame,
-                                               text='Track Your Progress',
-                                               font=("Fixedsys", 23),
-                                               anchor="w",
-                                               justify="left"
-                                               )
-        progress_label.grid(row=0, column=0, padx=20, pady=20, sticky="w")
+        self.progress_frame.place(relx=0.05, y=320, relwidth=0.65)
 
         """""""""""""""""""""""
         Profile frame section
@@ -149,7 +154,7 @@ class LearnerFrame(customtkinter.CTkFrame):
                                 anchor="center",
                                 bg="#2b2b2b")
 
-        avatar_label.place(relx=0, y=160, relwidth=self.nav_bar.winfo_width())
+        avatar_label.place(relx=0, rely=0.2, relwidth=self.nav_bar.winfo_width())
 
         # User's full name
         name_label = customtkinter.CTkLabel(self.profile_frame,
@@ -174,7 +179,7 @@ class LearnerFrame(customtkinter.CTkFrame):
         username_label.place(relx=0, y=450, relwidth=self.nav_bar.winfo_width())
 
         username = customtkinter.CTkLabel(self.profile_frame,
-                                          text=f"@{self.user.get_username()}",
+                                          text=f"@{self.username}",
                                           font=("Arial", 14),
                                           anchor="center")
         username.place(relx=0, y=480, relwidth=self.nav_bar.winfo_width())
@@ -202,7 +207,7 @@ class LearnerFrame(customtkinter.CTkFrame):
         rank_label.place(relx=0, y=610, relwidth=self.nav_bar.winfo_width())
 
         rank = customtkinter.CTkLabel(self.profile_frame,
-                                      text=f"{self.user.get_rank().name}",
+                                      text=f"{self.rank}",
                                       font=("Arial", 14),
                                       anchor="center")
         rank.place(relx=0, y=640, relwidth=self.nav_bar.winfo_width())
@@ -233,16 +238,11 @@ class LearnerFrame(customtkinter.CTkFrame):
         self.current_frame.place_forget()
         self.learner_frame.place(relx=0.2, rely=0, relwidth=0.8, relheight=1)
         self.welcome_frame.place(relx=0.05, y=100, relwidth=0.65)
-        # self.progress_frame.place(relx=0.05, y=280, relwidth=0.65)
-        # self.profile_frame.place(relx=0.75, rely=0, relwidth=0.25, relheight=1)
 
     def show_modules_frame(self):
         """
         Method to show the modules frame
         """
-        # self.current_frame.place_forget()
-        # self.profile_frame.place_forget()
-        # self.progress_frame.place_forget()
         self.learner_frame.place_forget()
         # self.learner_frame.grid(row=0, column=1, padx=20, pady=10)
 

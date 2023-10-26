@@ -1,4 +1,6 @@
 from codeVentureApp.PasswordRecoveryFrame import PasswordRecoveryFrame
+from codeVentureApp.users.AdminFrame import AdminFrame
+from codeVentureApp.users.EducatorFrame import EducatorFrame
 from codeVentureApp.users.LearnerFrame import LearnerFrame
 from codeVentureApp.SystemStorage import SystemStorage
 
@@ -115,8 +117,16 @@ class LoginFrame(customtkinter.CTkFrame):
                 self.parent_frame = ParentFrame(master=self.master, login_frame=self, user=user)
                 self.place_forget()
                 self.parent_frame.place(relx=0, rely=0)
-            else:
-                print("Under Construction")
+            if user.get_role() == "Educator":
+                self.educator_frame = EducatorFrame(master=self.master, login_frame=self, user=user)
+                self.place_forget()
+                self.educator_frame.place(relx=0, rely=0)
+            if user.get_role() == "Admin":
+                self.admin_frame = AdminFrame(master=self.master, login_frame=self, user=user)
+                self.place_forget()
+                self.admin_frame.place(relx=0, rely=0)
+
+            # Clear all the entries after login
             self.clear_entries()
 
         else:

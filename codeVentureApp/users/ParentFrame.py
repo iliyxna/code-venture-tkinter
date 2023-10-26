@@ -4,6 +4,7 @@ import customtkinter
 import tkinter as tk
 from tkinter import messagebox
 
+from codeVentureApp.ProgressTrackerFrame import ProgressTrackerFrame
 from codeVentureApp.SystemStorage import SystemStorage
 
 
@@ -126,7 +127,7 @@ class ParentFrame(customtkinter.CTkFrame):
                                                font=("Cascadia Mono Bold", 16))
         profile_label.place(relx=0, y=100, relwidth=self.profile_frame.winfo_width())
 
-        avatar_path = "images/parent1.png"
+        avatar_path = "images/parent2.png"
         self.avatar = tk.PhotoImage(file=avatar_path)
 
         avatar_label = tk.Label(self.profile_frame,
@@ -135,7 +136,7 @@ class ParentFrame(customtkinter.CTkFrame):
                                 anchor="center",
                                 bg="#2b2b2b")
 
-        avatar_label.place(relx=0, y=160, relwidth=self.nav_bar.winfo_width())
+        avatar_label.place(relx=0, rely=0.2, relwidth=self.nav_bar.winfo_width())
 
         # User's full name
         name_label = customtkinter.CTkLabel(self.profile_frame,
@@ -205,18 +206,10 @@ class ParentFrame(customtkinter.CTkFrame):
         Child Progress Frame
         """""""""""""""
         if self.system_storage.check_parent_child(self.user.get_username()):
-            self.progress_frame = customtkinter.CTkFrame(self.parent_frame, corner_radius=20)
-
+            # self.progress_frame = customtkinter.CTkFrame(self.parent_frame, corner_radius=20)
+            child_user = self.system_storage.get_user_by_username(self.child_username)
+            self.progress_frame = ProgressTrackerFrame(self.parent_frame, child_user)
             self.progress_frame.place(relx=0.05, y=280, relwidth=0.65)
-
-            # self.welcome_frame.configure(fg_color="transparent")
-            progress_label = customtkinter.CTkLabel(master=self.progress_frame,
-                                                    text='Track Child\'s Progress',
-                                                    font=("Fixedsys", 23),
-                                                    anchor="w",
-                                                    justify="left"
-                                                    )
-            progress_label.grid(row=0, column=0, padx=20, pady=20, sticky="w")
 
         self.current_frame = self.parent_frame
 
@@ -260,6 +253,51 @@ class ParentFrame(customtkinter.CTkFrame):
                     self.system_storage.insert_child_username(self.user, child_user)
                     messagebox.showinfo(title="Successfully Linked", message="You have successfully linked your "
                                                                              "account to your child's account.")
+
+                    # If successfully linked, update the message and remove the add child button
+                    if self.system_storage.check_parent_child(self.user.get_username()):
+                        self.welcome_frame.place_forget()
+
+                        # Recreate with child's progress once linked
+                        self.welcome_frame = customtkinter.CTkFrame(self.parent_frame,
+                                                                    corner_radius=20,
+                                                                    height=200)
+
+                        self.welcome_frame.place(relx=0.05, y=100, relwidth=0.65)
+
+                        welcome_title = customtkinter.CTkLabel(master=self.welcome_frame,
+                                                               text=f'Welcome Back, {self.user.get_firstname()}!',
+                                                               font=("Fixedsys", 24),
+                                                               anchor="w",
+                                                               justify="left"
+                                                               )
+                        welcome_title.grid(row=0, column=0, padx=20, pady=20, sticky="w")
+
+                        parent_username, child_username = self.system_storage.get_parent_data(self.user.get_username())
+                        (learner_username, learner_points, learner_rank,
+                         percentage_completion) = self.system_storage.get_learner_progress(child_username)
+
+                        welcome_message = customtkinter.CTkLabel(master=self.welcome_frame,
+                                                                 text=f'Your child is @{child_username} '
+                                                                      f'has completed '
+                                                                      f'{percentage_completion}% '
+                                                                      f'of their modules.\n',
+
+                                                                 anchor="w",
+                                                                 justify="left"
+                                                                 )
+                        welcome_message.grid(row=1, column=0, padx=20, pady=20, sticky="w")
+
+                        # Add Child Username to Profile frame
+                        child = customtkinter.CTkLabel(self.profile_frame,
+                                                       text=f"@{child_username}",
+                                                       font=("Arial", 14),
+                                                       anchor="center")
+                        child.place(relx=0, y=560, relwidth=self.nav_bar.winfo_width())
+
+                        # Update progress frame
+                        self.progress_frame = ProgressTrackerFrame(self.parent_frame, child_user)
+                        self.progress_frame.place(relx=0.05, y=280, relwidth=0.65)
                 else:
                     messagebox.showerror("Linking Failed", "The specified user is not a child learner.")
             else:
@@ -267,57 +305,4 @@ class ParentFrame(customtkinter.CTkFrame):
         except sqlite3.IntegrityError:
             messagebox.showerror("Linking Failed", "The child username is already linked to another parent account.")
 
-        # If successfully linked, update the message and remove the add child button
-        if self.system_storage.check_parent_child(self.user.get_username()):
-            self.welcome_frame.place_forget()
 
-            # Recreate with child's progress once linked
-            self.welcome_frame = customtkinter.CTkFrame(self.parent_frame,
-                                                        corner_radius=20,
-                                                        height=200)
-
-            self.welcome_frame.place(relx=0.05, y=100, relwidth=0.65)
-
-            welcome_title = customtkinter.CTkLabel(master=self.welcome_frame,
-                                                   text=f'Welcome Back, {self.user.get_firstname()}!',
-                                                   font=("Fixedsys", 24),
-                                                   anchor="w",
-                                                   justify="left"
-                                                   )
-            welcome_title.grid(row=0, column=0, padx=20, pady=20, sticky="w")
-
-            parent_username, child_username = self.system_storage.get_parent_data(self.user.get_username())
-            (learner_username, learner_points, learner_rank,
-             percentage_completion) = self.system_storage.get_learner_progress(child_username)
-
-            welcome_message = customtkinter.CTkLabel(master=self.welcome_frame,
-                                                     text=f'Your child is @{child_username} '
-                                                          f'has completed '
-                                                          f'{percentage_completion}% '
-                                                          f'of their modules.\n',
-
-                                                     anchor="w",
-                                                     justify="left"
-                                                     )
-            welcome_message.grid(row=1, column=0, padx=20, pady=20, sticky="w")
-
-            # Add Child Username to Profile frame
-            child = customtkinter.CTkLabel(self.profile_frame,
-                                           text=f"@{child_username}",
-                                           font=("Arial", 14),
-                                           anchor="center")
-            child.place(relx=0, y=560, relwidth=self.nav_bar.winfo_width())
-
-            # Update progress frame
-            self.progress_frame = customtkinter.CTkFrame(self.parent_frame, corner_radius=20)
-
-            self.progress_frame.place(relx=0.05, y=280, relwidth=0.65)
-
-            # self.welcome_frame.configure(fg_color="transparent")
-            progress_label = customtkinter.CTkLabel(master=self.progress_frame,
-                                                    text='Track Child\'s Progress',
-                                                    font=("Fixedsys", 23),
-                                                    anchor="w",
-                                                    justify="left"
-                                                    )
-            progress_label.grid(row=0, column=0, padx=20, pady=20, sticky="w")
