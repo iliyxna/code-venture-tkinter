@@ -22,17 +22,21 @@ class AdminFrame(customtkinter.CTkFrame):
         """""""""""""""""""""""""""
         SIDE NAVIGATION BAR FRAME
         """""""""""""""""""""""""""
-        self.nav_bar = customtkinter.CTkFrame(self.master)
+        self.nav_bar = customtkinter.CTkFrame(self.master,
+                                              fg_color="#6895B2",
+                                              bg_color="#6895B2",
+                                              corner_radius=0
+                                              )
         self.nav_bar.place(relx=0, rely=0, relwidth=0.2, relheight=1)
 
-        logo_path = "images/codeventure_logo.png"
+        logo_path = "images/cv.png"
         self.logo = tk.PhotoImage(file=logo_path)
 
         logo_label = tk.Label(self.nav_bar,
                               image=self.logo,
                               borderwidth=0,
                               anchor="center",
-                              bg="#2b2b2b")
+                              bg="#6895B2")
 
         logo_label.place(relx=0, rely=0.10, relwidth=self.nav_bar.winfo_width())
 
@@ -74,14 +78,15 @@ class AdminFrame(customtkinter.CTkFrame):
         # Main parent frame to be replaced when nav menu option is clicked
         self.admin_frame = customtkinter.CTkFrame(self.master)
         self.admin_frame.place(relx=0.2, rely=0, relwidth=0.8, relheight=1)
-        self.admin_frame.configure(fg_color="transparent")
+        self.admin_frame.configure(fg_color="#C2D3DF")
 
         """""""""""""""""""""""""""
         Welcome user frame section
         """""""""""""""""""""""""""
         self.welcome_frame = customtkinter.CTkFrame(self.admin_frame,
                                                     corner_radius=20,
-                                                    height=200)
+                                                    height=200,
+                                                    fg_color="#6895B2")
 
         self.welcome_frame.place(relx=0.05, y=100, relwidth=0.65)
 
@@ -91,7 +96,7 @@ class AdminFrame(customtkinter.CTkFrame):
                                                anchor="w",
                                                justify="left"
                                                )
-        welcome_title.grid(row=0, column=0, padx=20, pady=20, sticky="w")
+        welcome_title.grid(row=0, column=0, padx=20, pady=20, sticky="sw")
 
         welcome_message = customtkinter.CTkLabel(master=self.welcome_frame,
                                                  text=f'You have the power to oversee the entire CodeVenture platform.\n'
@@ -100,18 +105,22 @@ class AdminFrame(customtkinter.CTkFrame):
                                                  anchor="w",
                                                  justify="left"
                                                  )
-        welcome_message.grid(row=1, column=0, padx=20, pady=20, sticky="w")
+        welcome_message.grid(row=1, column=0, padx=20, pady=20, sticky="nw")
 
         self.current_frame = self.admin_frame
 
         """""""""""""""""""""""
         Profile frame section
         """""""""""""""""""""""
-        self.profile_frame = customtkinter.CTkFrame(master=self.admin_frame)
+        self.profile_frame = customtkinter.CTkFrame(master=self.admin_frame,
+                                                    fg_color="#6895B2",
+                                                    corner_radius=0
+                                                    )
         self.profile_frame.place(relx=0.75, rely=0, relwidth=0.25, relheight=1)
 
         profile_label = customtkinter.CTkLabel(master=self.profile_frame,
                                                text="USER PROFILE",
+                                               fg_color="#6895B2",
                                                font=("Cascadia Mono Bold", 16))
         profile_label.place(relx=0, y=100, relwidth=self.profile_frame.winfo_width())
 
@@ -125,51 +134,54 @@ class AdminFrame(customtkinter.CTkFrame):
                                 image=self.avatar,
                                 borderwidth=0,
                                 anchor="center",
-                                bg="#2b2b2b")
+                                bg="#6895B2")
 
-        avatar_label.place(relx=0, rely=0.2, relwidth=self.nav_bar.winfo_width())
+        avatar_label.place(relx=0, rely=0.22, relwidth=self.profile_frame.winfo_width())
 
         # User's full name
         name_label = customtkinter.CTkLabel(self.profile_frame,
                                             text="N A M E",
                                             font=("Cascadia Code Bold", 14),
+                                            fg_color="#4E6F86",
                                             anchor="center"
                                             )
-        name_label.place(relx=0, y=370, relwidth=self.nav_bar.winfo_width())
+        name_label.place(relx=0, y=370, relwidth=self.profile_frame.winfo_width())
 
         name = customtkinter.CTkLabel(self.profile_frame,
                                       text=f"{self.user.get_firstname()} {self.user.get_lastname()}",
                                       font=("Arial", 14),
                                       anchor="center")
-        name.place(relx=0, y=400, relwidth=self.nav_bar.winfo_width())
+        name.place(relx=0, y=405, relwidth=self.nav_bar.winfo_width())
 
         # Username
         username_label = customtkinter.CTkLabel(self.profile_frame,
                                                 text="U S E R N A M E",
                                                 font=("Cascadia Code Bold", 14),
+                                                fg_color="#4E6F86",
                                                 anchor="center"
                                                 )
-        username_label.place(relx=0, y=450, relwidth=self.nav_bar.winfo_width())
+        username_label.place(relx=0, y=455, relwidth=self.nav_bar.winfo_width())
 
         username = customtkinter.CTkLabel(self.profile_frame,
                                           text=f"@{self.user.get_username()}",
                                           font=("Arial", 14),
                                           anchor="center")
-        username.place(relx=0, y=480, relwidth=self.nav_bar.winfo_width())
+        username.place(relx=0, y=490, relwidth=self.nav_bar.winfo_width())
 
         # User role
         role_label = customtkinter.CTkLabel(self.profile_frame,
                                             text='R O L E',
                                             font=("Cascadia Code Bold", 14),
+                                            fg_color="#4E6F86",
                                             anchor="center"
                                             )
-        role_label.place(relx=0, y=530, relwidth=self.nav_bar.winfo_width())
+        role_label.place(relx=0, y=540, relwidth=self.nav_bar.winfo_width())
 
         role = customtkinter.CTkLabel(self.profile_frame,
                                       text="Learner",
                                       font=("Arial", 14),
                                       anchor="center")
-        role.place(relx=0, y=560, relwidth=self.nav_bar.winfo_width())
+        role.place(relx=0, y=575, relwidth=self.nav_bar.winfo_width())
 
     def show_dashboard_frame(self):
         """
@@ -177,6 +189,7 @@ class AdminFrame(customtkinter.CTkFrame):
         """
         self.current_frame.place_forget()
         self.current_frame = self.admin_frame
+        self.welcome_frame.place(relx=0.05, y=100, relwidth=0.65)
         self.admin_frame.place(relx=0.2, rely=0, relwidth=0.8, relheight=1)
 
     def confirm_logout(self):
@@ -212,7 +225,7 @@ class AdminFrame(customtkinter.CTkFrame):
         # Create account frame
         create_account_frame = customtkinter.CTkFrame(self.master)
         create_account_frame.place(relx=0.2, rely=0, relwidth=0.8, relheight=1)
-        create_account_frame.configure(fg_color="transparent")
+        create_account_frame.configure(fg_color="#C2D3DF")
 
         entries_frame = customtkinter.CTkFrame(create_account_frame)
         entries_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
@@ -223,68 +236,109 @@ class AdminFrame(customtkinter.CTkFrame):
 
         register_title = customtkinter.CTkLabel(master=entries_frame,
                                                 text="Create Account",
-                                                font=("Fixedsys", 24))
+                                                font=("Fixedsys", 24),
+                                                text_color="#6895B2")
         register_title.grid(row=0, columnspan=2, padx=10, pady=15)
 
         # Label to ask user for first name
-        firstname_label = customtkinter.CTkLabel(master=entries_frame, text="First Name: ")
+        firstname_label = customtkinter.CTkLabel(master=entries_frame, text="First Name: ",
+                                                 text_color="#6895B2",
+                                                 font=("Cascadia Mono Bold", 14)
+                                                 )
         firstname_label.grid(row=2, column=0, sticky=tk.W, padx=10, pady=10)
         # Variable and input widget for username
         firstname = tk.StringVar()
         firstname_entry = customtkinter.CTkEntry(master=entries_frame,
-                                                 textvariable=firstname)  # Entry field text (text box)
+                                                 textvariable=firstname,
+                                                 fg_color="#EFF9FF",
+                                                 text_color="#6895B2",
+                                                 border_color="#6895B2",
+                                                 )  # Entry field text (text box)
         firstname_entry.grid(row=2, column=1, sticky=tk.W, padx=10, pady=10)
         entry_widget_list.append(firstname_entry)
 
         # Label to ask user for last_name
-        lastname_label = customtkinter.CTkLabel(master=entries_frame, text="Last Name: ")
+        lastname_label = customtkinter.CTkLabel(master=entries_frame, text="Last Name: ",
+                                                text_color="#6895B2",
+                                                font=("Cascadia Mono Bold", 14)
+                                                )
         lastname_label.grid(row=3, column=0, sticky=tk.W, padx=10, pady=10)
         # Variable and input widget for username
         lastname = tk.StringVar()
         lastname_entry = customtkinter.CTkEntry(master=entries_frame,
-                                                textvariable=lastname)  # Entry field text (text box)
+                                                textvariable=lastname,
+                                                fg_color="#EFF9FF",
+                                                text_color="#6895B2",
+                                                border_color="#6895B2",
+                                                )  # Entry field text (text box)
         lastname_entry.grid(row=3, column=1, sticky=tk.W, padx=10, pady=10)
         entry_widget_list.append(lastname_entry)
 
         # Label to ask user for Username
-        username_label = customtkinter.CTkLabel(master=entries_frame, text="Username: ")
+        username_label = customtkinter.CTkLabel(master=entries_frame, text="Username: ",
+                                                text_color="#6895B2",
+                                                font=("Cascadia Mono Bold", 14)
+                                                )
         username_label.grid(row=4, column=0, sticky=tk.W, padx=10, pady=10)
         # Variable and input widget for username
         username = tk.StringVar()
         username_entry = customtkinter.CTkEntry(master=entries_frame,
-                                                textvariable=username)  # Entry field text (text box)
+                                                textvariable=username,
+                                                fg_color="#EFF9FF",
+                                                text_color="#6895B2",
+                                                border_color="#6895B2",
+                                                )  # Entry field text (text box)
         username_entry.grid(row=4, column=1, sticky=tk.W, padx=10, pady=10)
         entry_widget_list.append(username_entry)
 
-        password_label = customtkinter.CTkLabel(master=entries_frame, text="Password: ")
+        password_label = customtkinter.CTkLabel(master=entries_frame, text="Password: ",
+                                                text_color="#6895B2",
+                                                font=("Cascadia Mono Bold", 14)
+                                                )
         password_label.grid(row=5, column=0, sticky=tk.W, padx=10, pady=10)
         # Variable and input widget for password
         password = tk.StringVar()
         password_entry = customtkinter.CTkEntry(master=entries_frame,
-                                                textvariable=password, show='●')  # Show = '●'
+                                                textvariable=password, show='●',
+                                                fg_color="#EFF9FF",
+                                                text_color="#6895B2",
+                                                border_color="#6895B2",
+                                                )  # Show = '●'
         password_entry.grid(row=5, column=1, sticky=tk.W, padx=10, pady=10)
         entry_widget_list.append(password_entry)
 
         # Re-enter password
-        password_label2 = customtkinter.CTkLabel(master=entries_frame, text="Re-enter Password: ")
+        password_label2 = customtkinter.CTkLabel(master=entries_frame, text="Re-enter Password: ",
+                                                 text_color="#6895B2",
+                                                 font=("Cascadia Mono Bold", 14)
+                                                 )
         password_label2.grid(row=6, column=0, sticky=tk.W, padx=10, pady=10)
         # Variable and input widget for password
         password2 = tk.StringVar()
         password_entry2 = customtkinter.CTkEntry(master=entries_frame,
-                                                 textvariable=password2, show='●')  # Show = '●'
+                                                 textvariable=password2, show='●',
+                                                 fg_color="#EFF9FF",
+                                                 text_color="#6895B2",
+                                                 border_color="#6895B2",
+                                                 )  # Show = '●'
         password_entry2.grid(row=6, column=1, sticky=tk.W, padx=10, pady=10)
         entry_widget_list.append(password_entry2)
 
         # Role
-        role_label = customtkinter.CTkLabel(master=entries_frame, text="Select Role: ")
+        role_label = customtkinter.CTkLabel(master=entries_frame, text="Select Role: ",
+                                            text_color="#6895B2",
+                                            font=("Cascadia Mono Bold", 14)
+                                            )
         role_label.grid(row=7, column=0, sticky=tk.W, padx=10, pady=10)
 
         role_dropdown = customtkinter.CTkComboBox(master=entries_frame,
                                                   values=roles,
-                                                  fg_color="white",
-                                                  text_color="black",
+                                                  fg_color="#EFF9FF",
+                                                  text_color="#6895B2",
+                                                  border_color="#6895B2",
+                                                  button_color="#6895B2",
                                                   dropdown_fg_color="white",
-                                                  dropdown_text_color="black",
+                                                  dropdown_text_color="#577184",
                                                   dropdown_hover_color="#8BC9F0")
         role_dropdown.grid(row=7, column=1, sticky=tk.W, padx=10, pady=10)
 
@@ -345,6 +399,8 @@ class AdminFrame(customtkinter.CTkFrame):
 
         # Register button
         register_button = customtkinter.CTkButton(master=entries_frame,
-                                                  text="Create Account", width=100, command=register_user)
-        register_button.grid(row=8, columnspan=2, padx=5, pady=13)
+                                                  text="Create Account", width=100,
+                                                  fg_color="#6895B2",
+                                                  command=register_user)
+        register_button.grid(row=8, columnspan=2, padx=5, pady=13, sticky="s")
 

@@ -18,17 +18,21 @@ class EducatorFrame(customtkinter.CTkFrame):
         """""""""""""""""""""""""""
         SIDE NAVIGATION BAR FRAME
         """""""""""""""""""""""""""
-        self.nav_bar = customtkinter.CTkFrame(self.master)
+        self.nav_bar = customtkinter.CTkFrame(self.master,
+                                              fg_color="#6895B2",
+                                              bg_color="#6895B2",
+                                              corner_radius=0
+                                              )
         self.nav_bar.place(relx=0, rely=0, relwidth=0.2, relheight=1)
 
-        logo_path = "images/codeventure_logo.png"
+        logo_path = "images/cv.png"
         self.logo = tk.PhotoImage(file=logo_path)
 
         logo_label = tk.Label(self.nav_bar,
                               image=self.logo,
                               borderwidth=0,
                               anchor="center",
-                              bg="#2b2b2b")
+                              bg="#6895B2")
         # logo_label.grid(row=0, column=0, padx=5, pady=40)
         logo_label.place(relx=0, rely=0.10, relwidth=self.nav_bar.winfo_width())
 
@@ -81,24 +85,25 @@ class EducatorFrame(customtkinter.CTkFrame):
         # Main parent frame to be replaced when nav menu option is clicked
         self.educator_frame = customtkinter.CTkFrame(self.master)
         self.educator_frame.place(relx=0.2, rely=0, relwidth=0.8, relheight=1)
-        self.educator_frame.configure(fg_color="transparent")
+        self.educator_frame.configure(fg_color="#C2D3DF")
 
         """""""""""""""""""""""""""
         Welcome user frame section
         """""""""""""""""""""""""""
         self.welcome_frame = customtkinter.CTkFrame(self.educator_frame,
                                                     corner_radius=20,
-                                                    height=200)
+                                                    height=200,
+                                                    fg_color="#6895B2")
 
         self.welcome_frame.place(relx=0.05, y=100, relwidth=0.65)
 
         welcome_title = customtkinter.CTkLabel(master=self.welcome_frame,
                                                text=f'Welcome Back, {self.user.get_firstname()}!',
                                                font=("Fixedsys", 24),
-                                               anchor="w",
+                                               anchor="sw",
                                                justify="left"
                                                )
-        welcome_title.grid(row=0, column=0, padx=20, pady=20, sticky="w")
+        welcome_title.grid(row=0, column=0, padx=20, pady=20, sticky="sw")
 
         welcome_message = customtkinter.CTkLabel(master=self.welcome_frame,
                                                  text=f'As an educator, you oversee one module topic. '
@@ -106,10 +111,10 @@ class EducatorFrame(customtkinter.CTkFrame):
                                                       '\nlearner results, and participate in module discussions. '
                                                       'Start by exploring your \neducator dashboard and '
                                                       'empowering young minds!\n',
-                                                 anchor="w",
+                                                 anchor="nw",
                                                  justify="left"
                                                  )
-        welcome_message.grid(row=1, column=0, padx=20, pady=10, sticky="w")
+        welcome_message.grid(row=1, column=0, padx=20, pady=10, sticky="nw")
 
         self.current_frame = self.educator_frame
 
@@ -117,7 +122,8 @@ class EducatorFrame(customtkinter.CTkFrame):
         Class overview
         """""""""""""""
         self.summary_frame = customtkinter.CTkFrame(self.educator_frame,
-                                                    corner_radius=20)
+                                                    corner_radius=20,
+                                                    fg_color="white")
 
         self.summary_frame.place(relx=0.05, y=280, relwidth=0.65)
 
@@ -125,14 +131,17 @@ class EducatorFrame(customtkinter.CTkFrame):
                                                      text='Summary of Class Overview',
                                                      font=("Fixedsys", 23),
                                                      anchor="w",
-                                                     justify="left"
+                                                     justify="left",
+                                                     text_color="#6895B2"
                                                      )
         class_summary_label.grid(row=0, column=0, padx=20, pady=20, sticky="w")
 
         """""""""""""""""""""""
         Profile frame section
         """""""""""""""""""""""
-        self.profile_frame = customtkinter.CTkFrame(master=self.educator_frame)
+        self.profile_frame = customtkinter.CTkFrame(master=self.educator_frame,
+                                                    fg_color="#6895B2",
+                                                    corner_radius=0)
         self.profile_frame.place(relx=0.75, rely=0, relwidth=0.25, relheight=1)
 
         profile_label = customtkinter.CTkLabel(master=self.profile_frame,
@@ -150,71 +159,75 @@ class EducatorFrame(customtkinter.CTkFrame):
                                 image=self.avatar,
                                 borderwidth=0,
                                 anchor="center",
-                                bg="#2b2b2b")
-
-        avatar_label.place(relx=0, rely=0.2, relwidth=self.nav_bar.winfo_width())
+                                bg="#6895B2")
+        avatar_label.place(relx=0, rely=0.22, relwidth=self.profile_frame.winfo_width())
 
         # User's full name
         name_label = customtkinter.CTkLabel(self.profile_frame,
                                             text="N A M E",
                                             font=("Cascadia Code Bold", 14),
+                                            fg_color="#4E6F86",
                                             anchor="center"
                                             )
-        name_label.place(relx=0, y=370, relwidth=self.nav_bar.winfo_width())
+        name_label.place(relx=0, y=370, relwidth=self.profile_frame.winfo_width())
 
         name = customtkinter.CTkLabel(self.profile_frame,
                                       text=f"{self.user.get_firstname()} {self.user.get_lastname()}",
                                       font=("Arial", 14),
                                       anchor="center")
-        name.place(relx=0, y=400, relwidth=self.nav_bar.winfo_width())
+        name.place(relx=0, y=405, relwidth=self.nav_bar.winfo_width())
 
         # Username
         username_label = customtkinter.CTkLabel(self.profile_frame,
                                                 text="U S E R N A M E",
                                                 font=("Cascadia Code Bold", 14),
+                                                fg_color="#4E6F86",
                                                 anchor="center"
                                                 )
-        username_label.place(relx=0, y=450, relwidth=self.nav_bar.winfo_width())
+        username_label.place(relx=0, y=455, relwidth=self.nav_bar.winfo_width())
 
         username = customtkinter.CTkLabel(self.profile_frame,
                                           text=f"@{self.user.get_username()}",
                                           font=("Arial", 14),
                                           anchor="center")
-        username.place(relx=0, y=480, relwidth=self.nav_bar.winfo_width())
+        username.place(relx=0, y=490, relwidth=self.nav_bar.winfo_width())
 
         # User role
         role_label = customtkinter.CTkLabel(self.profile_frame,
                                             text='R O L E',
                                             font=("Cascadia Code Bold", 14),
+                                            fg_color="#4E6F86",
                                             anchor="center"
                                             )
-        role_label.place(relx=0, y=530, relwidth=self.nav_bar.winfo_width())
+        role_label.place(relx=0, y=540, relwidth=self.nav_bar.winfo_width())
 
         role = customtkinter.CTkLabel(self.profile_frame,
                                       text="Learner",
                                       font=("Arial", 14),
                                       anchor="center")
-        role.place(relx=0, y=560, relwidth=self.nav_bar.winfo_width())
+        role.place(relx=0, y=575, relwidth=self.nav_bar.winfo_width())
 
         # Module in charge
         module_label = customtkinter.CTkLabel(self.profile_frame,
-                                            text="M O D U L E",
-                                            font=("Cascadia Code Bold", 14),
-                                            anchor="center"
-                                            )
-        module_label.place(relx=0, y=610, relwidth=self.nav_bar.winfo_width())
+                                              text="M O D U L E",
+                                              font=("Cascadia Code Bold", 14),
+                                              fg_color="#4E6F86",
+                                              anchor="center"
+                                              )
+        module_label.place(relx=0, y=625, relwidth=self.nav_bar.winfo_width())
 
         module = customtkinter.CTkLabel(self.profile_frame,
-                                      text=f"Sample Module",
-                                      font=("Arial", 14),
-                                      anchor="center")
-        module.place(relx=0, y=640, relwidth=self.nav_bar.winfo_width())
+                                        text=f"Sample Module",
+                                        font=("Arial", 14),
+                                        anchor="center")
+        module.place(relx=0, y=660, relwidth=self.nav_bar.winfo_width())
 
     def show_dashboard_frame(self):
         """
         Method to show the dashboard page (homepage for learner)
         """
         self.current_frame.place_forget()
+        self.welcome_frame.place(relx=0.05, y=100, relwidth=0.65)
         self.educator_frame.place(relx=0.2, rely=0, relwidth=0.8, relheight=1)
 
     def confirm_logout(self):
@@ -238,4 +251,9 @@ class EducatorFrame(customtkinter.CTkFrame):
         """
         Method to navigate to class overview frame
         """
-        self.educator_frame.place_forget()
+        self.current_frame.place_forget()
+
+        # Create class overview frame
+        overview_frame = customtkinter.CTkFrame(self.master)
+        overview_frame.place(relx=0.2, rely=0, relwidth=0.8, relheight=1)
+        overview_frame.configure(fg_color="transparent")

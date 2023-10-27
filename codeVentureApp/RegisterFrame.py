@@ -31,77 +31,115 @@ class RegisterFrame(customtkinter.CTkFrame):
         self.configure(fg_color="transparent")  # set the frame as transparent to match default bg colour
         register_title = customtkinter.CTkLabel(master=self,
                                                 text="Register",
-                                                font=("Fixedsys", 20))
+                                                font=("Fixedsys", 23),
+                                                text_color="#6895B2"
+                                                )
         register_title.grid(row=1, columnspan=2, padx=10, pady=15)
 
         # Label to ask user for Username
-        firstname_label = customtkinter.CTkLabel(master=self, text="First Name: ")
+        firstname_label = customtkinter.CTkLabel(master=self, text="First Name: ",
+                                                 text_color="#6895B2",
+                                                 font=("Cascadia Mono Bold", 14)
+                                                 )
         firstname_label.grid(row=2, column=0, sticky=tk.E, padx=10, pady=10)
         # Variable and input widget for username
         self.firstname = tk.StringVar()
         self.firstname_entry = customtkinter.CTkEntry(master=self,
-                                                      textvariable=self.firstname)  # Entry field text (text box)
+                                                      textvariable=self.firstname,
+                                                      fg_color="#EFF9FF",
+                                                      text_color="#6895B2",
+                                                      border_color="#6895B2",
+                                                      )  # Entry field text (text box)
         self.firstname_entry.grid(row=2, column=1, sticky=tk.W, padx=10, pady=10)
         self.entry_widget_list.append(self.firstname_entry)
 
         # Label to ask user for Username
-        lastname_label = customtkinter.CTkLabel(master=self, text="Last Name: ")
+        lastname_label = customtkinter.CTkLabel(master=self, text="Last Name: ",
+                                                text_color="#6895B2",
+                                                font=("Cascadia Mono Bold",14))
         lastname_label.grid(row=3, column=0, sticky=tk.E, padx=10, pady=10)
         # Variable and input widget for username
         self.lastname = tk.StringVar()
         self.lastname_entry = customtkinter.CTkEntry(master=self,
-                                                     textvariable=self.lastname)  # Entry field text (text box)
+                                                     textvariable=self.lastname,
+                                                     fg_color="#EFF9FF",
+                                                     text_color="#6895B2",
+                                                     border_color="#6895B2",)  # Entry field text (text box)
         self.lastname_entry.grid(row=3, column=1, sticky=tk.W, padx=10, pady=10)
         self.entry_widget_list.append(self.lastname_entry)
 
         # Label to ask user for Username
-        username_label = customtkinter.CTkLabel(master=self, text="Username: ")
+        username_label = customtkinter.CTkLabel(master=self, text="Username: ",
+                                                text_color="#6895B2",
+                                                font=("Cascadia Mono Bold",14))
         username_label.grid(row=4, column=0, sticky=tk.E, padx=10, pady=10)
         # Variable and input widget for username
         self.username = tk.StringVar()
         self.username_entry = customtkinter.CTkEntry(master=self,
-                                                     textvariable=self.username)  # Entry field text (text box)
+                                                     textvariable=self.username,
+                                                     fg_color="#EFF9FF",
+                                                     text_color="#6895B2",
+                                                     border_color="#6895B2",)  # Entry field text (text box)
         self.username_entry.grid(row=4, column=1, sticky=tk.W, padx=10, pady=10)
         self.entry_widget_list.append(self.username_entry)
 
-        password_label = customtkinter.CTkLabel(master=self, text="Password: ")
+        password_label = customtkinter.CTkLabel(master=self, text="Password: ",
+                                                text_color="#6895B2",
+                                                font=("Cascadia Mono Bold",14))
         password_label.grid(row=5, column=0, sticky=tk.E, padx=10, pady=10)
         # Variable and input widget for password
         self.password = tk.StringVar()
         self.password_entry = customtkinter.CTkEntry(master=self,
-                                                     textvariable=self.password, show='●')  # Show = '●'
+                                                     textvariable=self.password, show='●',
+                                                     fg_color="#EFF9FF",
+                                                     text_color="#6895B2",
+                                                     border_color="#6895B2",)  # Show = '●'
         self.password_entry.grid(row=5, column=1, sticky=tk.W, padx=10, pady=10)
         self.entry_widget_list.append(self.password_entry)
 
         # Re-enter password
-        password_label2 = customtkinter.CTkLabel(master=self, text="Re-enter Password: ")
+        password_label2 = customtkinter.CTkLabel(master=self, text="Re-enter Password: ",
+                                                 text_color="#6895B2",
+                                                 font=("Cascadia Mono Bold",14))
         password_label2.grid(row=6, column=0, sticky=tk.E, padx=10, pady=10)
         # Variable and input widget for password
         self.password2 = tk.StringVar()
         self.password_entry2 = customtkinter.CTkEntry(master=self,
-                                                      textvariable=self.password2, show='●')  # Show = '●'
+                                                      textvariable=self.password2, show='●',
+                                                      fg_color="#EFF9FF",
+                                                      text_color="#6895B2",
+                                                      border_color="#6895B2",)  # Show = '●'
         self.password_entry2.grid(row=6, column=1, sticky=tk.W, padx=10, pady=10)
         self.entry_widget_list.append(self.password_entry2)
 
         # Role
-        role_label = customtkinter.CTkLabel(master=self, text="Select Role: ")
+        role_label = customtkinter.CTkLabel(master=self, text="Select Role: ",
+                                            text_color="#6895B2",
+                                            font=("Cascadia Mono Bold", 14)
+                                            )
         role_label.grid(row=7, column=0, sticky=tk.E, padx=10, pady=10)
         # self.role = tk.StringVar()
         # self.role_dropdown = ttk.Combobox(master=self, values=self.roles)
         self.role_dropdown = customtkinter.CTkComboBox(master=self,
                                                        values=self.roles,
-                                                       fg_color="white",
-                                                       text_color="black",
+                                                       fg_color="#EFF9FF",
+                                                       text_color="#6895B2",
+                                                       border_color="#6895B2",
+                                                       button_color="#6895B2",
                                                        dropdown_fg_color="white",
-                                                       dropdown_text_color="black",
+                                                       dropdown_text_color="#577184",
                                                        dropdown_hover_color="#8BC9F0")
         self.role_dropdown.grid(row=7, column=1, sticky=tk.W, padx=10, pady=10)
 
-        register_button = customtkinter.CTkButton(master=self, text="Register", width=100, command=self.register_user)
-        register_button.grid(row=8, columnspan=2, padx=5, pady=13)
+        register_button = customtkinter.CTkButton(master=self, text="Register", width=100,
+                                                  fg_color="#6895B2",
+                                                  command=self.register_user)
+        register_button.grid(row=8, columnspan=2, padx=10, pady=20, sticky="s")
 
-        back_button = customtkinter.CTkButton(master=self, text="Back to Main Page", command=self.show_main_page)
-        back_button.grid(row=9, columnspan=2, padx=5, pady=10)
+        back_button = customtkinter.CTkButton(master=self, text="Back to Main Page",
+                                              fg_color="#6895B2",
+                                              command=self.show_main_page)
+        back_button.grid(row=9, columnspan=2, padx=10, pady=10)
 
     def show_main_page(self):
         """

@@ -13,15 +13,17 @@ class MainApplication(customtkinter.CTk):
         super().__init__()
         self.title(title)
         self.geometry(f"{width}x{height}")
-        self._set_appearance_mode("black")
-
+        self._set_appearance_mode("light")
+        self.configure(fg_color="#C2D3DF")
         # Accessible frames from main page
         self.login_frame = LoginFrame(self)
         self.register_frame = RegisterFrame(self)
 
         # Create a container frame to hold all widgets
         self.main_frame = customtkinter.CTkFrame(self)
-        self.main_frame.configure(fg_color="transparent")
+        self.main_frame.configure(fg_color="transparent",
+                                  bg_color="transparent",
+                                  corner_radius=20)
         # self.main_frame.grid(row=0, column=0, padx=10, pady=10)
         self.main_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
         self.current_frame = self.main_frame
@@ -29,32 +31,32 @@ class MainApplication(customtkinter.CTk):
         self.login_title = customtkinter.CTkLabel(master=self.main_frame,
                                                   text="👾 Welcome to Code Venture 👾",
                                                   font=("Fixedsys", 30),
-                                                  text_color="white")
-        self.login_title.grid(row=1, columnspan=2, padx=10, pady=15)
+                                                  text_color="#6895B2")
+        self.login_title.grid(row=1, columnspan=2, padx=20, pady=20)
 
         self.login_button = customtkinter.CTkButton(master=self.main_frame,
                                                     text="Login",
-                                                    fg_color="white",
-                                                    text_color="black",
+                                                    fg_color="#6895B2",
+                                                    # text_color="black",
                                                     width=110,
                                                     hover_color="#878787",
                                                     command=self.show_login_frame)
-        self.login_button.grid(row=2, columnspan=2, padx=10, pady=10)
+        self.login_button.grid(row=2, columnspan=2, padx=10, pady=20, sticky="s")
 
         self.register_button = customtkinter.CTkButton(master=self.main_frame,
                                                        text="Register",
-                                                       fg_color="white",
-                                                       text_color="black",
+                                                       fg_color="#6895B2",
                                                        width=110,
                                                        hover_color="#878787",
                                                        command=self.show_register_frame)
-        self.register_button.grid(row=3, columnspan=2, padx=10, pady=10)
+        self.register_button.grid(row=3, columnspan=2, padx=10, pady=20)
 
         self.exit_button = customtkinter.CTkButton(master=self.main_frame,
                                                    text="Exit",
+                                                   fg_color="#7C9AAF",
                                                    width=80,
                                                    command=self.confirm_exit)
-        self.exit_button.grid(row=4, columnspan=2, padx=10, pady=10)
+        self.exit_button.grid(row=4, columnspan=2, padx=10, pady=20, sticky="s")
 
         # Set main frame as current
         self.current_frame = self.main_frame

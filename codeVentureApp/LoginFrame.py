@@ -37,37 +37,55 @@ class LoginFrame(customtkinter.CTkFrame):
         # Label containing the welcome heading
         login_title = customtkinter.CTkLabel(master=self,
                                              text="Sign In",
-                                             font=("Fixedsys", 24))
+                                             font=("Fixedsys", 24),
+                                             text_color="#6895B2")
         login_title.grid(row=1, columnspan=2, padx=10, pady=10)
 
         # Label to ask user for Username
-        username_label = customtkinter.CTkLabel(master=self, text="Username: ")
+        username_label = customtkinter.CTkLabel(master=self, text="Username: ",
+                                                font=("Cascadia Mono Bold", 14),
+                                                text_color="#6895B2"
+                                                )
         username_label.grid(row=2, column=0, sticky=tk.EW, padx=10, pady=10)
 
         # Variable and input widget for username
         self.username = tk.StringVar()
         self.username_entry = customtkinter.CTkEntry(master=self,
-                                                     textvariable=self.username)  # Entry field text (text box)
+                                                     textvariable=self.username,
+                                                     fg_color="#EFF9FF",
+                                                     text_color="#6895B2",
+                                                     border_color="#6895B2",
+                                                     )  # Entry field text (text box)
         self.username_entry.grid(row=2, column=1, sticky=tk.W, padx=10, pady=10)
         self.entry_widget_list.append(self.username_entry)
 
-        password_label = customtkinter.CTkLabel(master=self, text="Password: ")
+        password_label = customtkinter.CTkLabel(master=self, text="Password: ",
+                                                font=("Cascadia Mono Bold",14),
+                                                text_color="#6895B2")
         password_label.grid(row=3, column=0, sticky=tk.EW, padx=10, pady=10)
 
         # Variable and input widget for password
         self.password = tk.StringVar()
-        self.password_entry = customtkinter.CTkEntry(master=self, textvariable=self.password, show='●')  # Show = '●'
+        self.password_entry = customtkinter.CTkEntry(master=self, textvariable=self.password, show='●',
+                                                     fg_color="#EFF9FF",
+                                                     text_color="#6895B2",
+                                                     border_color="#6895B2",
+                                                     )  # Show = '●'
         self.password_entry.grid(row=3, column=1, sticky=tk.W, padx=10, pady=10)
         self.entry_widget_list.append(self.password_entry)
 
-        login_button = customtkinter.CTkButton(master=self, text="Login", command=self.authenticate_login)
-        login_button.grid(row=4, column=0, padx=5, pady=10)
+        login_button = customtkinter.CTkButton(master=self, text="Login",
+                                               fg_color="#6895B2",
+                                               command=self.authenticate_login)
+        login_button.grid(row=4, column=0, padx=5, pady=10, sticky="W")
 
         forget_password_button = customtkinter.CTkButton(master=self, text="Forget Password",
+                                                         fg_color="#6895B2",
                                                          command=self.show_pwd_recovery_frame)
-        forget_password_button.grid(row=4, column=1, padx=5, pady=10)
+        forget_password_button.grid(row=4, column=1, padx=5, pady=10, sticky="W")
 
         back_button = customtkinter.CTkButton(master=self, text="Back to Main Page",
+                                              fg_color="#6895B2",
                                               command=self.back_to_main)
         back_button.grid(row=5, columnspan=2, padx=5, pady=10)
 

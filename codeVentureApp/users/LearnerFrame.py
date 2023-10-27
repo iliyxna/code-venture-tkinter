@@ -21,18 +21,20 @@ class LearnerFrame(customtkinter.CTkFrame):
         """""""""""""""""""""""""""
         SIDE NAVIGATION BAR FRAME
         """""""""""""""""""""""""""
-        self.nav_bar = customtkinter.CTkFrame(self.master)
+        self.nav_bar = customtkinter.CTkFrame(self.master,
+                                              fg_color="#6895B2",
+                                              bg_color="#6895B2",
+                                              corner_radius=0)
         self.nav_bar.place(relx=0, rely=0, relwidth=0.2, relheight=1)
 
-        logo_path = "images/codeventure_logo.png"
+        logo_path = "images/cv.png"
         self.logo = tk.PhotoImage(file=logo_path)
 
         logo_label = tk.Label(self.nav_bar,
                               image=self.logo,
                               borderwidth=0,
                               anchor="center",
-                              bg="#2b2b2b")
-        # logo_label.grid(row=0, column=0, padx=5, pady=40)
+                              bg="#6895B2" )
         logo_label.place(relx=0, rely=0.10, relwidth=self.nav_bar.winfo_width())
 
         # DASHBOARD BUTTON
@@ -42,6 +44,7 @@ class LearnerFrame(customtkinter.CTkFrame):
                                                    fg_color="transparent",
                                                    hover_color="#878787",
                                                    font=("Cascadia Mono Bold", 18),
+                                                   corner_radius=0,
                                                    command=self.show_dashboard_frame
                                                    )
         dashboard_option.place(relx=0, rely=0.25, relwidth=self.nav_bar.winfo_width())  # Centered vertically
@@ -84,31 +87,31 @@ class LearnerFrame(customtkinter.CTkFrame):
         # Main learner frame to be replaced when nav menu option is clicked
         self.learner_frame = customtkinter.CTkFrame(self.master)
         self.learner_frame.place(relx=0.2, rely=0, relwidth=0.8, relheight=1)
-        self.learner_frame.configure(fg_color="transparent")
+        self.learner_frame.configure(fg_color="#C2D3DF", corner_radius=0)
 
         """""""""""""""""""""""""""
         Welcome user frame section
         """""""""""""""""""""""""""
         self.welcome_frame = customtkinter.CTkFrame(self.learner_frame,
                                                     corner_radius=20,
-                                                    height=200)
-
+                                                    height=200,
+                                                    fg_color="#6895B2")
         self.welcome_frame.place(relx=0.05, y=100, relwidth=0.65)
 
-        self.robot_image = tk.PhotoImage(file='images/BMO.png')
+        self.robot_image = tk.PhotoImage(file='images/bmo_blue.png')
         bmo_label = tk.Label(self.welcome_frame,
                              image=self.robot_image,
                              borderwidth=0,
                              anchor="w",
                              bg="#2b2b2b")
-        # bmo_label.place(relx=0, rely=0.73, relwidth=self.nav_bar.winfo_width())
         bmo_label.grid(rowspan=2, column=0, padx=20, pady=20, sticky="w")
 
         welcome_title = customtkinter.CTkLabel(master=self.welcome_frame,
                                                text=f'Welcome Back, {self.user.get_firstname()}!',
                                                font=("Fixedsys", 24),
                                                anchor="w",
-                                               justify="left"
+                                               justify="left",
+                                               # text_color="#6895B2"
                                                )
         welcome_title.grid(row=0, column=1, padx=20, pady=20, sticky="sw")
 
@@ -119,7 +122,8 @@ class LearnerFrame(customtkinter.CTkFrame):
                                                       f'Take on some new modules and challenges to improve \nyour '
                                                       f'results!\n',
                                                  anchor="w",
-                                                 justify="left"
+                                                 justify="left",
+                                                 # text_color="#6895B2"
                                                  )
         welcome_message.grid(row=1, column=1, padx=20, sticky="nw")
 
@@ -134,83 +138,89 @@ class LearnerFrame(customtkinter.CTkFrame):
         """""""""""""""""""""""
         Profile frame section
         """""""""""""""""""""""
-        self.profile_frame = customtkinter.CTkFrame(master=self.learner_frame)
+        self.profile_frame = customtkinter.CTkFrame(master=self.learner_frame,
+                                                    fg_color="#6895B2",
+                                                    corner_radius=0)
         self.profile_frame.place(relx=0.75, rely=0, relwidth=0.25, relheight=1)
 
         profile_label = customtkinter.CTkLabel(master=self.profile_frame,
                                                text="USER PROFILE",
-                                               font=("Cascadia Mono Bold", 16))
+                                               font=("Cascadia Code Bold", 22))
         profile_label.place(relx=0, y=100, relwidth=self.profile_frame.winfo_width())
 
         # Set current frame
         self.current_frame = self.welcome_frame
 
-        avatar_path = "images/avatar1.png"
+        avatar_path = "images/avatar3.png"
         self.avatar = tk.PhotoImage(file=avatar_path)
 
         avatar_label = tk.Label(self.profile_frame,
                                 image=self.avatar,
                                 borderwidth=0,
                                 anchor="center",
-                                bg="#2b2b2b")
+                                bg="#6895B2")
 
-        avatar_label.place(relx=0, rely=0.2, relwidth=self.nav_bar.winfo_width())
+        avatar_label.place(relx=0, rely=0.22, relwidth=self.profile_frame.winfo_width())
 
         # User's full name
         name_label = customtkinter.CTkLabel(self.profile_frame,
                                             text="N A M E",
                                             font=("Cascadia Code Bold", 14),
+                                            fg_color="#4E6F86",
                                             anchor="center"
                                             )
         name_label.place(relx=0, y=370, relwidth=self.nav_bar.winfo_width())
 
         name = customtkinter.CTkLabel(self.profile_frame,
-                                      text=f"{self.user.get_firstname()} {self.user.get_lastname()}",
+                                      text=f"{self.user.get_firstname()} {self.user.get_lastname()}\n",
                                       font=("Arial", 14),
                                       anchor="center")
-        name.place(relx=0, y=400, relwidth=self.nav_bar.winfo_width())
+        name.place(relx=0, y=405, relwidth=self.nav_bar.winfo_width())
 
         # Username
         username_label = customtkinter.CTkLabel(self.profile_frame,
                                                 text="U S E R N A M E",
                                                 font=("Cascadia Code Bold", 14),
+                                                fg_color="#4E6F86",
                                                 anchor="center"
                                                 )
-        username_label.place(relx=0, y=450, relwidth=self.nav_bar.winfo_width())
+        username_label.place(relx=0, y=455, relwidth=self.nav_bar.winfo_width())
 
         username = customtkinter.CTkLabel(self.profile_frame,
-                                          text=f"@{self.username}",
+                                          text=f"@{self.username}\n",
                                           font=("Arial", 14),
                                           anchor="center")
-        username.place(relx=0, y=480, relwidth=self.nav_bar.winfo_width())
+        username.place(relx=0, y=490, relwidth=self.nav_bar.winfo_width())
 
         # User role
         role_label = customtkinter.CTkLabel(self.profile_frame,
                                             text='R O L E',
                                             font=("Cascadia Code Bold", 14),
+                                            fg_color="#4E6F86",
                                             anchor="center"
                                             )
-        role_label.place(relx=0, y=530, relwidth=self.nav_bar.winfo_width())
+        role_label.place(relx=0, y=540, relwidth=self.nav_bar.winfo_width())
 
         role = customtkinter.CTkLabel(self.profile_frame,
-                                      text="Learner",
+                                      text="Learner\n",
                                       font=("Arial", 14),
                                       anchor="center")
-        role.place(relx=0, y=560, relwidth=self.nav_bar.winfo_width())
+        role.place(relx=0, y=575, relwidth=self.nav_bar.winfo_width())
 
         # User rank
         rank_label = customtkinter.CTkLabel(self.profile_frame,
                                             text="R A N K",
                                             font=("Cascadia Code Bold", 14),
-                                            anchor="center"
+                                            anchor="center",
+                                            fg_color="#4E6F86",
                                             )
-        rank_label.place(relx=0, y=610, relwidth=self.nav_bar.winfo_width())
+        rank_label.place(relx=0, y=625, relwidth=self.nav_bar.winfo_width())
 
         rank = customtkinter.CTkLabel(self.profile_frame,
                                       text=f"{self.rank}",
                                       font=("Arial", 14),
                                       anchor="center")
-        rank.place(relx=0, y=640, relwidth=self.nav_bar.winfo_width())
+        rank.place(relx=0, y=660, relwidth=self.nav_bar.winfo_width())
 
     def back_to_login(self):
         """
