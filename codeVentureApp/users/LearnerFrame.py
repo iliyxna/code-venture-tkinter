@@ -13,6 +13,7 @@ class LearnerFrame(customtkinter.CTkFrame):
         self.configure(fg_color="transparent")
         self.master = master
         self.login_frame = login_frame
+        self.modules_frame = None
         self.system_storage = SystemStorage()
         self.user = self.system_storage.get_user_by_username(user.get_username())
         self.robot_image = tk.PhotoImage(file='images/bmo_blue.png')
@@ -231,6 +232,7 @@ class LearnerFrame(customtkinter.CTkFrame):
         self.place_forget()
         self.learner_frame.place_forget()
         self.nav_bar.place_forget()
+        self.modules_frame.place_forget()
         # self.profile_frame.place_forget()
         # self.progress_frame.place_forget()
         self.login_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
@@ -248,6 +250,7 @@ class LearnerFrame(customtkinter.CTkFrame):
         Method to show the dashboard page (homepage for learner)
         """
         self.current_frame.place_forget()
+        self.modules_frame.place_forget()
         self.current_frame = self.learner_frame
         self.learner_frame.place(relx=0.2, rely=0, relwidth=0.8, relheight=1)
         self.welcome_frame.place(relx=0.05, y=100, relwidth=0.65)
@@ -259,19 +262,22 @@ class LearnerFrame(customtkinter.CTkFrame):
         self.learner_frame.place_forget()
 
         # Create account frame
-        modules_frame = customtkinter.CTkFrame(self.master)
-        modules_frame.place(relx=0.2, rely=0, relwidth=0.8, relheight=1)
-        modules_frame.configure(fg_color="#C2D3DF")
+        # modules_frame = customtkinter.CTkFrame(self.master)
+        self.modules_frame = customtkinter.CTkScrollableFrame(self.master)
+        self.modules_frame.place(relx=0.2, rely=0, relwidth=0.8, relheight=1)
+        self.modules_frame.configure(fg_color="#C2D3DF",
+                                     bg_color="#C2D3DF")
 
-        self.current_frame = modules_frame
+        self.current_frame = self.modules_frame
 
         # top frame
-        intro_frame = customtkinter.CTkFrame(modules_frame,
+        intro_frame = customtkinter.CTkFrame(self.modules_frame,
                                              corner_radius=20,
                                              height=200,
-                                             fg_color="#6895B2"
+                                             fg_color="#6895B2",
                                              )
-        intro_frame.place(relx=0.05, y=100, relwidth=0.9)
+        # intro_frame.place(relx=0.05, y=100, relwidth=0.9)
+        intro_frame.grid(row=0, column=0, padx=30, pady=50, sticky="w")
 
         intro_title = customtkinter.CTkLabel(master=intro_frame,
                                              text=f'Welcome to the Magical World of Python Programming ✨',
@@ -300,31 +306,32 @@ class LearnerFrame(customtkinter.CTkFrame):
                                anchor="w",
                                bg="#6895B2")
         snake_label.grid(row=0, rowspan=2, column=1, padx=20, pady=20, sticky="w")
-
+        # snake_label.grid
         # module selection frame
-        selection_frame = customtkinter.CTkFrame(modules_frame,
+        selection_frame = customtkinter.CTkFrame(self.modules_frame,
                                                  corner_radius=20,
                                                  height=200,
-                                                 fg_color="#FAFAFA"
+                                                 fg_color="#FAFAFA",
                                                  )
-        selection_frame.place(relx=0.05, rely=0.5, relwidth=0.9)
+        # selection_frame.place(relx=0.05, rely=0.48, relwidth=0.9)
+        selection_frame.grid(row=1, column=0, padx=30, pady=20, sticky="w")
 
         select_label = customtkinter.CTkLabel(selection_frame,
                                               text='Select Your Module',
                                               font=("Fixedsys", 24),
                                               text_color="#6895B2",
-                                              anchor="w",
+                                              anchor="sw",
                                               )
 
         select_label.grid(row=0, column=0, padx=30, pady=30, sticky="sw")
 
         for i in range(2):
             module_frame = ModuleFrame(selection_frame, i)
-            module_frame.grid(row=i+1, column=0, padx=30, pady=10, sticky="nw")
+            module_frame.grid(row=i + 1, column=0, padx=30, pady=10, sticky="nw")
 
     def show_challenges_frame(self):
         """
         Method to show the challenges frame
         """
         self.current_frame.place_forget()
-
+        self.modules_frame.place_forget()
