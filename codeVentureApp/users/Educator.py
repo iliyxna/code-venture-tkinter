@@ -15,7 +15,7 @@ class Educator(UserAccount):
         :param firstname: educator's first name
         :param lastname: educator's last name
         """
-        super().__init__(username, password, firstname, lastname, Role.EDUCATOR)
+        super().__init__(username, password, firstname, lastname, "Educator")
         self.students = []
         self.modules = []
 
