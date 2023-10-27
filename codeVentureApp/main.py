@@ -9,7 +9,7 @@ from codeVentureApp.LoginFrame import LoginFrame
 
 class MainApplication(customtkinter.CTk):
 
-    def __init__(self, title, width=1100, height=800):
+    def __init__(self, title, width=1400, height=700):
         super().__init__()
         self.title(title)
         self.geometry(f"{width}x{height}")

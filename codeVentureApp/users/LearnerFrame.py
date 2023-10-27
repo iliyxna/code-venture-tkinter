@@ -2,6 +2,7 @@ import customtkinter
 import tkinter as tk
 from tkinter import messagebox
 
+from codeVentureApp.ModulesFrame import ModuleFrame
 from codeVentureApp.ProgressTrackerFrame import ProgressTrackerFrame
 from codeVentureApp.SystemStorage import SystemStorage
 
@@ -14,6 +15,8 @@ class LearnerFrame(customtkinter.CTkFrame):
         self.login_frame = login_frame
         self.system_storage = SystemStorage()
         self.user = self.system_storage.get_user_by_username(user.get_username())
+        self.robot_image = tk.PhotoImage(file='images/bmo_blue.png')
+        self.snake_image = tk.PhotoImage(file='images/snake_bmo.png')
 
         (self.username, self.points,
          self.rank, self.percentage_completion) = self.system_storage.get_learner_progress(self.user.get_username())
@@ -34,7 +37,7 @@ class LearnerFrame(customtkinter.CTkFrame):
                               image=self.logo,
                               borderwidth=0,
                               anchor="center",
-                              bg="#6895B2" )
+                              bg="#6895B2")
         logo_label.place(relx=0, rely=0.10, relwidth=self.nav_bar.winfo_width())
 
         # DASHBOARD BUTTON
@@ -98,7 +101,6 @@ class LearnerFrame(customtkinter.CTkFrame):
                                                     fg_color="#6895B2")
         self.welcome_frame.place(relx=0.05, y=100, relwidth=0.65)
 
-        self.robot_image = tk.PhotoImage(file='images/bmo_blue.png')
         bmo_label = tk.Label(self.welcome_frame,
                              image=self.robot_image,
                              borderwidth=0,
@@ -246,6 +248,7 @@ class LearnerFrame(customtkinter.CTkFrame):
         Method to show the dashboard page (homepage for learner)
         """
         self.current_frame.place_forget()
+        self.current_frame = self.learner_frame
         self.learner_frame.place(relx=0.2, rely=0, relwidth=0.8, relheight=1)
         self.welcome_frame.place(relx=0.05, y=100, relwidth=0.65)
 
@@ -254,14 +257,74 @@ class LearnerFrame(customtkinter.CTkFrame):
         Method to show the modules frame
         """
         self.learner_frame.place_forget()
-        # self.learner_frame.grid(row=0, column=1, padx=20, pady=10)
+
+        # Create account frame
+        modules_frame = customtkinter.CTkFrame(self.master)
+        modules_frame.place(relx=0.2, rely=0, relwidth=0.8, relheight=1)
+        modules_frame.configure(fg_color="#C2D3DF")
+
+        self.current_frame = modules_frame
+
+        # top frame
+        intro_frame = customtkinter.CTkFrame(modules_frame,
+                                             corner_radius=20,
+                                             height=200,
+                                             fg_color="#6895B2"
+                                             )
+        intro_frame.place(relx=0.05, y=100, relwidth=0.9)
+
+        intro_title = customtkinter.CTkLabel(master=intro_frame,
+                                             text=f'Welcome to the Magical World of Python Programming ✨',
+                                             font=("Fixedsys", 24),
+                                             anchor="sw",
+                                             justify="left"
+                                             )
+        intro_title.grid(row=0, column=0, padx=30, pady=20, sticky="sw")
+
+        intro_message = customtkinter.CTkLabel(master=intro_frame,
+                                               text=f'Get ready to embark on an exciting journey into the realm of '
+                                                    f'Python programming. Python is not just a snake; it\'s \n'
+                                                    f'a magical language that allows you to create games, apps, and '
+                                                    f'more, all while having tons of fun!\n\n'
+                                                    f'So, what are you waiting for? Dive into the world of Python, '
+                                                    f'select your modules, and let the coding adventures begin. '
+                                                    f'\nHappy coding for kids! 🐍\n',
+                                               anchor="nw",
+                                               justify="left"
+                                               )
+        intro_message.grid(row=1, column=0, padx=30, pady=10, sticky="nw")
+
+        snake_label = tk.Label(intro_frame,
+                               image=self.snake_image,
+                               borderwidth=0,
+                               anchor="w",
+                               bg="#6895B2")
+        snake_label.grid(row=0, rowspan=2, column=1, padx=20, pady=20, sticky="w")
+
+        # module selection frame
+        selection_frame = customtkinter.CTkFrame(modules_frame,
+                                                 corner_radius=20,
+                                                 height=200,
+                                                 fg_color="#FAFAFA"
+                                                 )
+        selection_frame.place(relx=0.05, rely=0.5, relwidth=0.9)
+
+        select_label = customtkinter.CTkLabel(selection_frame,
+                                              text='Select Your Module',
+                                              font=("Fixedsys", 24),
+                                              text_color="#6895B2",
+                                              anchor="w",
+                                              )
+
+        select_label.grid(row=0, column=0, padx=30, pady=30, sticky="sw")
+
+        for i in range(2):
+            module_frame = ModuleFrame(selection_frame, i)
+            module_frame.grid(row=i+1, column=0, padx=30, pady=10, sticky="nw")
 
     def show_challenges_frame(self):
         """
         Method to show the challenges frame
         """
-        # self.current_frame.place_forget()
-        # self.profile_frame.place_forget()
-        # self.progress_frame.place_forget()
-        self.learner_frame.place_forget()
-        # self.learner_frame.grid(row=0, column=1, padx=20, pady=10)
+        self.current_frame.place_forget()
+

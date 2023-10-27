@@ -1,5 +1,6 @@
 import sqlite3
 
+from codeVentureApp.learning_materials.Module import Module
 from codeVentureApp.users.Administrator import Administrator
 from codeVentureApp.users.Educator import Educator
 from codeVentureApp.users.Learner import Learner
@@ -93,6 +94,38 @@ class SystemStorage:  # change to system storage later
                                 '''
         self.connection.execute(table_create_query)
         self.connection.commit()
+
+        """
+        Table 6
+        """
+        table_create_query = '''CREATE TABLE IF NOT EXISTS All_Modules
+                                (
+                                id INTEGER PRIMARY KEY,
+                                educator_username TEXT UNIQUE,
+                                module_name TEXT UNIQUE,
+                                intro TEXT,
+                                award_points INTEGER,
+                                tutorial_id INTEGER,
+                                quiz_id INTEGER,
+                                difficulty TEXT
+                                )
+                                '''
+        self.connection.execute(table_create_query)
+        self.connection.commit()
+
+        # """
+        # Table 6
+        # """
+        # table_create_query = '''CREATE TABLE IF NOT EXISTS All_Tutorials
+        #                         (
+        #                         quiz_id INTEGER UNIQUE,
+        #                         module_name TEXT UNIQUE,
+        #                         content TEXT
+        #                         )
+        #                         '''
+        #
+        # self.connection.execute(table_create_query)
+        # self.connection.commit()
 
     def insert_user_data(self, user):
         """
@@ -224,3 +257,14 @@ class SystemStorage:  # change to system storage later
             return parent_username, child_username
         return None
 
+    def get_module_data(self, id):
+        """
+        Query to get the module data
+        """
+        self.cursor.execute('SELECT * FROM All_Modules WHERE id = ?', (id,))
+        data = self.cursor.fetchone()
+        if data:
+            module_id, educator_username, module_name, intro, award_points, tutorial_id, quiz_id, difficulty = data
+            module = Module(module_id, module_name, intro, award_points, None, None, difficulty)
+            return module
+        return None
