@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import messagebox
 
 from codeVentureApp.ModulesFrame import ModuleFrame
+from codeVentureApp.ChallengeFrame import ChallengeFrame
 from codeVentureApp.ProgressTrackerFrame import ProgressTrackerFrame
 from codeVentureApp.SystemStorage import SystemStorage
 
@@ -14,6 +15,7 @@ class LearnerFrame(customtkinter.CTkFrame):
         self.master = master
         self.login_frame = login_frame
         self.modules_frame = None
+        self.challenge_frame = None
         self.system_storage = SystemStorage()
         self.user = self.system_storage.get_user_by_username(user.get_username())
         self.robot_image = tk.PhotoImage(file='images/bmo_blue.png')
@@ -126,7 +128,6 @@ class LearnerFrame(customtkinter.CTkFrame):
                                                       f'results!\n',
                                                  anchor="w",
                                                  justify="left",
-                                                 # text_color="#6895B2"
                                                  )
         welcome_message.grid(row=1, column=1, padx=20, sticky="nw")
 
@@ -251,7 +252,13 @@ class LearnerFrame(customtkinter.CTkFrame):
         Method to show the dashboard page (homepage for learner)
         """
         self.current_frame.place_forget()
-        self.modules_frame.place_forget()
+
+        if self.modules_frame is not None:
+            self.modules_frame.place_forget()
+
+        if self.challenge_frame is not None:
+            self.challenge_frame.place_forget()
+
         self.current_frame = self.learner_frame
         self.learner_frame.place(relx=0.2, rely=0, relwidth=0.8, relheight=1)
         self.welcome_frame.place(relx=0.05, y=100, relwidth=0.65)
@@ -264,10 +271,11 @@ class LearnerFrame(customtkinter.CTkFrame):
 
         # Create account frame
         # modules_frame = customtkinter.CTkFrame(self.master)
-        self.modules_frame = customtkinter.CTkScrollableFrame(self.master)
+        self.modules_frame = customtkinter.CTkScrollableFrame(self.master,
+                                                              fg_color="#C2D3DF",
+                                                              bg_color="#C2D3DF"
+                                                              )
         self.modules_frame.place(relx=0.2, rely=0, relwidth=0.8, relheight=1)
-        self.modules_frame.configure(fg_color="#C2D3DF",
-                                     bg_color="#C2D3DF")
 
         self.current_frame = self.modules_frame
 
@@ -337,3 +345,68 @@ class LearnerFrame(customtkinter.CTkFrame):
 
         if self.modules_frame is not None:
             self.modules_frame.place_forget()
+
+        # Challenge Frame
+        self.challenge_frame = customtkinter.CTkScrollableFrame(self.master)
+        self.challenge_frame.place(relx=0.2, rely=0, relwidth=0.8, relheight=1)
+        self.challenge_frame.configure(fg_color="#C2D3DF",
+                                       bg_color="#C2D3DF")
+
+        self.current_frame = self.challenge_frame
+
+        # Introduction frame
+        intro_frame = customtkinter.CTkFrame(self.challenge_frame,
+                                             corner_radius=20,
+                                             height=200,
+                                             fg_color="#6895B2",
+                                             )
+        intro_frame.grid(row=0, column=0, padx=30, pady=50, sticky="ew")
+
+        intro_title = customtkinter.CTkLabel(master=intro_frame,
+                                             text=f'It\'s Challenge time : Unleash Your Potential ! 🚀\n',
+                                             font=("Fixedsys", 24),
+                                             anchor="sw",
+                                             justify="left"
+                                             )
+        intro_title.grid(row=0, column=0, padx=30, pady=20, sticky="sw")
+
+        intro_message = customtkinter.CTkLabel(master=intro_frame,
+                                               text=f'Hey, young coders! Are you ready to explore fascinating coding '
+                                                    f'quests?'
+                                                    f'Plunge into the world of Python, choose\nyour challenges'
+                                                    f' and let the'
+                                                    f'coding adventures begin with fun tasks that will test your '
+                                                    f'skills.'
+                                                    f'\nGet set, code, and conquer! 🐍\n',
+                                               anchor="nw",
+                                               justify="left"
+                                               )
+        intro_message.grid(row=1, column=0, padx=30, pady=10, sticky="nw")
+        controller_label = tk.Label(intro_frame,
+                               image=self.snake_image,
+                               borderwidth=0,
+                               anchor="w",
+                               bg="#6895B2")
+        controller_label.grid(row=0, rowspan=2, column=1, padx=20, pady=20, sticky="w")
+
+        # Challenge selection frame
+        selection_frame = customtkinter.CTkFrame(self.challenge_frame,
+                                                 corner_radius=20,
+                                                 height=200,
+                                                 fg_color="#FAFAFA",
+                                                 )
+        # selection_frame.place(relx=0.05, rely=0.48, relwidth=0.9)
+        selection_frame.grid(row=1, column=0, padx=30, pady=20, sticky="ew")
+
+        select_label = customtkinter.CTkLabel(selection_frame,
+                                              text='Select Your Challenge : ',
+                                              font=("Fixedsys", 24),
+                                              text_color="#6895B2",
+                                              anchor="sw",
+                                              )
+
+        select_label.grid(row=0, column=0, padx=30, pady=30, sticky="sw")
+
+        for i in range(3):
+            challenge_option_frame = ChallengeFrame(selection_frame, i)
+            challenge_option_frame.grid(row=i + 1, column=0, padx=30, pady=10, sticky="new")

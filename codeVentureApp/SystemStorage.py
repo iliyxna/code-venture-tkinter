@@ -1,6 +1,8 @@
 import sqlite3
 
+from codeVentureApp.learning_materials.Challenge import Challenge
 from codeVentureApp.learning_materials.Module import Module
+from codeVentureApp.learning_materials.Tutorial import Tutorial
 from codeVentureApp.users.Administrator import Administrator
 from codeVentureApp.users.Educator import Educator
 from codeVentureApp.users.Learner import Learner
@@ -106,26 +108,64 @@ class SystemStorage:  # change to system storage later
                                 intro TEXT,
                                 award_points INTEGER,
                                 tutorial_id INTEGER,
-                                quiz_id INTEGER,
                                 difficulty TEXT
                                 )
                                 '''
         self.connection.execute(table_create_query)
         self.connection.commit()
 
-        # """
-        # Table 6
-        # """
-        # table_create_query = '''CREATE TABLE IF NOT EXISTS All_Tutorials
-        #                         (
-        #                         quiz_id INTEGER UNIQUE,
-        #                         module_name TEXT UNIQUE,
-        #                         content TEXT
-        #                         )
-        #                         '''
-        #
-        # self.connection.execute(table_create_query)
-        # self.connection.commit()
+        """
+        Table 7
+        """
+        table_create_query = '''CREATE TABLE IF NOT EXISTS All_Challenges
+                                               (
+                                               id INTEGER PRIMARY KEY,
+                                               challenge_name TEXT UNIQUE,
+                                               intro TEXT,
+                                               difficulty TEXT,
+                                               question TEXT,
+                                               solution TEXT
+                                               )
+                                               '''
+        self.connection.execute(table_create_query)
+        self.connection.commit()
+
+        """
+        Table 8
+        """
+        table_create_query = '''CREATE TABLE IF NOT EXISTS All_Quizzes
+                                                       (
+                                                       id INTEGER PRIMARY KEY,
+                                                       question TEXT,
+                                                       solution TEXT,
+                                                       choice_one TEXT,
+                                                       choice_two TEXT,
+                                                       choice_three TEXT,
+                                                       choice_four TEXT
+                                                       )
+                                                       '''
+        self.connection.execute(table_create_query)
+        self.connection.commit()
+
+        """
+        Table 9
+        """
+        table_create_query = '''CREATE TABLE IF NOT EXISTS All_Tutorials
+                                (
+                                tute_id INTEGER UNIQUE,
+                                content_one TEXT,
+                                content_two TEXT,
+                                content_three TEXT,
+                                img_one TEXT,
+                                img_two TEXT,
+                                quiz_one_id INTEGER,
+                                quiz_two_id INTEGER,
+                                quiz_three_id INTEGER
+                                )
+                                '''
+
+        self.connection.execute(table_create_query)
+        self.connection.commit()
 
     def insert_user_data(self, user):
         """
@@ -264,7 +304,31 @@ class SystemStorage:  # change to system storage later
         self.cursor.execute('SELECT * FROM All_Modules WHERE id = ?', (id,))
         data = self.cursor.fetchone()
         if data:
-            module_id, educator_username, module_name, intro, award_points, tutorial_id, quiz_id, difficulty = data
-            module = Module(module_id, module_name, intro, award_points, None, None, difficulty)
+            module_id, educator_username, module_name, intro, award_points, tutorial_id, difficulty = data
+            module = Module(module_id, educator_username, module_name, intro, award_points, tutorial_id, difficulty)
             return module
+        return None
+
+    def get_tutorial_data(self, id):
+        """
+        Query to get the module data
+        """
+        self.cursor.execute('SELECT * FROM All_Tutorials WHERE tute_id = ?', (id,))
+        data = self.cursor.fetchone()
+        if data:
+            tutorial_id, c1, c2, c3, i1, i2, quiz_one, quiz_two, quiz_three = data
+            tutorial = Tutorial(tutorial_id, c1, c2, c3, i1, i2, quiz_one, quiz_two, quiz_three)
+            return tutorial
+        return None
+
+    def get_challenge_data(self, id):
+        """
+        Query to get the challenge data
+        """
+        self.cursor.execute('SELECT * FROM All_Challenges WHERE id = ?', (id,))
+        data = self.cursor.fetchone()
+        if data:
+            challenge_id, challenge_name, intro, difficulty, question, solution = data
+            challenge = Challenge(challenge_id, challenge_name, intro, difficulty, question, solution)
+            return challenge
         return None
