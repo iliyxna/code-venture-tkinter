@@ -232,7 +232,8 @@ class LearnerFrame(customtkinter.CTkFrame):
         self.place_forget()
         self.learner_frame.place_forget()
         self.nav_bar.place_forget()
-        self.modules_frame.place_forget()
+        if self.modules_frame is not None:
+            self.modules_frame.place_forget()
         # self.profile_frame.place_forget()
         # self.progress_frame.place_forget()
         self.login_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
@@ -277,7 +278,7 @@ class LearnerFrame(customtkinter.CTkFrame):
                                              fg_color="#6895B2",
                                              )
         # intro_frame.place(relx=0.05, y=100, relwidth=0.9)
-        intro_frame.grid(row=0, column=0, padx=30, pady=50, sticky="w")
+        intro_frame.grid(row=0, column=0, padx=30, pady=50, sticky="ew")
 
         intro_title = customtkinter.CTkLabel(master=intro_frame,
                                              text=f'Welcome to the Magical World of Python Programming ✨',
@@ -313,8 +314,7 @@ class LearnerFrame(customtkinter.CTkFrame):
                                                  height=200,
                                                  fg_color="#FAFAFA",
                                                  )
-        # selection_frame.place(relx=0.05, rely=0.48, relwidth=0.9)
-        selection_frame.grid(row=1, column=0, padx=30, pady=20, sticky="w")
+        selection_frame.grid(row=1, column=0, padx=30, pady=20, sticky="ew")
 
         select_label = customtkinter.CTkLabel(selection_frame,
                                               text='Select Your Module',
@@ -325,13 +325,15 @@ class LearnerFrame(customtkinter.CTkFrame):
 
         select_label.grid(row=0, column=0, padx=30, pady=30, sticky="sw")
 
-        for i in range(2):
+        for i in range(10):
             module_frame = ModuleFrame(selection_frame, i)
-            module_frame.grid(row=i + 1, column=0, padx=30, pady=10, sticky="nw")
+            module_frame.grid(row=i + 1, column=0, padx=30, pady=10, sticky="new")
 
     def show_challenges_frame(self):
         """
         Method to show the challenges frame
         """
         self.current_frame.place_forget()
-        self.modules_frame.place_forget()
+
+        if self.modules_frame is not None:
+            self.modules_frame.place_forget()

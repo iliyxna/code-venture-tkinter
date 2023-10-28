@@ -15,7 +15,7 @@ class ModuleFrame(customtkinter.CTkFrame):
         self.module_id = module_id
         self.configure(corner_radius=20,
                        fg_color="#638294",
-                       width=770
+                       width=830
                        )
         self.system_storage = SystemStorage()
 
@@ -23,6 +23,12 @@ class ModuleFrame(customtkinter.CTkFrame):
         module_name = module.get_module_name()
         module_intro = module.get_intro()
         module_level = module.get_level()
+
+        # Different card colours
+        if module_level == "Intermediate":
+            self.configure(fg_color="#435560")
+        if module_level == "Advanced":
+            self.configure(fg_color="#223039")
 
         name_label = customtkinter.CTkLabel(self,
                                             text=f'\n({module_id + 1}) {module_name}',
@@ -35,7 +41,7 @@ class ModuleFrame(customtkinter.CTkFrame):
         intro = customtkinter.CTkLabel(self,
                                        text=f'\n{module_intro}',
                                        text_color="white",
-                                       wraplength=770,
+                                       wraplength=830,
                                        justify="left"
                                        )
         intro.grid(row=1, columnspan=2, padx=20, sticky="w")
@@ -47,6 +53,10 @@ class ModuleFrame(customtkinter.CTkFrame):
                                        fg_color="#6895B2",
                                        corner_radius=10
                                        )
+        if module_level == "Intermediate":
+            level.configure(fg_color="#6F818D")
+        if module_level == "Advanced":
+            level.configure(fg_color="#4A697D")
         level.grid(row=0, column=1, padx=20, pady=10, sticky="se")
 
         start_button = customtkinter.CTkButton(self,
