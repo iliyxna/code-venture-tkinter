@@ -27,6 +27,9 @@ class SystemStorage:  # change to system storage later
     """
 
     def __init__(self):
+        """
+        Constructor
+        """
         # Connect to sqlite
         self.connection = sqlite3.connect('system_storage.db')
         self.cursor = self.connection.cursor()
@@ -186,6 +189,7 @@ class SystemStorage:  # change to system storage later
             user.get_username(), user.get_password(), user.get_firstname(), user.get_lastname(), user.get_role()))
         self.connection.commit()
 
+        # update learner's progress
         if user.get_role() == "Learner":
             self.cursor.execute('''
                                        INSERT INTO Learner_Progress (username, points, rank, percentage_completion)

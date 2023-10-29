@@ -12,7 +12,13 @@ from codeVentureApp.users.ParentFrame import ParentFrame
 
 
 class LoginFrame(customtkinter.CTkFrame):
+    """
+    Class that displays the login frame
+    """
     def __init__(self, master):
+        """
+        Constructor
+        """
         super().__init__(master=master)
         self.master = master
         self.user_storage = SystemStorage()
