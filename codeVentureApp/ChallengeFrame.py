@@ -45,7 +45,7 @@ class ChallengeFrame(customtkinter.CTkFrame):
         # Different card colours
         if challenge_level == "Intermediate":
             self.configure(fg_color="#FFD580")
-        if challenge_level == "Advanced":
+        if challenge_level == "Hard":
             self.configure(fg_color="#CBC3E3")
 
         # card information
@@ -74,7 +74,7 @@ class ChallengeFrame(customtkinter.CTkFrame):
                                        )
         if challenge_level == "Intermediate":
             level.configure(fg_color="#B87333")
-        if challenge_level == "Advanced":
+        if challenge_level == "Hard":
             level.configure(fg_color="#702963")
         level.grid(row=1, column=0, padx=20, pady=0, sticky="w")
 
