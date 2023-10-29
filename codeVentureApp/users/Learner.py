@@ -25,6 +25,8 @@ class Learner(UserAccount):
         self.module_manager = ModuleManager()
         self.challenge_manager = ChallengeManager()
         self.percentage_completion = 0.0
+        self.current_module_score = 0
+        self.answered_count = 0
 
     def get_points(self):
         """
@@ -80,6 +82,18 @@ class Learner(UserAccount):
 
     def get_percentage_completion(self):
         return self.get_progress_tracker().calculate_progress_percentage()
+
+    def get_current_module_score(self):
+        return self.current_module_score
+
+    def increment_score(self):
+        self.current_module_score += 1
+
+    def get_answered_count(self):
+        return self.answered_count
+
+    def increment_answered(self):
+        self.answered_count += 1
 
     def __str__(self):
         """

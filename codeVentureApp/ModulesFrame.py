@@ -1,5 +1,7 @@
 import customtkinter
 import tkinter as tk
+
+from codeVentureApp.QuizFrame import QuizFrame
 from codeVentureApp.SystemStorage import SystemStorage
 
 
@@ -8,7 +10,7 @@ class ModuleFrame(customtkinter.CTkFrame):
     Each module will be a tiny frame
     """
 
-    def __init__(self, master, module_id):
+    def __init__(self, master, module_id, user):
         super().__init__(master)
         self.i1 = None
         self.i2 = None
@@ -18,9 +20,10 @@ class ModuleFrame(customtkinter.CTkFrame):
                        fg_color="#638294",
                        # width=830
                        )
-
+        self.user = user
         # Flag to check if the window is open
         self.window_open = False
+        self.new_window = None
 
         self.system_storage = SystemStorage()
 
@@ -77,15 +80,16 @@ class ModuleFrame(customtkinter.CTkFrame):
         """
         if not self.window_open:
             self.window_open = True
-
+            correct_count = 0
+            is_correct = False
             # Create a new Toplevel window
-            new_window = customtkinter.CTkToplevel(self.master,
+            self.new_window = customtkinter.CTkToplevel(self.master,
                                                    fg_color="#C2D3DF")
-            new_window.geometry("980x670")
-            new_window.title(f"Module {self.module_id + 1}: {self.module_name}")
+            self.new_window.geometry("980x670")
+            self.new_window.title(f"Module {self.module_id + 1}: {self.module_name}")
 
             # Add your content to the new window here
-            window_frame = customtkinter.CTkScrollableFrame(new_window,
+            window_frame = customtkinter.CTkScrollableFrame(self.new_window,
                                                             fg_color="transparent")
             window_frame.place(relx=0, rely=0, relwidth=1, relheight=1)
 
@@ -146,7 +150,6 @@ class ModuleFrame(customtkinter.CTkFrame):
 
             if tutorial.get_i2() != "":
                 self.i2 = tk.PhotoImage(file=f'images/{tutorial.get_i2()}.png')
-                print(self.i2)
                 i2 = tk.Label(master=tutorial_frame,
                               image=self.i2,
                               borderwidth=0,
@@ -170,16 +173,30 @@ class ModuleFrame(customtkinter.CTkFrame):
                                                     corner_radius=20,
                                                     fg_color="#FAFAFA",
                                                     )
-                quiz_frame.grid(row=1, column=0, padx=40, pady=7, sticky="ew")
+                quiz_frame.grid(row=1, column=0, padx=40, sticky="ew")
 
                 quiz_title = customtkinter.CTkLabel(master=quiz_frame,
-                                                    text=f'Quiz',
-                                                    font=("Fixedsys", 22),
+                                                    text=f'It\'s Quiz Time!',
+                                                    font=("Fixedsys", 24),
                                                     text_color="#6895B2",
                                                     anchor="sw",
                                                     justify="left"
                                                     )
-                quiz_title.grid(row=1, column=0, padx=30, pady=20, sticky="sw")
+                quiz_title.grid(row=0, column=0, padx=30, pady=20, sticky="sw")
+
+                ques_frame = customtkinter.CTkFrame(quiz_frame,
+                                                    corner_radius=20,
+                                                    fg_color="#FAFAFA",
+                                                    )
+                ques_frame.grid(row=1, column=0, padx=30, pady=10, sticky="new")
+
+                curr_row = 1
+                self.user.current_module_score = 0
+                self.user.answered_count = 0
+                for i in range(self.module.get_tutorial_id() * 3, self.module.get_tutorial_id() * 3 + 3):
+                    quiz_card = QuizFrame(self.new_window, ques_frame, i, self.user, self.module_id, self)
+                    quiz_card.grid(row=curr_row, column=0, padx=30, pady=20, sticky="sw")
+                    curr_row += 1
 
             quiz_button = customtkinter.CTkButton(master=tutorial_frame,
                                                   text="Start Quiz",
@@ -192,8 +209,6 @@ class ModuleFrame(customtkinter.CTkFrame):
             # Function to run when the new window is closed
             def on_close():
                 self.window_open = False
-                new_window.destroy()
+                self.new_window.destroy()
 
-            new_window.protocol("WM_DELETE_WINDOW", on_close)
-
-
+            self.new_window.protocol("WM_DELETE_WINDOW", on_close)

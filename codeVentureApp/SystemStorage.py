@@ -1,7 +1,9 @@
 import sqlite3
+from datetime import datetime
 
 from codeVentureApp.learning_materials.Challenge import Challenge
 from codeVentureApp.learning_materials.Module import Module
+from codeVentureApp.learning_materials.Quiz import Quiz
 from codeVentureApp.learning_materials.Tutorial import Tutorial
 from codeVentureApp.users.Administrator import Administrator
 from codeVentureApp.users.Educator import Educator
@@ -74,10 +76,10 @@ class SystemStorage:  # change to system storage later
         """
         table_create_query = '''CREATE TABLE IF NOT EXISTS Module_Completion_Data
                                 (
-                                id INTEGER PRIMARY KEY,
+                                module_id INTEGER UNIQUE,
                                 username TEXT,
-                                module TEXT,
-                                completion_date TEXT
+                                completion_date TEXT,
+                                score INTEGER
                                 )
                                 '''
         self.connection.execute(table_create_query)
@@ -124,7 +126,8 @@ class SystemStorage:  # change to system storage later
                                                intro TEXT,
                                                difficulty TEXT,
                                                question TEXT,
-                                               solution TEXT
+                                               solution TEXT,
+                                               badge_award TEXT
                                                )
                                                '''
         self.connection.execute(table_create_query)
@@ -141,7 +144,7 @@ class SystemStorage:  # change to system storage later
                                                        choice_one TEXT,
                                                        choice_two TEXT,
                                                        choice_three TEXT,
-                                                       choice_four TEXT
+                                                       explanation TEXT
                                                        )
                                                        '''
         self.connection.execute(table_create_query)
@@ -197,6 +200,55 @@ class SystemStorage:  # change to system storage later
                             VALUES (?, ?)
                             ''', (parent.get_username(), child.get_username()))
         self.connection.commit()
+
+    def insert_module_completion(self, learner, module_id, score):
+        """
+        Query to link child's username to parent account
+        """
+        self.cursor.execute('''
+                            INSERT INTO Module_Completion_Data (module_id, username, completion_date, score)
+                            VALUES (?, ?, ?, ?)
+                            ''', (module_id, learner.get_username(), datetime.today(), score))
+        self.connection.commit()
+
+    def insert_completed_challenge(self, challenge):
+        """
+        Query to insert completed challenge and badge earned into Challenge_Completion_Data table
+        """
+        self.cursor.execute('''
+                    INSERT INTO Challenge_Completion_Data (id, username, badge_earned, completion_date)
+                    VALUES (?, ?, ?, ?)
+                ''', (
+            challenge.get_challenge_id(), challenge.get_user(), challenge.get_badge_award(),
+            challenge.get_completion_date()))
+        self.connection.commit()
+
+
+    def update_module_score(self, username, score):
+        """
+        Query to update module score if user retakes the module
+        """
+        self.cursor.execute(
+            'UPDATE Module_Completion_Data SET score = ? WHERE username = ?', (score, username))
+        self.connection.commit()
+
+    def update_module_date(self, username, date):
+        """
+        Query to update module completion date if user retakes the module
+        """
+        self.cursor.execute(
+            'UPDATE Module_Completion_Data SET completion_date = ? WHERE username = ?', (date, username))
+        self.connection.commit()
+
+    def check_learner_module(self, module_id, username):
+        """
+        """
+        self.cursor.execute('SELECT * FROM Module_Completion_Data WHERE module_id = ? AND username = ?',
+                            (module_id, username))
+        user_data = self.cursor.fetchone()
+        if user_data:
+            return True
+        return False
 
     def get_user(self, username, password):
         """
@@ -328,7 +380,19 @@ class SystemStorage:  # change to system storage later
         self.cursor.execute('SELECT * FROM All_Challenges WHERE id = ?', (id,))
         data = self.cursor.fetchone()
         if data:
-            challenge_id, challenge_name, intro, difficulty, question, solution = data
-            challenge = Challenge(challenge_id, challenge_name, intro, difficulty, question, solution)
+            challenge_id, challenge_name, intro, difficulty, question, solution, badge_award = data
+            challenge = Challenge(challenge_id, challenge_name, intro, difficulty, question, solution, badge_award)
             return challenge
+        return None
+
+    def get_quiz_data(self, id):
+        """
+        Query to get the module data
+        """
+        self.cursor.execute('SELECT * FROM All_Quizzes WHERE id = ?', (id,))
+        data = self.cursor.fetchone()
+        if data:
+            quiz_id, question, solution, choice_one, choice_two, choice_three, explanation, img = data
+            quiz = Quiz(quiz_id, question, solution, choice_one, choice_two, choice_three, explanation, img)
+            return quiz
         return None

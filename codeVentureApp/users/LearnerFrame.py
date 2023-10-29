@@ -20,6 +20,7 @@ class LearnerFrame(customtkinter.CTkFrame):
         self.user = self.system_storage.get_user_by_username(user.get_username())
         self.robot_image = tk.PhotoImage(file='images/bmo_blue.png')
         self.snake_image = tk.PhotoImage(file='images/snake_bmo.png')
+        self.controller_image = tk.PhotoImage(file='images/bmo-grass.png')
 
         (self.username, self.points,
          self.rank, self.percentage_completion) = self.system_storage.get_learner_progress(self.user.get_username())
@@ -334,7 +335,7 @@ class LearnerFrame(customtkinter.CTkFrame):
         select_label.grid(row=0, column=0, padx=30, pady=30, sticky="sw")
 
         for i in range(10):
-            module_frame = ModuleFrame(selection_frame, i)
+            module_frame = ModuleFrame(selection_frame, i, self.user)
             module_frame.grid(row=i + 1, column=0, padx=30, pady=10, sticky="new")
 
     def show_challenges_frame(self):
@@ -375,18 +376,19 @@ class LearnerFrame(customtkinter.CTkFrame):
                                                     f'quests?'
                                                     f'Plunge into the world of Python, choose\nyour challenges'
                                                     f' and let the'
-                                                    f'coding adventures begin with fun tasks that will test your '
-                                                    f'skills.'
+                                                    f' coding adventures begin with fun tasks that will test your '
+                                                    f'skills.\n\n'
+                                                    f'Start collecting your badges by completing challenges'
                                                     f'\nGet set, code, and conquer! 🐍\n',
                                                anchor="nw",
                                                justify="left"
                                                )
         intro_message.grid(row=1, column=0, padx=30, pady=10, sticky="nw")
         controller_label = tk.Label(intro_frame,
-                               image=self.snake_image,
-                               borderwidth=0,
-                               anchor="w",
-                               bg="#6895B2")
+                                    image=self.controller_image,
+                                    borderwidth=0,
+                                    anchor="w",
+                                    bg="#6895B2")
         controller_label.grid(row=0, rowspan=2, column=1, padx=20, pady=20, sticky="w")
 
         # Challenge selection frame
@@ -408,5 +410,5 @@ class LearnerFrame(customtkinter.CTkFrame):
         select_label.grid(row=0, column=0, padx=30, pady=30, sticky="sw")
 
         for i in range(3):
-            challenge_option_frame = ChallengeFrame(selection_frame, i)
+            challenge_option_frame = ChallengeFrame(selection_frame, i, self.user.get_username())
             challenge_option_frame.grid(row=i + 1, column=0, padx=30, pady=10, sticky="new")

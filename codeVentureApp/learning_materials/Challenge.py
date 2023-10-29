@@ -1,12 +1,13 @@
 class Challenge:
 
-    def __init__(self, challenge_id, challenge_name, intro, difficulty,question , solution):
+    def __init__(self, challenge_id, challenge_name, intro, difficulty,question , solution, badge_award):
         self.challenge_id = challenge_id
         self.challenge_name = challenge_name
         self.intro = intro
         self.difficulty = difficulty
         self.question = question
         self.solution = solution
+        self.badge_award = badge_award
 
     # def __init__(self, challenge_id, difficulty, question, solution, badge_award, score, points_to_unlock=0):
     #     self.challenge_id = challenge_id
@@ -26,8 +27,8 @@ class Challenge:
     def get_solution(self):
         return self.solution
 
-    # def get_badge_award(self):
-    #     return self.badge_award
+    def get_badge_award(self):
+        return self.badge_award
     #
     # def get_score(self):
     #     return self.score
