@@ -1,4 +1,5 @@
 from datetime import datetime
+from tkinter import messagebox
 
 import customtkinter
 import tkinter as tk
@@ -46,7 +47,7 @@ class ChallengeFrame(customtkinter.CTkFrame):
         # Different card colours
         if challenge_level == "Intermediate":
             self.configure(fg_color="#FFD580")
-        if challenge_level == "Advanced":
+        if challenge_level == "Hard":
             self.configure(fg_color="#CBC3E3")
 
         # card information
@@ -75,7 +76,7 @@ class ChallengeFrame(customtkinter.CTkFrame):
                                        )
         if challenge_level == "Intermediate":
             level.configure(fg_color="#B87333")
-        if challenge_level == "Advanced":
+        if challenge_level == "Hard":
             level.configure(fg_color="#702963")
         level.grid(row=1, column=0, padx=20, pady=0, sticky="w")
 
@@ -90,6 +91,13 @@ class ChallengeFrame(customtkinter.CTkFrame):
         """
         Method to start each challenge via pop-up window
         """
+
+        if self.system_storage.get_user_completed_challenge(self.username, self.challenge_id) is not None:
+            confirmation_message = messagebox.askyesno("Confirmation", "Do you want to re-attempt the challenge?")
+            if confirmation_message:
+                self.system_storage.delete_completed_challenge(self.username, self.challenge_id)
+            else:
+                return
 
         # initialising the pop-up
         self.popup = tk.Toplevel()
