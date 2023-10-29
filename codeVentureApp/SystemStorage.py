@@ -2,6 +2,7 @@ import sqlite3
 from datetime import datetime
 
 from codeVentureApp.learning_materials.Challenge import Challenge
+from codeVentureApp.learning_materials.CompletedChallenge import CompletedChallenge
 from codeVentureApp.learning_materials.Module import Module
 from codeVentureApp.learning_materials.Quiz import Quiz
 from codeVentureApp.learning_materials.Tutorial import Tutorial
@@ -17,11 +18,18 @@ class SystemStorage:  # change to system storage later
     1) Table that stores user credentials, firstname, lastname, role
     2) Table that stores the learner's current points and rank
     3) Table that stores the parent's child's usernames
-    4)
-    5)
+    4) Table that stores the learner's completed modules
+    5) Table that stores the learner's completed challenges
+    6) Table that stores the modules
+    7) Table that stores the challenges
+    8) Table that stores the quizzes
+    9) Table that stores the tutorials
     """
 
     def __init__(self):
+        """
+        Constructor
+        """
         # Connect to sqlite
         self.connection = sqlite3.connect('system_storage.db')
         self.cursor = self.connection.cursor()
@@ -90,7 +98,7 @@ class SystemStorage:  # change to system storage later
         """
         table_create_query = '''CREATE TABLE IF NOT EXISTS Challenge_Completion_Data
                                 (
-                                id INTEGER PRIMARY KEY,
+                                id INTEGER,
                                 username TEXT,
                                 badge_earned TEXT,
                                 completion_date TEXT
@@ -181,6 +189,7 @@ class SystemStorage:  # change to system storage later
             user.get_username(), user.get_password(), user.get_firstname(), user.get_lastname(), user.get_role()))
         self.connection.commit()
 
+        # update learner's progress
         if user.get_role() == "Learner":
             self.cursor.execute('''
                                        INSERT INTO Learner_Progress (username, points, rank, percentage_completion)
@@ -223,6 +232,30 @@ class SystemStorage:  # change to system storage later
             challenge.get_completion_date()))
         self.connection.commit()
 
+    def get_user_completed_challenge(self, username, challenge_id):
+        """
+        Query to get user who completed challenge
+        """
+        self.cursor.execute('SELECT * FROM Challenge_Completion_Data WHERE id = ? AND username = ?',
+                            (challenge_id, username))
+        user_data = self.cursor.fetchone()
+        if user_data:
+            challenge_id, username, badge_name, completion_date = user_data
+            return CompletedChallenge(challenge_id, username, badge_name, completion_date)
+        return None
+
+    def delete_completed_challenge(self, username, challenge_id):
+        """
+        Query to delete user who completed challenge
+        """
+        self.cursor.execute('DELETE FROM Challenge_Completion_Data WHERE id = ? AND username = ?',
+                            (challenge_id, username))
+        self.connection.commit()  # Commit changes to the database
+
+        if self.cursor.rowcount > 0:
+            return True  # Indicate that the deletion was successful
+        else:
+            return False  # Indicate that the deletion did not occur
 
     def update_module_score(self, username, score):
         """

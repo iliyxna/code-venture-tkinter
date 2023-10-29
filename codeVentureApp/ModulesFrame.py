@@ -11,6 +11,9 @@ class ModuleFrame(customtkinter.CTkFrame):
     """
 
     def __init__(self, master, module_id, user):
+        """
+        Constructor
+        """
         super().__init__(master)
         self.i1 = None
         self.i2 = None
@@ -169,6 +172,9 @@ class ModuleFrame(customtkinter.CTkFrame):
                 c2.grid(row=6, column=0, padx=30, pady=5, sticky="w")
 
             def start_quiz():
+                """
+                Method to start the quiz
+                """
                 quiz_frame = customtkinter.CTkFrame(window_frame,
                                                     corner_radius=20,
                                                     fg_color="#FAFAFA",
@@ -208,6 +214,9 @@ class ModuleFrame(customtkinter.CTkFrame):
 
             # Function to run when the new window is closed
             def on_close():
+                """
+                Method to close the window
+                """
                 self.window_open = False
                 self.new_window.destroy()
 

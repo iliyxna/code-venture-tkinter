@@ -5,7 +5,13 @@ from codeVentureApp.SystemStorage import SystemStorage
 
 
 class ProgressTrackerFrame(customtkinter.CTkFrame):
+    """
+    Class to display the learner's progress
+    """
     def __init__(self, master, user):
+        """
+        Constructor
+        """
         super().__init__(master=master)
         self.master = master
         self.user = user
