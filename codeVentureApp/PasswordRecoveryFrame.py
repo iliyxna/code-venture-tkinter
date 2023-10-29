@@ -7,8 +7,14 @@ from codeVentureApp.SystemStorage import SystemStorage
 
 
 class PasswordRecoveryFrame(customtkinter.CTkFrame):
+    """
+    Class to display for password recovery
+    """
 
     def __init__(self, master, login_frame):
+        """
+        Constructor
+        """
         super().__init__(master=master)
         self.master = master
         self.login_frame = login_frame
@@ -55,8 +61,10 @@ class PasswordRecoveryFrame(customtkinter.CTkFrame):
         back_button = customtkinter.CTkButton(master=self, text="Back to Main Page", command=self.back_to_main)
         back_button.grid(row=6, columnspan=2, padx=5, pady=10)
 
-    # Method to handle password recovery
     def recover_password(self):
+        """
+        Method to handle password recovery
+        """
         # might need to add some questions (What is your childhood nickname? so that not everyone can change password)
         username = self.username.get()
         new_password = self.new_password.get()
@@ -74,9 +82,15 @@ class PasswordRecoveryFrame(customtkinter.CTkFrame):
                 messagebox.showerror("User Not Found", "User not found. Please ensure your username is correct.")
 
     def back_to_main(self):
+        """
+        Method to return to the main frame
+        """
         self.place_forget()
         self.master.main_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
     def clear_entries(self):
+        """
+        Method to clear the entries
+        """
         for entry in self.entry_widget_list:
             entry.delete(0, tk.END)

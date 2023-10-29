@@ -91,19 +91,20 @@ class LearnerFrame(customtkinter.CTkFrame):
         """""""""""""""""
         MAIN LEARNER FRAME
         """""""""""""""""
-        # Main learner frame to be replaced when nav menu option is clicked
-        self.learner_frame = customtkinter.CTkFrame(self.master)
-        self.learner_frame.place(relx=0.2, rely=0, relwidth=0.8, relheight=1)
+        # Main learner frame to be replaced when other nav menu option is clicked
+        self.learner_frame = customtkinter.CTkScrollableFrame(self.master)
+        self.learner_frame.place(relx=0.2, rely=0, relwidth=0.6, relheight=1)
         self.learner_frame.configure(fg_color="#C2D3DF", corner_radius=0)
 
         """""""""""""""""""""""""""
         Welcome user frame section
         """""""""""""""""""""""""""
         self.welcome_frame = customtkinter.CTkFrame(self.learner_frame,
-                                                    corner_radius=20,
-                                                    height=200,
-                                                    fg_color="#6895B2")
-        self.welcome_frame.place(relx=0.05, y=100, relwidth=0.65)
+                                             corner_radius=20,
+                                             height=200,
+                                             fg_color="#6895B2",
+                                             )
+        self.welcome_frame.grid(row=0, column=0, padx=30, pady=50, sticky="ew")
 
         bmo_label = tk.Label(self.welcome_frame,
                              image=self.robot_image,
@@ -119,34 +120,37 @@ class LearnerFrame(customtkinter.CTkFrame):
                                                justify="left",
                                                # text_color="#6895B2"
                                                )
-        welcome_title.grid(row=0, column=1, padx=20, pady=20, sticky="sw")
+        welcome_title.grid(row=0, column=1, padx=20, pady=20, sticky="sew")
 
+        completed_count = len(self.system_storage.get_learner_modules(self.user.get_username()))
         welcome_message = customtkinter.CTkLabel(master=self.welcome_frame,
                                                  text=f'You have completed '
-                                                      f'{self.percentage_completion}% '
-                                                      f'of your modules.\n'
-                                                      f'Take on some new modules and challenges to improve \nyour '
-                                                      f'results!\n',
+                                                      f'{(completed_count/10)*100}% of your exciting learning adventures!\n\n'
+                                                      f'But guess what? There\'s a whole world of knowledge out there waiting for you!'
+                                                      f' Get \nready to embark on new modules and thrilling challenges to boost your skills and \nsuperpowers. '
+                                                      f'Unleash your inner genius and become a learning superstar!\n\n'
+                                                      f'Are you ready to dive into the magic of learning? Let\'s do this! ✨👾\n',
                                                  anchor="w",
                                                  justify="left",
                                                  )
-        welcome_message.grid(row=1, column=1, padx=20, sticky="nw")
+        welcome_message.grid(row=1, column=1, padx=20, sticky="new")
 
         """""""""""""""
         Progress Frame
         """""""""""""""
+
         # self.progress_frame = customtkinter.CTkFrame(self.learner_frame, corner_radius=20)
         self.progress_frame = ProgressTrackerFrame(self.learner_frame, self.user)
-
-        self.progress_frame.place(relx=0.05, y=320, relwidth=0.65)
+        self.progress_frame.grid(row=1, column=0, padx=30, pady=20, sticky="ew")
+        # self.progress_frame.place(relx=0.05, y=320, relwidth=0.65)
 
         """""""""""""""""""""""
         Profile frame section
         """""""""""""""""""""""
-        self.profile_frame = customtkinter.CTkFrame(master=self.learner_frame,
+        self.profile_frame = customtkinter.CTkFrame(master=self.master,
                                                     fg_color="#6895B2",
                                                     corner_radius=0)
-        self.profile_frame.place(relx=0.75, rely=0, relwidth=0.25, relheight=1)
+        self.profile_frame.place(relx=0.8, rely=0, relwidth=0.2, relheight=1)
 
         profile_label = customtkinter.CTkLabel(master=self.profile_frame,
                                                text="USER PROFILE",
@@ -174,13 +178,13 @@ class LearnerFrame(customtkinter.CTkFrame):
                                             fg_color="#4E6F86",
                                             anchor="center"
                                             )
-        name_label.place(relx=0, y=370, relwidth=self.nav_bar.winfo_width())
+        name_label.place(relx=0, y=370, relwidth=self.profile_frame.winfo_width())
 
         name = customtkinter.CTkLabel(self.profile_frame,
                                       text=f"{self.user.get_firstname()} {self.user.get_lastname()}\n",
                                       font=("Arial", 14),
                                       anchor="center")
-        name.place(relx=0, y=405, relwidth=self.nav_bar.winfo_width())
+        name.place(relx=0, y=405, relwidth=self.profile_frame.winfo_width())
 
         # Username
         username_label = customtkinter.CTkLabel(self.profile_frame,
@@ -189,13 +193,13 @@ class LearnerFrame(customtkinter.CTkFrame):
                                                 fg_color="#4E6F86",
                                                 anchor="center"
                                                 )
-        username_label.place(relx=0, y=455, relwidth=self.nav_bar.winfo_width())
+        username_label.place(relx=0, y=455, relwidth=self.profile_frame.winfo_width())
 
         username = customtkinter.CTkLabel(self.profile_frame,
                                           text=f"@{self.username}\n",
                                           font=("Arial", 14),
                                           anchor="center")
-        username.place(relx=0, y=490, relwidth=self.nav_bar.winfo_width())
+        username.place(relx=0, y=490, relwidth=self.profile_frame.winfo_width())
 
         # User role
         role_label = customtkinter.CTkLabel(self.profile_frame,
@@ -204,13 +208,13 @@ class LearnerFrame(customtkinter.CTkFrame):
                                             fg_color="#4E6F86",
                                             anchor="center"
                                             )
-        role_label.place(relx=0, y=540, relwidth=self.nav_bar.winfo_width())
+        role_label.place(relx=0, y=540, relwidth=self.profile_frame.winfo_width())
 
         role = customtkinter.CTkLabel(self.profile_frame,
                                       text="Learner\n",
                                       font=("Arial", 14),
                                       anchor="center")
-        role.place(relx=0, y=575, relwidth=self.nav_bar.winfo_width())
+        role.place(relx=0, y=575, relwidth=self.profile_frame.winfo_width())
 
         # User rank
         rank_label = customtkinter.CTkLabel(self.profile_frame,
@@ -219,13 +223,13 @@ class LearnerFrame(customtkinter.CTkFrame):
                                             anchor="center",
                                             fg_color="#4E6F86",
                                             )
-        rank_label.place(relx=0, y=625, relwidth=self.nav_bar.winfo_width())
+        rank_label.place(relx=0, y=625, relwidth=self.profile_frame.winfo_width())
 
         rank = customtkinter.CTkLabel(self.profile_frame,
                                       text=f"{self.rank}",
                                       font=("Arial", 14),
                                       anchor="center")
-        rank.place(relx=0, y=660, relwidth=self.nav_bar.winfo_width())
+        rank.place(relx=0, y=660, relwidth=self.profile_frame.winfo_width())
 
     def back_to_login(self):
         """
@@ -233,11 +237,15 @@ class LearnerFrame(customtkinter.CTkFrame):
         """
         self.place_forget()
         self.learner_frame.place_forget()
+        self.profile_frame.place_forget()
         self.nav_bar.place_forget()
+
         if self.modules_frame is not None:
             self.modules_frame.place_forget()
-        # self.profile_frame.place_forget()
-        # self.progress_frame.place_forget()
+
+        if self.challenge_frame is not None:
+            self.challenge_frame.place_forget()
+
         self.login_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
     def confirm_logout(self):
@@ -261,8 +269,10 @@ class LearnerFrame(customtkinter.CTkFrame):
             self.challenge_frame.place_forget()
 
         self.current_frame = self.learner_frame
-        self.learner_frame.place(relx=0.2, rely=0, relwidth=0.8, relheight=1)
-        self.welcome_frame.place(relx=0.05, y=100, relwidth=0.65)
+        self.learner_frame.place(relx=0.2, rely=0, relwidth=0.6, relheight=1)
+        self.progress_frame = ProgressTrackerFrame(self.learner_frame, self.user)
+        self.progress_frame.grid(row=1, column=0, padx=30, pady=20, sticky="ew")
+        self.welcome_frame.grid(row=0, column=0, padx=30, pady=50, sticky="ew")
 
     def show_modules_frame(self):
         """

@@ -8,8 +8,14 @@ from codeVentureApp.LoginFrame import LoginFrame
 
 
 class MainApplication(customtkinter.CTk):
+    """
+    Main class to run the Code Venture
+    """
 
     def __init__(self, title, width=1400, height=700):
+        """
+        Constructor
+        """
         super().__init__()
         self.title(title)
         self.geometry(f"{width}x{height}")
@@ -62,14 +68,23 @@ class MainApplication(customtkinter.CTk):
         self.current_frame = self.main_frame
 
     def show_login_frame(self):
+        """
+        Method to show login frame
+        """
         self.main_frame.place_forget()
         self.login_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
     def show_register_frame(self):
+        """
+        Method to show register frame
+        """
         self.main_frame.place_forget()
         self.register_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
     def show_main_frame(self):
+        """
+        Method to show main frame
+        """
         # Hide the current frame
         self.current_frame.place_forget()
         # Show the main window widgets
@@ -77,6 +92,9 @@ class MainApplication(customtkinter.CTk):
         self.main_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
     def confirm_exit(self):
+        """
+        Method to confirm to exit
+        """
         result = messagebox.askyesno("Exit Confirmation", "Are you sure you want to exit?")
         if result:
             self.destroy()

@@ -15,6 +15,9 @@ class Module:
         self.discussion_forum = None
         self.module_level = module_level
 
+    def get_module_id(self):
+        return self.id
+
     def get_module_name(self):
         return self.module_name
 

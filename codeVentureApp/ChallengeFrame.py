@@ -1,4 +1,5 @@
 from datetime import datetime
+from tkinter import messagebox
 
 import customtkinter
 import tkinter as tk
@@ -28,8 +29,6 @@ class ChallengeFrame(customtkinter.CTkFrame):
         challenge_name = challenge.get_challenge_name()
         challenge_intro = challenge.get_intro()
         challenge_level = challenge.get_difficulty()
-
-        # self.controller_image = tk.PhotoImage(file='images/controller2.png')
 
         self.badge_image = None
         if challenge_level == "Easy":
@@ -90,6 +89,13 @@ class ChallengeFrame(customtkinter.CTkFrame):
         """
         Method to start each challenge via pop-up window
         """
+
+        if self.system_storage.get_user_completed_challenge(self.username, self.challenge_id) is not None:
+            confirmation_message = messagebox.askyesno("Confirmation", "Do you want to re-attempt the challenge?")
+            if confirmation_message:
+                self.system_storage.delete_completed_challenge(self.username, self.challenge_id)
+            else:
+                return
 
         # initialising the pop-up
         self.popup = tk.Toplevel()

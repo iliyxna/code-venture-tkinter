@@ -11,6 +11,9 @@ class ModuleFrame(customtkinter.CTkFrame):
     """
 
     def __init__(self, master, module_id, user):
+        """
+        Constructor
+        """
         super().__init__(master)
         self.i1 = None
         self.i2 = None
@@ -169,6 +172,9 @@ class ModuleFrame(customtkinter.CTkFrame):
                 c2.grid(row=6, column=0, padx=30, pady=5, sticky="w")
 
             def start_quiz():
+                """
+                Method to start the quiz
+                """
                 quiz_frame = customtkinter.CTkFrame(window_frame,
                                                     corner_radius=20,
                                                     fg_color="#FAFAFA",
@@ -176,23 +182,24 @@ class ModuleFrame(customtkinter.CTkFrame):
                 quiz_frame.grid(row=1, column=0, padx=40, sticky="ew")
 
                 quiz_title = customtkinter.CTkLabel(master=quiz_frame,
-                                                    text=f'It\'s Quiz Time!',
-                                                    font=("Fixedsys", 24),
+                                                    text=f'It\'s Quiz Time! 🧠💡',
+                                                    font=("Fixedsys", 23),
                                                     text_color="#6895B2",
                                                     anchor="sw",
                                                     justify="left"
                                                     )
-                quiz_title.grid(row=0, column=0, padx=30, pady=20, sticky="sw")
+                quiz_title.grid(row=0, column=0, padx=30, pady=30, sticky="sw")
 
                 ques_frame = customtkinter.CTkFrame(quiz_frame,
                                                     corner_radius=20,
                                                     fg_color="#FAFAFA",
                                                     )
-                ques_frame.grid(row=1, column=0, padx=30, pady=10, sticky="new")
+                ques_frame.grid(row=1, column=0, padx=30, sticky="new")
 
                 curr_row = 1
                 self.user.current_module_score = 0
                 self.user.answered_count = 0
+
                 for i in range(self.module.get_tutorial_id() * 3, self.module.get_tutorial_id() * 3 + 3):
                     quiz_card = QuizFrame(self.new_window, ques_frame, i, self.user, self.module_id, self)
                     quiz_card.grid(row=curr_row, column=0, padx=30, pady=20, sticky="sw")
@@ -208,6 +215,9 @@ class ModuleFrame(customtkinter.CTkFrame):
 
             # Function to run when the new window is closed
             def on_close():
+                """
+                Method to close the window
+                """
                 self.window_open = False
                 self.new_window.destroy()
 

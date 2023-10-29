@@ -8,10 +8,13 @@ from codeVentureApp.SystemStorage import SystemStorage
 
 class QuizFrame(customtkinter.CTkFrame):
     """
-    Each module will be a tiny frame
+    Each quiz will be a tiny frame
     """
 
     def __init__(self, window, master, quiz_id, user, module_id, module_frame):
+        """
+        Constructor
+        """
         super().__init__(master)
         self.i1 = None
         self.i2 = None
@@ -94,6 +97,9 @@ class QuizFrame(customtkinter.CTkFrame):
         self.submit_button.grid(row=7, column=0, padx=5, pady=10, sticky="w")
 
         def check_answer(selected, ans):
+            """
+            Method to check the user's answer
+            """
             ans_frame = customtkinter.CTkFrame(self)
             if selected == ans:
                 ans_frame.configure(bg_color="transparent",
@@ -163,9 +169,9 @@ class QuizFrame(customtkinter.CTkFrame):
                                                                  self.user.get_current_module_score())
 
                 elif self.system_storage.check_learner_module(self.module_id, self.user.get_username()):
-                    self.system_storage.update_module_score(self.user.get_username(),
+                    self.system_storage.update_module_score(self.module_id, self.user.get_username(),
                                                             self.user.get_current_module_score())
-                    self.system_storage.update_module_date(self.user.get_username(), datetime.today())
+                    self.system_storage.update_module_date(self.module_id, self.user.get_username(), datetime.today())
 
         for i in range(len(self.choices)):
             radio_button = customtkinter.CTkRadioButton(self,
