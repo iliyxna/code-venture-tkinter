@@ -30,8 +30,6 @@ class ChallengeFrame(customtkinter.CTkFrame):
         challenge_intro = challenge.get_intro()
         challenge_level = challenge.get_difficulty()
 
-        # self.controller_image = tk.PhotoImage(file='images/controller2.png')
-
         self.badge_image = None
         if challenge_level == "Easy":
             self.badge_image = tk.PhotoImage(file='images/badge1.png')
