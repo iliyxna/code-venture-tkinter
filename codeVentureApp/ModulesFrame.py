@@ -13,7 +13,7 @@ class ModuleFrame(customtkinter.CTkFrame):
     Each module will be a tiny frame
     """
 
-    def __init__(self, master, module_id, user):
+    def __init__(self, master, module_id, user, learner_dashboard):
         """
         Constructor
         """
@@ -22,6 +22,7 @@ class ModuleFrame(customtkinter.CTkFrame):
         self.i2 = None
         self.master = master
         self.module_id = module_id
+        self.learner_dashboard = learner_dashboard
         self.configure(corner_radius=20,
                        fg_color="#638294",
                        # width=830
@@ -63,10 +64,14 @@ class ModuleFrame(customtkinter.CTkFrame):
             complete_label = customtkinter.CTkLabel(mark_completed, text="Completed", text_color="#223039")
             complete_label.grid(row=0, column=0, padx=10, pady=5)
 
+        if self.learner_dashboard:
+            wrap_value = 650
+        else:
+            wrap_value = 830
         intro = customtkinter.CTkLabel(self,
                                        text=f'\n{self.module_intro}',
                                        text_color="white",
-                                       wraplength=830,
+                                       wraplength=wrap_value,
                                        justify="left"
                                        )
         intro.grid(row=2, columnspan=2, padx=20, sticky="w")

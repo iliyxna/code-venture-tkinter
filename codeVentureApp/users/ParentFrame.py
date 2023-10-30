@@ -18,6 +18,11 @@ class ParentFrame(customtkinter.CTkFrame):
         self.child_username = None
         self.system_storage = SystemStorage()
 
+        # Attributes for support desk
+        self.dance_image = tk.PhotoImage(file='images/bmo_dance.png')
+        self.dashboard_image = None
+        self.support_frame = None
+
         """""""""""""""""""""""""""
         SIDE NAVIGATION BAR FRAME
         """""""""""""""""""""""""""
@@ -48,6 +53,18 @@ class ParentFrame(customtkinter.CTkFrame):
                                                    )
         dashboard_option.place(relx=0, rely=0.25, relwidth=self.nav_bar.winfo_width())  # Centered vertically
 
+        # SUPPORT DESK BUTTON
+        help_option = customtkinter.CTkButton(self.nav_bar,
+                                              text="Support Desk",
+                                              height=30,
+                                              fg_color="transparent",
+                                              hover_color="#878787",
+                                              font=("Cascadia Mono Bold", 18),
+                                              command=self.show_support_frame
+                                              )
+        help_option.place(relx=0, rely=0.35, relwidth=self.nav_bar.winfo_width())  # Centered vertically
+
+        # LOGOUT BUTTON
         logout = customtkinter.CTkButton(self.nav_bar,
                                          text="Sign Out",
                                          height=30,
@@ -56,7 +73,7 @@ class ParentFrame(customtkinter.CTkFrame):
                                          font=("Cascadia Mono Bold", 18),
                                          command=self.confirm_logout
                                          )
-        logout.place(relx=0, rely=0.35, relwidth=self.nav_bar.winfo_width())  # Centered vertically
+        logout.place(relx=0, rely=0.45, relwidth=self.nav_bar.winfo_width())  # Centered vertically
 
         """""""""""""""""
         MAIN PARENT FRAME
@@ -89,9 +106,9 @@ class ParentFrame(customtkinter.CTkFrame):
                                                      text=f"To get started, add your child's account and join the "
                                                           f"exciting journey of monitoring their progress! 🚀\n\n"
                                                           f"By connecting with your child's account, you'll be able "
-                                                          f"to track their learning adventures, see their achievements,"
-                                                          f" and celebrate \ntheir success together."
-                                                          f"Watch as they conquer new modules, complete thrilling "
+                                                          f"to track their learning adventures, \nsee their achievements,"
+                                                          f" and celebrate their success together."
+                                                          f"\nWatch as they conquer new modules, complete thrilling "
                                                           f"challenges, and earn cool badges. \n\nIt's a fantastic way "
                                                           f"to support their growth and share the joy of learning."
                                                           f"So, don't wait any longer! \nJoin hands with your little "
@@ -121,16 +138,16 @@ class ParentFrame(customtkinter.CTkFrame):
             welcome_message = customtkinter.CTkLabel(master=self.welcome_frame,
                                                      text=f"Great news! Your child, @{child_username}, has been on "
                                                           f"an incredible learning journey and has successfully "
-                                                          f"completed {percentage_completion}% of their modules!\n"
+                                                          f"completed {percentage_completion}% of their \nmodules! "
                                                           f"Isn't that amazing? It's a testament to their dedication "
                                                           f"and curiosity for knowledge.\n\n"
                                                           f"As their dedicated learning partner, you can "
                                                           f"continue to support "
-                                                          f"and nurture their growth. Encourage them to explore new "
-                                                          f"modules,\n tackle exciting challenges, and earn impressive "
-                                                          f"badges. By working together, you can create a rich and "
-                                                          f"rewarding learning \nexperience, full of fun and discovery."
-                                                          f" So, let's keep the momentum going and embark on more "
+                                                          f"and nurture their growth. \nEncourage them to explore new "
+                                                          f"modules, tackle exciting challenges, and earn impressive "
+                                                          f"badges. \nBy working together, you can create a rich and "
+                                                          f"rewarding learning experience, \nfull of fun and discovery."
+                                                          f" \nSo, let's keep the momentum going and embark on more "
                                                           f"educational adventures together!\n\n"
                                                           f"Stay excited, stay curious, and keep the love for learning "
                                                           f"alive! The sky's the limit for your child's potential.\n",
@@ -248,6 +265,10 @@ class ParentFrame(customtkinter.CTkFrame):
         Method to show the dashboard page (homepage for learner)
         """
         self.current_frame.place_forget()
+
+        if self.support_frame is not None:
+            self.support_frame.place_forget()
+
         self.parent_frame.place(relx=0.2, rely=0, relwidth=0.8, relheight=1)
         self.progress_frame.grid(row=1, column=0, padx=30, pady=20, sticky="ew")
 
@@ -305,7 +326,6 @@ class ParentFrame(customtkinter.CTkFrame):
                                                                )
                         welcome_title.grid(row=0, column=0, padx=30, pady=50, sticky="ew")
 
-
                         parent_username, child_username = self.system_storage.get_parent_data(self.user.get_username())
                         (learner_username, learner_points, learner_rank,
                          percentage_completion) = self.system_storage.get_learner_progress(child_username)
@@ -347,3 +367,103 @@ class ParentFrame(customtkinter.CTkFrame):
                 messagebox.showerror("Linking Failed", "Child username does not exist. Please try again.")
         except sqlite3.IntegrityError:
             messagebox.showerror("Linking Failed", "The child username is already linked to another parent account.")
+
+    def show_support_frame(self):
+        """
+        Method to show the help and documentation frame
+        """
+        self.current_frame.place_forget()
+
+        # Support Frame
+        self.support_frame = customtkinter.CTkScrollableFrame(self.master)
+        self.support_frame.place(relx=0.2, rely=0, relwidth=0.8, relheight=1)
+        self.support_frame.configure(fg_color="#C2D3DF",
+                                     bg_color="#C2D3DF")
+
+        self.current_frame = self.support_frame
+
+        # Introduction frame
+        intro_frame = customtkinter.CTkFrame(self.support_frame,
+                                             corner_radius=20,
+                                             height=200,
+                                             fg_color="#6895B2",
+                                             )
+        intro_frame.grid(row=0, column=0, padx=30, pady=50, sticky="ew")
+
+        intro_title = customtkinter.CTkLabel(master=intro_frame,
+                                             text=f'CodeVenture Support & Learning Hub\n',
+                                             font=("Fixedsys", 24),
+                                             anchor="sw",
+                                             justify="left"
+                                             )
+        intro_title.grid(row=0, column=0, padx=30, pady=20, sticky="sw")
+
+        intro_message = customtkinter.CTkLabel(master=intro_frame,
+                                               text=f'Welcome to the CodeVenture Support & Learning Hub! 🌟\n'
+                                                    f'This page is your central destination for all the help, guidance, '
+                                                    f'and learning resources'
+                                                    f'you need to embark on \nan exciting journey '
+                                                    f'through the world of coding. '
+                                                    f'\nWhether you\'re a budding young coder,'
+                                                    f'a supportive parent, or an enthusiastic educator, \n'
+                                                    f'this hub is tailored to assist you every step of the way.',
+                                               anchor="nw",
+                                               justify="left"
+                                               )
+        intro_message.grid(row=1, column=0, padx=30, pady=10, sticky="nw")
+        controller_label = tk.Label(intro_frame,
+                                    image=self.dance_image,
+                                    borderwidth=0,
+                                    anchor="w",
+                                    bg="#6895B2")
+        controller_label.grid(row=0, rowspan=2, column=1, padx=20, pady=20, sticky="w")
+
+        # dashboard frame
+        dashboard_frame = customtkinter.CTkFrame(self.support_frame,
+                                                 corner_radius=20,
+                                                 height=200,
+                                                 fg_color="#FAFAFA",
+                                                 )
+        dashboard_frame.grid(row=1, column=0, padx=30, pady=20, sticky="ew")
+
+        dashboard_label = customtkinter.CTkLabel(dashboard_frame,
+                                                 text='(1) Dashboard',
+                                                 font=("Fixedsys", 24),
+                                                 text_color="#6895B2",
+                                                 anchor="sw",
+                                                 )
+        dashboard_label.grid(row=0, column=0, padx=30, pady=30, sticky="sw")
+
+        self.dashboard_image = tk.PhotoImage(file='images/dashboard_parent.png')
+        dashboard_label2 = tk.Label(dashboard_frame,
+                                    image=self.dashboard_image,
+                                    borderwidth=0,
+                                    anchor="w")
+        dashboard_label2.grid(row=1, rowspan=2, column=0, padx=20, pady=20, sticky="w")
+
+        dashboard_description = customtkinter.CTkLabel(dashboard_frame,
+                                                       text=f'Profile Section: \n\n'
+                                                            f'* Personal Details: See your name and unique username '
+                                                            f'prominently displayed.\n'
+                                                            f'* Role Recognition: Identify yourself as a dedicated '
+                                                            f'"Parent"\n'
+                                                            f'* Achievement Level: Track your child\'s progress and '
+                                                            f'accomplishments.\n\n'
+                                                            f'Progress Tracking:\n\n'
+                                                            f'* Visual Progress: Keep an eye on your child\'s '
+                                                            f'advancement through an progress bar.\n'
+                                                            f'* Completed Modules: View the number of modules your '
+                                                            f'child have'
+                                                            f' conquered, indicating their learning journey\'s '
+                                                            f'milestones.\n'
+                                                            f'* Quiz Scores: Observe your child\'s scores, gauging '
+                                                            f'their performance.\n'
+                                                            f'* Badge Showcase: Proudly exhibit badges earned by your '
+                                                            f'child from successfully completing challenges\n',
+                                                       font=("Fixedsys", 16),
+                                                       text_color="#6895B2",
+                                                       anchor="sw",
+                                                       justify="left"
+                                                       )
+
+        dashboard_description.grid(row=4, column=0, padx=30, pady=30, sticky="sw")
