@@ -102,7 +102,7 @@ class ParentFrame(customtkinter.CTkFrame):
                                                      anchor="w",
                                                      justify="left"
                                                      )
-            welcome_message.grid(row=1, column=0, padx=20, pady=0, sticky="nw")
+            welcome_message.grid(row=1, column=0, padx=30, pady=0, sticky="nw")
 
             add_child_button = customtkinter.CTkButton(master=self.welcome_frame,
                                                        text="Link Child\'s Account",
@@ -137,7 +137,7 @@ class ParentFrame(customtkinter.CTkFrame):
                                                      anchor="w",
                                                      justify="left"
                                                      )
-            welcome_message.grid(row=1, column=0, padx=20, pady=20, sticky="w")
+            welcome_message.grid(row=1, column=0, padx=30, pady=10, sticky="nw")
 
         """""""""""""""""""""""
         Profile frame section
@@ -293,9 +293,9 @@ class ParentFrame(customtkinter.CTkFrame):
                         # Recreate with child's progress once linked
                         self.welcome_frame = customtkinter.CTkFrame(self.parent_frame,
                                                                     corner_radius=20,
+                                                                    fg_color="#6895B2",
                                                                     height=200)
-
-                        self.welcome_frame.place(relx=0.05, y=100, relwidth=0.65)
+                        self.welcome_frame.grid(row=0, column=0, padx=30, pady=50, sticky="ew")
 
                         welcome_title = customtkinter.CTkLabel(master=self.welcome_frame,
                                                                text=f'Welcome Back, {self.user.get_firstname()}!',
@@ -303,29 +303,40 @@ class ParentFrame(customtkinter.CTkFrame):
                                                                anchor="w",
                                                                justify="left"
                                                                )
-                        welcome_title.grid(row=0, column=0, padx=20, pady=20, sticky="w")
+                        welcome_title.grid(row=0, column=0, padx=30, pady=50, sticky="ew")
+
 
                         parent_username, child_username = self.system_storage.get_parent_data(self.user.get_username())
                         (learner_username, learner_points, learner_rank,
                          percentage_completion) = self.system_storage.get_learner_progress(child_username)
 
                         welcome_message = customtkinter.CTkLabel(master=self.welcome_frame,
-                                                                 text=f'Your child is @{child_username} '
-                                                                      f'has completed '
-                                                                      f'{percentage_completion}% '
-                                                                      f'of their modules.\n',
-
+                                                                 text=f"Great news! Your child, @{child_username}, has been on "
+                                                                      f"an incredible learning journey and has successfully "
+                                                                      f"completed {percentage_completion}% of their modules!\n"
+                                                                      f"Isn't that amazing? It's a testament to their dedication "
+                                                                      f"and curiosity for knowledge.\n\n"
+                                                                      f"As their dedicated learning partner, you can "
+                                                                      f"continue to support "
+                                                                      f"and nurture their growth. Encourage them to explore new "
+                                                                      f"modules,\n tackle exciting challenges, and earn impressive "
+                                                                      f"badges. By working together, you can create a rich and "
+                                                                      f"rewarding learning \nexperience, full of fun and discovery."
+                                                                      f" So, let's keep the momentum going and embark on more "
+                                                                      f"educational adventures together!\n\n"
+                                                                      f"Stay excited, stay curious, and keep the love for learning "
+                                                                      f"alive! The sky's the limit for your child's potential.\n",
                                                                  anchor="w",
                                                                  justify="left"
                                                                  )
-                        welcome_message.grid(row=1, column=0, padx=20, pady=20, sticky="w")
+                        welcome_message.grid(row=1, column=0, padx=30, pady=10, sticky="nw")
 
                         # Add Child Username to Profile frame
                         child = customtkinter.CTkLabel(self.profile_frame,
                                                        text=f"@{child_username}",
                                                        font=("Arial", 14),
                                                        anchor="center")
-                        child.place(relx=0, y=560, relwidth=self.nav_bar.winfo_width())
+                        child.place(relx=0, y=560, relwidth=self.profile_frame.winfo_width())
 
                         # Update progress frame
                         self.progress_frame = ProgressTrackerFrame(self.parent_frame, child_user)

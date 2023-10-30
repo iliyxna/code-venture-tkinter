@@ -46,7 +46,9 @@ class SystemStorage:  # change to system storage later
                                 password TEXT,
                                 firstname TEXT,
                                 lastname TEXT,
-                                role TEXT
+                                role TEXT,
+                                security_question TEXT,
+                                answer TEXT
                                 )
                               '''
         # Execute the query
@@ -174,19 +176,52 @@ class SystemStorage:  # change to system storage later
                                 quiz_three_id INTEGER
                                 )
                                 '''
+        self.connection.execute(table_create_query)
+        self.connection.commit()
+
+        """
+        Table 10
+        """
+        table_create_query = '''CREATE TABLE IF NOT EXISTS Forum_Post
+                                        (
+                                        forum_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                        module_id INTEGER,
+                                        username TEXT,
+                                        user_role TEXT,
+                                        content TEXT,
+                                        date_posted TEXT
+                                        )
+                                        '''
 
         self.connection.execute(table_create_query)
         self.connection.commit()
 
-    def insert_user_data(self, user):
+        """
+        Table 11
+        """
+        table_create_query = '''CREATE TABLE IF NOT EXISTS Forum_Replies
+                                (
+                                reply_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                forum_id INTEGER,
+                                username TEXT,
+                                user_role TEXT,
+                                content TEXT,
+                                date_replied TEXT
+                                )
+                                '''
+
+        self.connection.execute(table_create_query)
+        self.connection.commit()
+
+    def insert_user_data(self, user, question, answer):
         """
         Query to insert user data into the User_Data and Learner_Progress table
         """
         self.cursor.execute('''
-                    INSERT INTO User_Data (username, password, firstname, lastname, role)
-                    VALUES (?, ?, ?, ?, ?)
+                    INSERT INTO User_Data (username, password, firstname, lastname, role, security_question, answer)
+                    VALUES (?, ?, ?, ?, ?, ? ,?)
                 ''', (
-            user.get_username(), user.get_password(), user.get_firstname(), user.get_lastname(), user.get_role()))
+            user.get_username(), user.get_password(), user.get_firstname(), user.get_lastname(), user.get_role(), question, answer))
         self.connection.commit()
 
         # update learner's progress
@@ -231,6 +266,59 @@ class SystemStorage:  # change to system storage later
             challenge.get_challenge_id(), challenge.get_user(), challenge.get_badge_award(),
             challenge.get_completion_date()))
         self.connection.commit()
+
+    def insert_forum_post(self, module_id, username, user_role, content, date_posted):
+        """
+        Query to link child's username to parent account
+        """
+        self.cursor.execute('''
+                            INSERT INTO Forum_Post (module_id, username, user_role, content, date_posted)
+                            VALUES (?, ?, ?, ?, ?)
+                            ''', (module_id, username, user_role, content, date_posted,))
+        self.connection.commit()
+
+    def insert_forum_reply(self, forum_id, username, user_role, content, date_replied):
+        """
+        Query to link child's username to parent account
+        """
+        self.cursor.execute('''
+                            INSERT INTO Forum_Replies (forum_id, username, user_role, content, date_replied)
+                            VALUES (?, ?, ?, ?, ?)
+                            ''', (forum_id, username, user_role, content, date_replied,))
+        self.connection.commit()
+
+    def get_forum_posts(self, module_id):
+        """
+        Query to posts for a module
+        """
+        self.cursor.execute('SELECT * FROM Forum_Post WHERE module_id = ?',
+                            (module_id, ))
+        user_data = self.cursor.fetchall()
+        if user_data:
+            return user_data
+        return None
+
+    def get_forum_id(self, module_id, username, content):
+        """
+        Query to posts for a module
+        """
+        self.cursor.execute('SELECT forum_id FROM Forum_Post WHERE module_id = ? AND username = ? AND content = ?',
+                            (module_id, username, content))
+        user_data = self.cursor.fetchone()[0]
+        if user_data:
+            return user_data
+        return None
+
+    def get_replies(self, forum_id):
+        """
+        Query to replies for a post
+        """
+        self.cursor.execute('SELECT * FROM Forum_Replies WHERE forum_id = ?',
+                            (forum_id, ))
+        user_data = self.cursor.fetchall()
+        if user_data:
+            return user_data
+        return None
 
     def get_user_completed_challenge(self, username, challenge_id):
         """
@@ -292,15 +380,15 @@ class SystemStorage:  # change to system storage later
         self.cursor.execute('SELECT * FROM User_Data WHERE username = ? AND password = ?', (username, password))
         user_data = self.cursor.fetchone()
         if user_data:
-            username, password, firstname, lastname, role = user_data
+            username, password, firstname, lastname, role, ques, ans = user_data
             if role == "Learner":
-                return Learner(username, password, firstname, lastname)
+                return Learner(username, password, firstname, lastname, ques, ans)
             elif role == "Parent":
-                return Parent(username, password, firstname, lastname)
+                return Parent(username, password, firstname, lastname, ques, ans)
             elif role == "Educator":
-                return Educator(username, password, firstname, lastname)
+                return Educator(username, password, firstname, lastname, ques, ans)
             elif role == "Admin":
-                return Administrator(username, password, firstname, lastname)
+                return Administrator(username, password, firstname, lastname, ques, ans)
         return None
 
     def get_user_by_username(self, username):
@@ -310,15 +398,15 @@ class SystemStorage:  # change to system storage later
         self.cursor.execute('SELECT * FROM User_Data WHERE username = ?', (username,))
         user_data = self.cursor.fetchone()
         if user_data:
-            username, password, firstname, lastname, role = user_data
+            username, password, firstname, lastname, role, ques, ans = user_data
             if role == "Learner":
-                return Learner(username, password, firstname, lastname)
+                return Learner(username, password, firstname, lastname, ques, ans)
             elif role == "Parent":
-                return Parent(username, password, firstname, lastname)
+                return Parent(username, password, firstname, lastname, ques, ans)
             elif role == "Educator":
-                return Educator(username, password, firstname, lastname)
+                return Educator(username, password, firstname, lastname, ques, ans)
             elif role == "Admin":
-                return Administrator(username, password, firstname, lastname)
+                return Administrator(username, password, firstname, lastname, ques, ans)
         return None
 
     def update_user_password(self, username, new_password):
@@ -453,9 +541,35 @@ class SystemStorage:  # change to system storage later
             return all_data
         return None
 
-    def count_num_learners(self):
+    def get_all_students(self):
         """
         Query to get the number of students
         """
-        # self.cursor.execute()
-        pass
+        self.cursor.execute("SELECT * FROM Learner_Progress")
+        students = self.cursor.fetchall()
+        if students:
+            return students
+        return None
+
+    def get_teaching_module(self, edu_name):
+        """
+        Query to get the teaching module incharge
+        """
+        self.cursor.execute("SELECT * FROM All_modules WHERE educator_username = ?",
+                            (edu_name,))
+        all_data = self.cursor.fetchone()
+        if all_data:
+            return all_data
+        return None
+
+    def get_students_completed(self, module_id):
+        """
+        Query to get the info of students that completed the module
+        """
+        self.cursor.execute("SELECT * FROM Module_Completion_Data WHERE module_id = ?",
+                            (module_id,))
+        all_data = self.cursor.fetchall()
+        if all_data:
+            return all_data
+        return None
+

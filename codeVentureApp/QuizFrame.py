@@ -139,6 +139,11 @@ class QuizFrame(customtkinter.CTkFrame):
 
             if self.user.get_answered_count() == 3:
                 # display outcome - correct / wrong
+                mark_completed = customtkinter.CTkFrame(self.module_frame, fg_color="white", corner_radius=5)
+                mark_completed.grid(row=0, column=1, padx=20, pady=5, sticky="se")
+                complete_label = customtkinter.CTkLabel(mark_completed, text="Completed", text_color="#223039")
+                complete_label.grid(row=0, column=0, padx=10, pady=5)
+
                 result_frame = customtkinter.CTkFrame(self,
                                                       fg_color="#6895B2")
                 result_frame.grid(row=9, column=0, padx=0, pady=30, sticky="sw")
@@ -156,7 +161,6 @@ class QuizFrame(customtkinter.CTkFrame):
                 result_str.grid(row=0, column=0, padx=20, pady=20, sticky="w")
                 result_button = customtkinter.CTkButton(result_frame, text="Back To Modules",
                                                         height=30,
-                                                        # font=("Cascadia Mono", 14),
                                                         fg_color="#435560",
                                                         command=self.window.destroy)
                 result_button.grid(row=0, column=1, padx=15, pady=15)

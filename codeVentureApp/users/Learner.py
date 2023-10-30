@@ -10,7 +10,7 @@ class Learner(UserAccount):
     """
     Learner class that extends the UserAccount class, representing the account for young learners.
     """
-    def __init__(self, username, password, firstname, lastname):
+    def __init__(self, username, password, firstname, lastname, ques, ans):
         """
         Init method for Learner class
         :param username: account username
@@ -27,6 +27,8 @@ class Learner(UserAccount):
         self.percentage_completion = 0.0
         self.current_module_score = 0
         self.answered_count = 0
+        self.ques = ques
+        self.ans = ans
 
     def get_points(self):
         """

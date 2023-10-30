@@ -7,7 +7,7 @@ class Educator(UserAccount):
     Educator class that extends the UserAccount class, representing the account for educators.
     """
 
-    def __init__(self, username, password, firstname, lastname):
+    def __init__(self, username, password, firstname, lastname, ques, ans):
         """
         Init method for Educator class
         :param username: account username
@@ -18,6 +18,8 @@ class Educator(UserAccount):
         super().__init__(username, password, firstname, lastname, "Educator")
         self.students = []
         self.modules = []
+        self.ques = ques
+        self.ans = ans
 
     def add_modules(self, module):
         """

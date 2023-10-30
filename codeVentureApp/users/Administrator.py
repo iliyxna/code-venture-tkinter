@@ -7,10 +7,11 @@ from codeVentureApp.utilities.Role import Role
 
 class Administrator(UserAccount):
     
-    def __init__(self, username, password, firstname, lastname):
+    def __init__(self, username, password, firstname, lastname, ques, ans):
         super().__init__(username, password, firstname, lastname, "Admin")
         self.permissions = []
-
+        self.ques = ques
+        self.ans = ans
 
     # def create_user(self):
     #     first_name = input("Enter user's first name: ")

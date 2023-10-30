@@ -8,6 +8,7 @@ class ProgressTrackerFrame(customtkinter.CTkFrame):
     """
     Class to display the learner's progress
     """
+
     def __init__(self, master, user):
         """
         Constructor
@@ -27,7 +28,9 @@ class ProgressTrackerFrame(customtkinter.CTkFrame):
 
         self.completed_modules = self.system_storage.get_learner_modules(self.user.get_username())
 
-        percentage = (len(self.completed_modules) / 10) * 100
+        percentage = 0.0
+        if self.completed_modules is not None:
+            percentage = (len(self.completed_modules) / 10) * 100
         self.user = self.system_storage.update_learner_percentage(self.user.get_username(), percentage)
 
         progress_label = customtkinter.CTkLabel(master=self,
@@ -77,22 +80,28 @@ class ProgressTrackerFrame(customtkinter.CTkFrame):
                                               corner_radius=10)
         module_frame.grid(row=1, column=0, padx=20, pady=10, sticky="ew")
 
-        for i in range(len(self.completed_modules)):
-            module = self.system_storage.get_module_data(self.completed_modules[i][0])
-            score = self.completed_modules[i][3]
+        if self.completed_modules is not None:
+            for i in range(len(self.completed_modules)):
+                module = self.system_storage.get_module_data(self.completed_modules[i][0])
+                score = self.completed_modules[i][3]
+                module_completed = customtkinter.CTkLabel(module_frame,
+                                                          text=f'Module ({module.get_module_id()}) '
+                                                               f'{module.get_module_name()}',
+                                                          font=("Calibri Bold", 14),
+                                                          text_color="white")
+                module_completed.grid(row=i, column=0, padx=20, pady=5, sticky="w")
 
+                score = customtkinter.CTkLabel(module_frame,
+                                               text=f'Score: {score} / 3',
+                                               text_color="#6895B2",
+                                               font=("Cascadia Code Bold", 14), )
+                score.grid(row=i, column=1, padx=20, pady=5, sticky="e")
+        else:
             module_completed = customtkinter.CTkLabel(module_frame,
-                                                      text=f'Module ({module.get_module_id()}) '
-                                                           f'{module.get_module_name()}',
+                                                      text=f'You have not attempted any modules yet.',
                                                       font=("Calibri Bold", 14),
                                                       text_color="white")
-            module_completed.grid(row=i, column=0, padx=20, pady=5, sticky="w")
-
-            score = customtkinter.CTkLabel(module_frame,
-                                           text=f'Score: {score} / 3',
-                                           text_color="#6895B2",
-                                           font=("Cascadia Code Bold", 14),)
-            score.grid(row=i, column=1, padx=20, pady=5, sticky="e")
+            module_completed.grid(row=0, column=0, padx=20, pady=5, sticky="w")
 
         # badges frame
         badges_frame = customtkinter.CTkFrame(self)
@@ -105,50 +114,57 @@ class ProgressTrackerFrame(customtkinter.CTkFrame):
                                              font=("Cascadia Mono Bold", 16))
         badge_title.grid(row=0, column=0, padx=10, sticky="w")
 
-        # badges display
-        for i in range(len(self.badge_earned_list)):
-            badge = self.badge_earned_list[i]
+        if self.badge_earned_list is not None:
+            # badges display
+            for i in range(len(self.badge_earned_list)):
+                badge = self.badge_earned_list[i]
 
-            if badge[2] == "Code Cadet":
-                badge_label = tk.Label(badges_frame,
-                                       image=self.badge_display_one,
-                                       borderwidth=0,
-                                       background="#FAFAFA"
+                if badge[2] == "Code Cadet":
+                    badge_label = tk.Label(badges_frame,
+                                           image=self.badge_display_one,
+                                           borderwidth=0,
+                                           background="#FAFAFA"
 
-                                       )
-                badge_label.grid(row=1, column=i, padx=20, pady=10)
+                                           )
+                    badge_label.grid(row=1, column=i, padx=20, pady=10)
 
-                earned_date = customtkinter.CTkLabel(badges_frame,
-                                                     text=f'Challenge 1 Completion\n'
-                                                          f'Date: {badge[3]}',
-                                                     text_color="#6895B2")
-                earned_date.grid(row=2, column=i, padx=20, pady=5)
+                    earned_date = customtkinter.CTkLabel(badges_frame,
+                                                         text=f'Challenge 1 Completion\n'
+                                                              f'Date: {badge[3]}',
+                                                         text_color="#6895B2")
+                    earned_date.grid(row=2, column=i, padx=20, pady=5)
 
-            elif badge[2] == "Junior Coder":
-                badge_label = tk.Label(badges_frame,
-                                       image=self.badge_display_two,
-                                       borderwidth=0,
-                                       background="#FAFAFA"
-                                       )
-                badge_label.grid(row=1, column=i, padx=20, pady=10)
+                elif badge[2] == "Junior Coder":
+                    badge_label = tk.Label(badges_frame,
+                                           image=self.badge_display_two,
+                                           borderwidth=0,
+                                           background="#FAFAFA"
+                                           )
+                    badge_label.grid(row=1, column=i, padx=20, pady=10)
 
-                earned_date = customtkinter.CTkLabel(badges_frame,
-                                                     text=f'Challenge 2 Completion\n'
-                                                          f'Date: {badge[3]}',
-                                                     text_color="#6895B2")
-                earned_date.grid(row=2, column=i, padx=20, pady=5)
+                    earned_date = customtkinter.CTkLabel(badges_frame,
+                                                         text=f'Challenge 2 Completion\n'
+                                                              f'Date: {badge[3]}',
+                                                         text_color="#6895B2")
+                    earned_date.grid(row=2, column=i, padx=20, pady=5)
 
-            elif badge[2] == "Logic Master":
-                badge_label = tk.Label(badges_frame,
-                                       image=self.badge_display_three,
-                                       borderwidth=0,
-                                       background="#FAFAFA"
-                                       )
-                badge_label.grid(row=1, column=i, padx=20, pady=10)
+                elif badge[2] == "Logic Master":
+                    badge_label = tk.Label(badges_frame,
+                                           image=self.badge_display_three,
+                                           borderwidth=0,
+                                           background="#FAFAFA"
+                                           )
+                    badge_label.grid(row=1, column=i, padx=20, pady=10)
 
-                earned_date = customtkinter.CTkLabel(badges_frame,
-                                                     text=f'Challenge 3 Completion\n'
-                                                          f'Date: {badge[3]}',
-                                                     text_color="#6895B2")
-                earned_date.grid(row=2, column=i, padx=20, pady=5)
-
+                    earned_date = customtkinter.CTkLabel(badges_frame,
+                                                         text=f'Challenge 3 Completion\n'
+                                                              f'Date: {badge[3]}',
+                                                         text_color="#6895B2")
+                    earned_date.grid(row=2, column=i, padx=20, pady=5)
+        else:
+            badge_label = customtkinter.CTkLabel(badges_frame,
+                                                 text="No badges earned yet. "
+                                                      "Take part in Challenges to show-off your badges!",
+                                                 text_color="#6895B2"
+                                                 )
+            badge_label.grid(row=1, column=0, padx=20, pady=10)
