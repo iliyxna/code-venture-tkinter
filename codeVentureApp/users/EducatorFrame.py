@@ -8,6 +8,9 @@ from codeVentureApp.SystemStorage import SystemStorage
 
 
 class EducatorFrame(customtkinter.CTkFrame):
+    """
+    Educator Frame class
+    """
     def __init__(self, master, login_frame, user):
         """
         Constructor
@@ -128,20 +131,6 @@ class EducatorFrame(customtkinter.CTkFrame):
                                                     fg_color="white")
 
         self.summary_frame.grid(row=1, column=0, padx=30, pady=20, sticky="ew")
-
-        # class_summary_label = customtkinter.CTkLabel(master=self.summary_frame,
-        #                                              text='Class Overview',
-        #                                              font=("Fixedsys", 23),
-        #                                              anchor="w",
-        #                                              justify="left",
-        #                                              text_color="#6895B2"
-        #                                              )
-        # class_summary_label.grid(row=0, column=0, padx=20, pady=20, sticky="w")
-
-        # all_students_frame = customtkinter.CTkFrame(master=self.summary_frame,
-        #                                             corner_radius=20,
-        #                                             fg_color="#FAFAFA")
-        # all_students_frame.grid(row=0, column=0, padx=30, pady=50, sticky="ew")
 
         welcome_title = customtkinter.CTkLabel(master=self.summary_frame,
                                                text=f'Students Overview',
@@ -390,6 +379,9 @@ class EducatorFrame(customtkinter.CTkFrame):
             new_post_entry.grid(row=1, column=0, padx=20, pady=10, sticky="ew")
 
             def submit_post():
+                """
+                Method to submit a post
+                """
                 response = messagebox.askyesno("Confirmation", "Are you sure you want to submit this post?")
 
                 if response:

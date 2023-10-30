@@ -10,7 +10,6 @@ class QuizFrame(customtkinter.CTkFrame):
     """
     Each quiz will be a tiny frame
     """
-
     def __init__(self, window, master, quiz_id, user, module_id, module_frame):
         """
         Constructor
@@ -33,8 +32,9 @@ class QuizFrame(customtkinter.CTkFrame):
         self.score = user.get_current_module_score()
         self.answered_count = user.get_answered_count()
 
-        self.radio_buttons = []
+        self.radio_buttons = []     # MCQ question options
 
+        # Unpack data
         self.quiz = self.system_storage.get_quiz_data(quiz_id)
         question = self.quiz.get_question()
         solution = self.quiz.get_solution()
@@ -120,7 +120,7 @@ class QuizFrame(customtkinter.CTkFrame):
                                     fg_color="#CB4C4C")
                 ans_frame.grid(row=8, column=0, padx=5, pady=10, sticky="w")
 
-                self.user.increment_answered()
+                self.user.increment_answered()      # to check if all questions have been answered
                 result_label = customtkinter.CTkLabel(ans_frame,
                                                       text=f'Your answer is incorrect. The correct answer is: \n'
                                                            f'{solution}\n\n Explanation: {self.quiz.get_explanation()}',

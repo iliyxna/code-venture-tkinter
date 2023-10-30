@@ -3,8 +3,8 @@ from tkinter import messagebox
 
 import customtkinter
 
-from codeVentureApp.RegisterFrame import RegisterFrame
-from codeVentureApp.LoginFrame import LoginFrame
+from codeVentureApp.system.RegisterFrame import RegisterFrame
+from codeVentureApp.system.LoginFrame import LoginFrame
 
 
 class MainApplication(customtkinter.CTk):

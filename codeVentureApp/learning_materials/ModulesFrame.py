@@ -4,15 +4,14 @@ from tkinter import messagebox
 import customtkinter
 import tkinter as tk
 
-from codeVentureApp.QuizFrame import QuizFrame
+from codeVentureApp.learning_materials.QuizFrame import QuizFrame
 from codeVentureApp.SystemStorage import SystemStorage
 
 
 class ModuleFrame(customtkinter.CTkFrame):
     """
-    Each module will be a tiny frame
+    Class that represents each module as a card
     """
-
     def __init__(self, master, module_id, user, learner_dashboard):
         """
         Constructor
@@ -314,6 +313,9 @@ class ModuleFrame(customtkinter.CTkFrame):
             new_post_entry.grid(row=1, column=0, padx=20, pady=10, sticky="ew")
 
             def submit_post():
+                """
+                Method to submit post
+                """
                 response = messagebox.askyesno("Confirmation", "Are you sure you want to submit this post?")
 
                 if response:

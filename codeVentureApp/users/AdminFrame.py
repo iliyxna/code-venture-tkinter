@@ -11,7 +11,13 @@ from codeVentureApp.users.Parent import Parent
 
 
 class AdminFrame(customtkinter.CTkFrame):
+    """
+    Class for Admin Frame
+    """
     def __init__(self, master, login_frame, user):
+        """
+        Constructor
+        """
         super().__init__(master=master)
         self.configure(fg_color="transparent")
         self.master = master
@@ -211,6 +217,9 @@ class AdminFrame(customtkinter.CTkFrame):
         self.login_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
     def create_account(self):
+        """
+        Method to create a user account
+        """
         self.current_frame.place_forget()
         entry_widget_list = []
 

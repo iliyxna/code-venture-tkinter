@@ -10,7 +10,6 @@ class PasswordRecoveryFrame(customtkinter.CTkFrame):
     """
     Class to display for password recovery
     """
-
     def __init__(self, master, login_frame):
         """
         Constructor

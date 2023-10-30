@@ -1,4 +1,0 @@
-Revision document:
-
-No new requirements added/modified.
-Only improved our code based on the peer feedback.

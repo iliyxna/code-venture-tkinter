@@ -2,15 +2,21 @@ import customtkinter
 import tkinter as tk
 from tkinter import messagebox
 
-from codeVentureApp.ModulesFrame import ModuleFrame
-from codeVentureApp.ChallengeFrame import ChallengeFrame
-from codeVentureApp.ProgressTrackerFrame import ProgressTrackerFrame
+from codeVentureApp.learning_materials.ModulesFrame import ModuleFrame
+from codeVentureApp.learning_materials.ChallengeFrame import ChallengeFrame
+from codeVentureApp.utilities.ProgressTrackerFrame import ProgressTrackerFrame
 from codeVentureApp.SystemStorage import SystemStorage
 from codeVentureApp.utilities.Rank import Rank
 
 
 class LearnerFrame(customtkinter.CTkFrame):
+    """
+    Learner Frame Class
+    """
     def __init__(self, master, login_frame, user):
+        """
+        Constructor
+        """
         super().__init__(master=master)
         self.configure(fg_color="transparent")
         self.master = master

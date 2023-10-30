@@ -1,0 +1,4 @@
+Revision document:
+
+No new requirements added/modified. G06 did not request for change of requirements.
+Only improved our code based on the peer feedback.

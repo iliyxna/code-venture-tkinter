@@ -1,4 +1,4 @@
-from codeVentureApp.PasswordRecoveryFrame import PasswordRecoveryFrame
+from codeVentureApp.system.PasswordRecoveryFrame import PasswordRecoveryFrame
 from codeVentureApp.users.AdminFrame import AdminFrame
 from codeVentureApp.users.EducatorFrame import EducatorFrame
 from codeVentureApp.users.LearnerFrame import LearnerFrame
@@ -125,7 +125,6 @@ class LoginFrame(customtkinter.CTkFrame):
 
         # user = self.system_storage.get_user(username, password)
         user = self.user_storage.get_user(username, password)
-        # temporary, modify later
 
         if user is not None:
             self.user = user

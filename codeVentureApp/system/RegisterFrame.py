@@ -12,6 +12,9 @@ from codeVentureApp.SystemStorage import SystemStorage
 
 
 class RegisterFrame(customtkinter.CTkFrame):
+    """
+    Class for user registration
+    """
     def __init__(self, master):
         """
         Constructor
@@ -246,10 +249,10 @@ class RegisterFrame(customtkinter.CTkFrame):
 
         # debugging purposes
         # Add the user to the storage
-        if self.user_storage.get_user_by_username(user.get_username()) is not None:
-            print(user)
-        else:
-            print("NOT ADDED TO LIST")
+        # if self.user_storage.get_user_by_username(user.get_username()) is not None:
+        #     print(user)
+        # else:
+        #     print("NOT ADDED TO LIST")
 
         # Show a success message
         messagebox.showinfo("Registration Successful", "User registration successful!")

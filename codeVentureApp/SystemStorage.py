@@ -24,8 +24,9 @@ class SystemStorage:  # change to system storage later
     7) Table that stores the challenges
     8) Table that stores the quizzes
     9) Table that stores the tutorials
+    10) Table that stores the forum posts
+    11) Table that stores the forum replies
     """
-
     def __init__(self):
         """
         Constructor

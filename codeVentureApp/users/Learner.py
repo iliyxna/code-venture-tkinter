@@ -1,6 +1,3 @@
-from codeVentureApp.learning_materials.ChallengeManager import ChallengeManager
-from codeVentureApp.learning_materials.ModuleManager import ModuleManager
-from codeVentureApp.rewards.Points import Points
 from codeVentureApp.users.UserAccount import UserAccount
 from codeVentureApp.utilities.ProgressTracker import ProgressTracker
 from codeVentureApp.utilities.Rank import Rank
@@ -19,23 +16,13 @@ class Learner(UserAccount):
         :param lastname: learner's last name
         """
         super().__init__(username, password, firstname, lastname, "Learner")
-        self.points = Points(0)
         self.rank = Rank.NOVICE
         self.progress = ProgressTracker(self.get_rank())
-        self.module_manager = ModuleManager()
-        self.challenge_manager = ChallengeManager()
         self.percentage_completion = 0.0
         self.current_module_score = 0
         self.answered_count = 0
         self.ques = ques
         self.ans = ans
-
-    def get_points(self):
-        """
-        Getter method for user points
-        :return: the number of points the user has
-        """
-        return self.points.get_point_value()
 
     def get_rank(self):
         """
@@ -50,18 +37,6 @@ class Learner(UserAccount):
         :return: the progress tracker of the user
         """
         return self.progress
-
-    def get_module_manager(self):
-        """
-        :return:
-        """
-        return self.module_manager
-
-    def get_challenge_manager(self):
-        """
-        :return:
-        """
-        return self.challenge_manager
 
     def update_progress(self, module=None, challenge=None):
         """
@@ -83,18 +58,33 @@ class Learner(UserAccount):
         return progress_tracker
 
     def get_percentage_completion(self):
+        """
+        Get
+        """
         return self.get_progress_tracker().calculate_progress_percentage()
 
     def get_current_module_score(self):
+        """
+        Get current module score
+        """
         return self.current_module_score
 
     def increment_score(self):
+        """
+        Increment the score by one
+        """
         self.current_module_score += 1
 
     def get_answered_count(self):
+        """
+        Method to get the number of answered questions
+        """
         return self.answered_count
 
     def increment_answered(self):
+        """
+        Method to increment the number of answered questions
+        """
         self.answered_count += 1
 
     def __str__(self):

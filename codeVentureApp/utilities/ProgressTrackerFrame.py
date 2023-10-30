@@ -21,14 +21,17 @@ class ProgressTrackerFrame(customtkinter.CTkFrame):
 
         self.system_storage = SystemStorage()
 
-        self.badge_display_one = tk.PhotoImage(file='images/badge1.png')
-        self.badge_display_two = tk.PhotoImage(file='images/badge2.png')
-        self.badge_display_three = tk.PhotoImage(file='images/badge3.png')
-        self.badge_earned_list = self.system_storage.get_learner_badge(self.user.get_username())
+        # Badges
+        self.badge_display_one = tk.PhotoImage(file='../images/badge1.png')
+        self.badge_display_two = tk.PhotoImage(file='../images/badge2.png')
+        self.badge_display_three = tk.PhotoImage(file='../images/badge3.png')
 
+        # Retrieve user's earned badges and completed modules
+        self.badge_earned_list = self.system_storage.get_learner_badge(self.user.get_username())
         self.completed_modules = self.system_storage.get_learner_modules(self.user.get_username())
 
         percentage = 0.0
+
         if self.completed_modules is not None:
             percentage = (len(self.completed_modules) / 10) * 100
         self.user = self.system_storage.update_learner_percentage(self.user.get_username(), percentage)

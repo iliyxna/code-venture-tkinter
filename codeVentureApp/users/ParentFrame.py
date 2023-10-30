@@ -4,12 +4,18 @@ import customtkinter
 import tkinter as tk
 from tkinter import messagebox
 
-from codeVentureApp.ProgressTrackerFrame import ProgressTrackerFrame
+from codeVentureApp.utilities.ProgressTrackerFrame import ProgressTrackerFrame
 from codeVentureApp.SystemStorage import SystemStorage
 
 
 class ParentFrame(customtkinter.CTkFrame):
+    """
+    Parent Frame Class
+    """
     def __init__(self, master, login_frame, user):
+        """
+        Constructor
+        """
         super().__init__(master=master)
         self.configure(fg_color="transparent")
         self.master = master

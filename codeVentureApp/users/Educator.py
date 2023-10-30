@@ -1,12 +1,10 @@
 from codeVentureApp.users.UserAccount import UserAccount
-from codeVentureApp.utilities.Role import Role
 
 
 class Educator(UserAccount):
     """
     Educator class that extends the UserAccount class, representing the account for educators.
     """
-
     def __init__(self, username, password, firstname, lastname, ques, ans):
         """
         Init method for Educator class
@@ -70,41 +68,3 @@ class Educator(UserAccount):
                f"Educator's username : {self.username}\n" \
                f"Current students: \n\n{student_list}"
 
-    @staticmethod
-    def educator_menu():
-        """
-        Prints the menu options for the educator user
-        """
-        print("You have the following options:")
-        print("\t1. View profile")
-        print("\t2. View modules")
-        print("\t3. View student progress")
-        print("\t4. View class progress")
-        print("\t5. Add personalised support")
-        print("\t6. Log out\n")
-
-    @staticmethod
-    def educator_main(user):
-        while True:
-            Educator.educator_menu()
-            print()
-            user_input = input("Please enter a menu option: ")
-            if user_input == "1":
-                print(user)
-            elif user_input == "2":
-                print("Viewing modules...")
-            elif user_input == "3":
-                print("Viewing student progress...")
-            elif user_input == "4":
-                print("Viewing class progress...")
-            elif user_input == "5":
-                print("Add Personalised support...")
-            elif user_input == "6":
-                # Log out
-                print("Logging out...")
-                break
-            else:
-                print("You have not entered a valid menu option. Please try again.\n")
-
-        print("Thank you for using the CodeVenture")
-        print("Hope to see you again soon.")

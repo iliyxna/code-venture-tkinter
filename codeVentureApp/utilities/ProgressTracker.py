@@ -1,41 +1,67 @@
-from codeVentureApp.learning_materials.ChallengeManager import ChallengeManager
-from codeVentureApp.learning_materials.ModuleManager import ModuleManager
+
 from codeVentureApp.utilities.Rank import Rank
 
 
 class ProgressTracker:
-
+    """
+    Progress Tracker class
+    """
     def __init__(self, rank):
+        """
+        Constructor
+        """
         self.badges_earned = []
         self.modules_completed = []
-        self.module_manager = ModuleManager()
         self.challenge_completed = []
-        self.challenge_manager = ChallengeManager()
         self.rank = rank
         self.recommended_modules = []
 
     def get_rank(self):
+        """
+        Get user rank
+        """
         return self.rank
 
     def get_badges_earned(self):
+        """
+        Get badges earned
+        """
         return self.badges_earned
 
     def get_modules_completed(self):
+        """
+        Get modules completed
+        """
         return self.modules_completed
 
     def get_challenges_completed(self):
+        """
+        Get challenges completed
+        """
         return self.challenge_completed
 
     def update_badges_earned(self, badge):
+        """
+        Update badges earned
+        """
         self.badges_earned.append(badge)
 
     def update_completed_modules(self, module):
+        """
+        Update completed modules
+        """
         self.modules_completed.append(module)
 
     def update_completed_challenges(self, module):
+        """
+        Update completed challenges
+        """
         self.challenge_completed.append(module)
 
     def calculate_progress_percentage(self):
+        """
+        Calculate progress percentage
+        """
         total_modules = 2
         completed_modules = len(self.modules_completed)
         if total_modules == 0:
@@ -43,10 +69,16 @@ class ProgressTracker:
         return (completed_modules / total_modules) * 100
 
     def display_progress(self):
+        """
+        Display progress
+        """
         progress_percentage = self.calculate_progress_percentage()
         return f"Your progress of module completion is {progress_percentage:.2f}% Keep going!"
 
     def update_rank(self):
+        """
+        Method to update the rank
+        """
         progress_percentage = self.calculate_progress_percentage()
 
         if progress_percentage >= 80:
