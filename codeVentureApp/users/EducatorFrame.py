@@ -276,7 +276,7 @@ class EducatorFrame(customtkinter.CTkFrame):
                                                 fg_color="#4E6F86",
                                                 anchor="center"
                                                 )
-        username_label.place(relx=0, y=455, relwidth=self.nav_bar.winfo_width())
+        username_label.place(relx=0, y=455, relwidth=self.profile_frame.winfo_width())
 
         username = customtkinter.CTkLabel(self.profile_frame,
                                           text=f"@{self.user.get_username()}",
@@ -475,7 +475,7 @@ class EducatorFrame(customtkinter.CTkFrame):
                     post.grid(row=self.current_row, column=0, padx=30, pady=10, sticky="new")
 
                     username = customtkinter.CTkLabel(post,
-                                                      text=f'@{p_username} (Educator)',
+                                                      text=f'@{p_username} ({p_role})',
                                                       text_color="white",
                                                       font=("Calibri Bold", 16))
                     username.grid(row=0, column=0, padx=20, pady=5, sticky="sw")

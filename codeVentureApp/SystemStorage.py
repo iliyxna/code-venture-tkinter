@@ -86,7 +86,7 @@ class SystemStorage:  # change to system storage later
         """
         table_create_query = '''CREATE TABLE IF NOT EXISTS Module_Completion_Data
                                 (
-                                module_id INTEGER UNIQUE,
+                                module_id INTEGER,
                                 username TEXT,
                                 completion_date TEXT,
                                 score INTEGER
@@ -221,7 +221,8 @@ class SystemStorage:  # change to system storage later
                     INSERT INTO User_Data (username, password, firstname, lastname, role, security_question, answer)
                     VALUES (?, ?, ?, ?, ?, ? ,?)
                 ''', (
-            user.get_username(), user.get_password(), user.get_firstname(), user.get_lastname(), user.get_role(), question, answer))
+            user.get_username(), user.get_password(), user.get_firstname(), user.get_lastname(), user.get_role(),
+            question, answer))
         self.connection.commit()
 
         # update learner's progress
@@ -292,7 +293,7 @@ class SystemStorage:  # change to system storage later
         Query to posts for a module
         """
         self.cursor.execute('SELECT * FROM Forum_Post WHERE module_id = ?',
-                            (module_id, ))
+                            (module_id,))
         user_data = self.cursor.fetchall()
         if user_data:
             return user_data
@@ -314,7 +315,7 @@ class SystemStorage:  # change to system storage later
         Query to replies for a post
         """
         self.cursor.execute('SELECT * FROM Forum_Replies WHERE forum_id = ?',
-                            (forum_id, ))
+                            (forum_id,))
         user_data = self.cursor.fetchall()
         if user_data:
             return user_data
@@ -573,3 +574,12 @@ class SystemStorage:  # change to system storage later
             return all_data
         return None
 
+    def get_all_modules(self):
+        """
+        Query to get all the modules
+        """
+        self.cursor.execute("SELECT * FROM All_Modules")
+        all_modules = self.cursor.fetchall()
+        if all_modules:
+            return all_modules
+        return None

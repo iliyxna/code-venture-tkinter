@@ -30,6 +30,16 @@ class LearnerFrame(customtkinter.CTkFrame):
         (self.username, self.points,
          self.rank, self.percentage_completion) = self.system_storage.get_learner_progress(self.user.get_username())
 
+        # attributes for support frame images
+        self.recommendation_image = None
+        self.badge_doc_image = None
+        self.challenge_image = None
+        self.quiz_image = None
+        self.tutorial_image = None
+        self.module_image = None
+        self.dashboard_image = None
+        self.support_frame = None
+
         """""""""""""""""""""""""""
         SIDE NAVIGATION BAR FRAME
         """""""""""""""""""""""""""
@@ -83,9 +93,9 @@ class LearnerFrame(customtkinter.CTkFrame):
                                                    )
         challenge_option.place(relx=0, rely=0.45, relwidth=self.nav_bar.winfo_width())  # Centered vertically
 
-        # Help and Documentation BUTTON
+        # SUPPORT DESK BUTTON
         help_option = customtkinter.CTkButton(self.nav_bar,
-                                              text="Support Hub",
+                                              text="Support Desk",
                                               height=30,
                                               fg_color="transparent",
                                               hover_color="#878787",
@@ -94,7 +104,7 @@ class LearnerFrame(customtkinter.CTkFrame):
                                               )
         help_option.place(relx=0, rely=0.55, relwidth=self.nav_bar.winfo_width())  # Centered vertically
 
-        # Log out BUTTON
+        # LOGOUT BUTTON
         logout = customtkinter.CTkButton(self.nav_bar,
                                          text="Sign Out",
                                          height=30,
@@ -164,6 +174,45 @@ class LearnerFrame(customtkinter.CTkFrame):
         self.progress_frame = ProgressTrackerFrame(self.learner_frame, self.user)
         self.progress_frame.grid(row=1, column=0, padx=30, pady=20, sticky="ew")
         # self.progress_frame.place(relx=0.05, y=320, relwidth=0.65)
+
+        """""""""""""""
+        Recommendation Frame
+        """""""""""""""
+        # Retrieve all modules and completed modules from the database
+        self.all_modules = self.system_storage.get_all_modules()
+        self.completed_modules = self.system_storage.get_learner_modules(self.user.get_username())
+
+        self.next_module = None
+
+        if self.completed_modules is not None:
+            # Find the first uncompleted module
+            for module in self.all_modules:
+                # Check if the module ID is not in the completed modules
+                if module[0] not in [completed[0] for completed in self.completed_modules]:
+                    # If the module is not in completed modules, mark it as the next module
+                    self.next_module = module
+                    break
+        else:
+            self.next_module = self.all_modules[0]
+
+        if self.next_module is not None:
+            self.recommend_frame = customtkinter.CTkFrame(master=self.learner_frame,
+                                                          fg_color="#FAFAFA",
+                                                          corner_radius=20)
+
+            self.recommend_frame.grid(row=2, column=0, padx=30, pady=20, sticky="ew")
+
+            recommendation_label = customtkinter.CTkLabel(self.recommend_frame,
+                                                          text='Recommended Module',
+                                                          font=("Fixedsys", 24),
+                                                          text_color="#6895B2",
+                                                          anchor="w",
+                                                          )
+            recommendation_label.grid(row=0, column=0, padx=30, pady=20, sticky="w")
+
+            next_module_frame = ModuleFrame(self.recommend_frame, self.next_module[0], self.user, True)
+            next_module_frame.grid(row=1, column=0, padx=30, pady=10, sticky="new")
+
 
         """""""""""""""""""""""
         Profile frame section
@@ -278,6 +327,9 @@ class LearnerFrame(customtkinter.CTkFrame):
         if self.challenge_frame is not None:
             self.challenge_frame.place_forget()
 
+        if self.support_frame is not None:
+            self.support_frame.place_forget()
+
         self.login_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
     def confirm_logout(self):
@@ -300,11 +352,52 @@ class LearnerFrame(customtkinter.CTkFrame):
         if self.challenge_frame is not None:
             self.challenge_frame.place_forget()
 
+        if self.support_frame is not None:
+            self.support_frame.place_forget()
+
+        if self.recommend_frame is not None:
+            self.recommend_frame.place_forget()
+
         self.current_frame = self.learner_frame
         self.learner_frame.place(relx=0.2, rely=0, relwidth=0.6, relheight=1)
         self.progress_frame = ProgressTrackerFrame(self.learner_frame, self.user)
         self.progress_frame.grid(row=1, column=0, padx=30, pady=20, sticky="ew")
         self.welcome_frame.grid(row=0, column=0, padx=30, pady=50, sticky="ew")
+
+        # Retrieve all modules and completed modules from the database
+        self.all_modules = self.system_storage.get_all_modules()
+        self.completed_modules = self.system_storage.get_learner_modules(self.user.get_username())
+
+        self.next_module = None
+
+        # Find the first uncompleted module
+        if self.completed_modules is not None:
+            for module in self.all_modules:
+                # Check if the module ID is not in the completed modules
+                if module[0] not in [completed[0] for completed in self.completed_modules]:
+                    # If the module is not in completed modules, mark it as the next module
+                    self.next_module = module
+                    break
+        else:
+            self.next_module = self.all_modules[0]
+
+        if self.next_module is not None:
+            self.recommend_frame = customtkinter.CTkFrame(master=self.learner_frame,
+                                                          fg_color="#FAFAFA",
+                                                          corner_radius=20)
+
+            self.recommend_frame.grid(row=2, column=0, padx=30, pady=20, sticky="ew")
+
+            recommendation_label = customtkinter.CTkLabel(self.recommend_frame,
+                                                          text='Recommended Module',
+                                                          font=("Fixedsys", 24),
+                                                          text_color="#6895B2",
+                                                          anchor="w",
+                                                          )
+            recommendation_label.grid(row=0, column=0, padx=30, pady=20, sticky="w")
+
+            next_module_frame = ModuleFrame(self.recommend_frame, self.next_module[0], self.user, True)
+            next_module_frame.grid(row=1, column=0, padx=30, pady=10, sticky="new")
 
     def show_modules_frame(self):
         """
@@ -377,7 +470,7 @@ class LearnerFrame(customtkinter.CTkFrame):
         select_label.grid(row=0, column=0, padx=30, pady=30, sticky="sw")
 
         for i in range(10):
-            module_frame = ModuleFrame(selection_frame, i, self.user)
+            module_frame = ModuleFrame(selection_frame, i, self.user, False)
             module_frame.grid(row=i + 1, column=0, padx=30, pady=10, sticky="new")
 
     def show_challenges_frame(self):
@@ -388,6 +481,9 @@ class LearnerFrame(customtkinter.CTkFrame):
 
         if self.modules_frame is not None:
             self.modules_frame.place_forget()
+
+        if self.support_frame is not None:
+            self.support_frame.place_forget()
 
         # Challenge Frame
         self.challenge_frame = customtkinter.CTkScrollableFrame(self.master)
@@ -560,6 +656,24 @@ class LearnerFrame(customtkinter.CTkFrame):
                                                        )
 
         dashboard_description.grid(row=4, column=0, padx=30, pady=30, sticky="sw")
+        self.recommendation_image = tk.PhotoImage(file='images/recommendations.png')
+        dashboard_label3 = tk.Label(dashboard_frame,
+                                    image=self.recommendation_image,
+                                    borderwidth=0,
+                                    anchor="w")
+        dashboard_label3.grid(row=5, rowspan=2, column=0, padx=20, pady=20, sticky="w")
+
+        dashboard_description2 = customtkinter.CTkLabel(dashboard_frame,
+                                                        text=f'Recommended Module Section : \n\n'
+                                                             f'* This section is to recommend you the most relevant '
+                                                             f'and beneficial module based on your learning journey',
+                                                        font=("Fixedsys", 16),
+                                                        text_color="#6895B2",
+                                                        anchor="sw",
+                                                        justify="left"
+                                                        )
+
+        dashboard_description2.grid(row=9, column=0, padx=30, pady=30, sticky="sw")
 
         # Module frame
         module_frame = customtkinter.CTkFrame(self.support_frame,

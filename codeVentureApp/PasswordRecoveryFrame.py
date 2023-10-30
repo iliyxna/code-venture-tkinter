@@ -149,6 +149,7 @@ class PasswordRecoveryFrame(customtkinter.CTkFrame):
                 # self.system_storage.update_user_password(username, new_password)
                 self.user_storage.update_user_password(username, new_password)
                 messagebox.showinfo("Password Reset", "Password has been reset.")
+                self.clear_entries()
                 self.back_to_main()
             else:
                 messagebox.showerror("User Not Found", "User not found. Please ensure your username is correct.")
@@ -166,3 +167,5 @@ class PasswordRecoveryFrame(customtkinter.CTkFrame):
         """
         for entry in self.entry_widget_list:
             entry.delete(0, tk.END)
+
+        self.ques_entry.set("Select Your Security Question")

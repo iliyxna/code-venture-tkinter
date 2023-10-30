@@ -235,10 +235,10 @@ class RegisterFrame(customtkinter.CTkFrame):
         else:
             print(f'Selected role: {role}')
             if role == "Learner":
-                user = Learner(username, password, first_name, last_name)
+                user = Learner(username, password, first_name, last_name, sec_ques, sec_ans)
                 self.user_storage.insert_user_data(user, sec_ques, sec_ans)
             elif role == "Parent":
-                user = Parent(username, password, first_name, last_name)
+                user = Parent(username, password, first_name, last_name, sec_ques, sec_ans)
                 self.user_storage.insert_user_data(user, sec_ques, sec_ans)
             else:
                 messagebox.showerror("Role Error", "Invalid role selection.")
