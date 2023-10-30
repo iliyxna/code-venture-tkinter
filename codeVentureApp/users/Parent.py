@@ -7,7 +7,7 @@ class Parent(UserAccount):
     Parent class that extends the UserAccount class, representing the account for parents.
     """
 
-    def __init__(self, username, password, firstname, lastname):
+    def __init__(self, username, password, firstname, lastname, ques, ans):
         """
         Init method for Parent class
         :param username: account username
@@ -18,6 +18,8 @@ class Parent(UserAccount):
         """
         super().__init__(username, password, firstname, lastname, "Parent")
         self.child_username = None
+        self.ques = ques
+        self.ans = ans
 
     def view_child_progress(self):
         """

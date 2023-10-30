@@ -3,16 +3,20 @@ from codeVentureApp.utilities.Status import Status
 
 
 class Module:
-    def __init__(self, id, module_name, intro, award_points, tutorials, quizzes, module_level):
+    def __init__(self, id, educator, module_name, intro, award_points, tutorial_id, module_level):
         self.module_name = module_name
         self.id = id
+        self.educator = educator
         self.intro = intro
         self.award_points = Points(award_points)
-        self.tutorials = tutorials
-        self.quizzes = quizzes
+        self.tutorial_id = tutorial_id
+
         self.completion_status = Status.NOT_STARTED
         self.discussion_forum = None
         self.module_level = module_level
+
+    def get_module_id(self):
+        return self.id
 
     def get_module_name(self):
         return self.module_name
@@ -23,8 +27,8 @@ class Module:
     def get_award_points(self):
         return self.award_points
 
-    def get_tutorials(self):
-        return self.tutorials
+    def get_tutorial_id(self):
+        return self.tutorial_id
 
     def get_quizzes(self):
         return self.quizzes
@@ -34,9 +38,6 @@ class Module:
 
     def get_level(self):
         return self.module_level
-
-    def add_tutorial(self, tutorial):
-        self.tutorials.append(tutorial)
 
     def add_quiz(self, quiz):
         self.quizzes.append(quiz)

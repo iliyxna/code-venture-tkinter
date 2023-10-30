@@ -56,7 +56,7 @@ class RegisterFrame(customtkinter.CTkFrame):
         # Label to ask user for Username
         lastname_label = customtkinter.CTkLabel(master=self, text="Last Name: ",
                                                 text_color="#6895B2",
-                                                font=("Cascadia Mono Bold",14))
+                                                font=("Cascadia Mono Bold", 14))
         lastname_label.grid(row=3, column=0, sticky=tk.E, padx=10, pady=10)
         # Variable and input widget for username
         self.lastname = tk.StringVar()
@@ -64,14 +64,14 @@ class RegisterFrame(customtkinter.CTkFrame):
                                                      textvariable=self.lastname,
                                                      fg_color="#EFF9FF",
                                                      text_color="#6895B2",
-                                                     border_color="#6895B2",)  # Entry field text (text box)
+                                                     border_color="#6895B2", )  # Entry field text (text box)
         self.lastname_entry.grid(row=3, column=1, sticky=tk.W, padx=10, pady=10)
         self.entry_widget_list.append(self.lastname_entry)
 
         # Label to ask user for Username
         username_label = customtkinter.CTkLabel(master=self, text="Username: ",
                                                 text_color="#6895B2",
-                                                font=("Cascadia Mono Bold",14))
+                                                font=("Cascadia Mono Bold", 14))
         username_label.grid(row=4, column=0, sticky=tk.E, padx=10, pady=10)
         # Variable and input widget for username
         self.username = tk.StringVar()
@@ -79,13 +79,13 @@ class RegisterFrame(customtkinter.CTkFrame):
                                                      textvariable=self.username,
                                                      fg_color="#EFF9FF",
                                                      text_color="#6895B2",
-                                                     border_color="#6895B2",)  # Entry field text (text box)
+                                                     border_color="#6895B2", )  # Entry field text (text box)
         self.username_entry.grid(row=4, column=1, sticky=tk.W, padx=10, pady=10)
         self.entry_widget_list.append(self.username_entry)
 
         password_label = customtkinter.CTkLabel(master=self, text="Password: ",
                                                 text_color="#6895B2",
-                                                font=("Cascadia Mono Bold",14))
+                                                font=("Cascadia Mono Bold", 14))
         password_label.grid(row=5, column=0, sticky=tk.E, padx=10, pady=10)
         # Variable and input widget for password
         self.password = tk.StringVar()
@@ -93,14 +93,14 @@ class RegisterFrame(customtkinter.CTkFrame):
                                                      textvariable=self.password, show='●',
                                                      fg_color="#EFF9FF",
                                                      text_color="#6895B2",
-                                                     border_color="#6895B2",)  # Show = '●'
+                                                     border_color="#6895B2", )  # Show = '●'
         self.password_entry.grid(row=5, column=1, sticky=tk.W, padx=10, pady=10)
         self.entry_widget_list.append(self.password_entry)
 
         # Re-enter password
         password_label2 = customtkinter.CTkLabel(master=self, text="Re-enter Password: ",
                                                  text_color="#6895B2",
-                                                 font=("Cascadia Mono Bold",14))
+                                                 font=("Cascadia Mono Bold", 14))
         password_label2.grid(row=6, column=0, sticky=tk.E, padx=10, pady=10)
         # Variable and input widget for password
         self.password2 = tk.StringVar()
@@ -108,7 +108,7 @@ class RegisterFrame(customtkinter.CTkFrame):
                                                       textvariable=self.password2, show='●',
                                                       fg_color="#EFF9FF",
                                                       text_color="#6895B2",
-                                                      border_color="#6895B2",)  # Show = '●'
+                                                      border_color="#6895B2", )  # Show = '●'
         self.password_entry2.grid(row=6, column=1, sticky=tk.W, padx=10, pady=10)
         self.entry_widget_list.append(self.password_entry2)
 
@@ -118,28 +118,68 @@ class RegisterFrame(customtkinter.CTkFrame):
                                             font=("Cascadia Mono Bold", 14)
                                             )
         role_label.grid(row=7, column=0, sticky=tk.E, padx=10, pady=10)
-        # self.role = tk.StringVar()
-        # self.role_dropdown = ttk.Combobox(master=self, values=self.roles)
+
         self.role_dropdown = customtkinter.CTkComboBox(master=self,
                                                        values=self.roles,
                                                        fg_color="#EFF9FF",
                                                        text_color="#6895B2",
                                                        border_color="#6895B2",
-                                                       button_color="#6895B2",
+                                                       button_color="#638294",
                                                        dropdown_fg_color="white",
                                                        dropdown_text_color="#577184",
                                                        dropdown_hover_color="#8BC9F0")
         self.role_dropdown.grid(row=7, column=1, sticky=tk.W, padx=10, pady=10)
 
+        # Roles used for dropdown list (Learner and Parent only)
+        self.questions = [
+            "What is the name of your childhood pet?",
+            "In what city were you born?",
+            "What is your favorite book or movie?",
+            "What was the name of your first school?",
+            "What is your favorite sports team?"
+        ]
+
+        # Role
+        security_question = customtkinter.CTkLabel(master=self, text="Security Question: ",
+                                                   text_color="#6895B2",
+                                                   font=("Cascadia Mono Bold", 14)
+                                                   )
+        security_question.grid(row=8, column=0, sticky=tk.E, padx=10, pady=10)
+
+        self.question_dropdown = customtkinter.CTkComboBox(master=self,
+                                                           values=self.questions,
+                                                           fg_color="#EFF9FF",
+                                                           text_color="#6895B2",
+                                                           border_color="#6895B2",
+                                                           button_color="#638294",
+                                                           dropdown_fg_color="white",
+                                                           dropdown_text_color="#577184",
+                                                           dropdown_hover_color="#8BC9F0")
+        self.question_dropdown.grid(row=8, column=1, columnspan=2, sticky=tk.EW, padx=10, pady=10)
+
+        answer_label = customtkinter.CTkLabel(master=self, text="Answer: ",
+                                              text_color="#6895B2",
+                                              font=("Cascadia Mono Bold", 14))
+        answer_label.grid(row=9, column=0, sticky=tk.E, padx=10, pady=10)
+
+        self.answer = tk.StringVar()
+        self.answer_entry = customtkinter.CTkEntry(master=self,
+                                                    textvariable=self.answer,
+                                                    fg_color="#EFF9FF",
+                                                    text_color="#6895B2",
+                                                    border_color="#6895B2")
+        self.answer_entry.grid(row=9, column=1, sticky=tk.W, padx=10, pady=10)
+        self.entry_widget_list.append(self.answer_entry)
+
         register_button = customtkinter.CTkButton(master=self, text="Register", width=100,
                                                   fg_color="#6895B2",
                                                   command=self.register_user)
-        register_button.grid(row=8, columnspan=2, padx=10, pady=20, sticky="s")
+        register_button.grid(row=10, columnspan=2, padx=10, pady=20, sticky="s")
 
         back_button = customtkinter.CTkButton(master=self, text="Back to Main Page",
                                               fg_color="#6895B2",
                                               command=self.show_main_page)
-        back_button.grid(row=9, columnspan=2, padx=10, pady=10)
+        back_button.grid(row=11, columnspan=2, padx=10, pady=10)
 
     def show_main_page(self):
         """
@@ -159,6 +199,9 @@ class RegisterFrame(customtkinter.CTkFrame):
         if self.role_dropdown is not None:
             self.role_dropdown.set("Select Role")
 
+        if self.question_dropdown is not None:
+            self.question_dropdown.set("Select Security Question")
+
     def register_user(self):
         """
         Method to register as a user.
@@ -171,9 +214,11 @@ class RegisterFrame(customtkinter.CTkFrame):
         password = self.password.get()
         password_confirmation = self.password2.get()
         role = self.role_dropdown.get()
+        sec_ques = self.question_dropdown.get()
+        sec_ans = self.answer.get()
 
         if (len(first_name) == 0 or len(last_name) == 0 or len(username) == 0 or len(password) == 0 or
-                len(password_confirmation) == 0):
+                len(password_confirmation) == 0 or sec_ques not in self.questions or len(sec_ans) == 0):
             messagebox.showerror("Empty Field Error", "Please fill in all the entries.")
             return
 
@@ -190,11 +235,11 @@ class RegisterFrame(customtkinter.CTkFrame):
         else:
             print(f'Selected role: {role}')
             if role == "Learner":
-                user = Learner(username, password, first_name, last_name)
-                self.user_storage.insert_user_data(user)
+                user = Learner(username, password, first_name, last_name, sec_ques, sec_ans)
+                self.user_storage.insert_user_data(user, sec_ques, sec_ans)
             elif role == "Parent":
-                user = Parent(username, password, first_name, last_name)
-                self.user_storage.insert_user_data(user)
+                user = Parent(username, password, first_name, last_name, sec_ques, sec_ans)
+                self.user_storage.insert_user_data(user, sec_ques, sec_ans)
             else:
                 messagebox.showerror("Role Error", "Invalid role selection.")
                 return

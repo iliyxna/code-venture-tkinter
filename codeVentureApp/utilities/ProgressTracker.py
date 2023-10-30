@@ -36,7 +36,7 @@ class ProgressTracker:
         self.challenge_completed.append(module)
 
     def calculate_progress_percentage(self):
-        total_modules = len(self.module_manager.get_all_modules())
+        total_modules = 2
         completed_modules = len(self.modules_completed)
         if total_modules == 0:
             return 0
