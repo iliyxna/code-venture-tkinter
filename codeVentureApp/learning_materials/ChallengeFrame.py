@@ -13,8 +13,10 @@ class ChallengeFrame(customtkinter.CTkFrame):
     Each challenge will be a tiny frame
     """
 
-    # Constructor of the class
     def __init__(self, master, challenge_id, username):
+        """
+        Constructor
+        """
         super().__init__(master)
         self.master = master
         self.challenge_id = challenge_id
@@ -25,11 +27,13 @@ class ChallengeFrame(customtkinter.CTkFrame):
                        )
         self.system_storage = SystemStorage()
 
+        # retrieve challenge information
         challenge = self.system_storage.get_challenge_data(challenge_id)
         challenge_name = challenge.get_challenge_name()
         challenge_intro = challenge.get_intro()
         challenge_level = challenge.get_difficulty()
 
+        # assigning images based on badges
         self.badge_image = None
         if challenge_level == "Easy":
             self.badge_image = tk.PhotoImage(file='../images/badge1.png')
@@ -49,7 +53,7 @@ class ChallengeFrame(customtkinter.CTkFrame):
         if challenge_level == "Hard":
             self.configure(fg_color="#CBC3E3")
 
-        # card information
+        # challenge card details
         name_label = customtkinter.CTkLabel(self,
                                             text=f'\n({challenge_id + 1}) {challenge_name}',
                                             font=("Fixedsys", 20),
@@ -91,6 +95,7 @@ class ChallengeFrame(customtkinter.CTkFrame):
         Method to start each challenge via pop-up window
         """
 
+        # Check if user would like to reattempt the challenge
         if self.system_storage.get_user_completed_challenge(self.username, self.challenge_id) is not None:
             confirmation_message = messagebox.askyesno("Confirmation", "Do you want to re-attempt the challenge?")
             if confirmation_message:
@@ -112,6 +117,7 @@ class ChallengeFrame(customtkinter.CTkFrame):
         challenge_name = challenge.get_challenge_name()
         challenge_question = challenge.get_question()
 
+        # pop-up details
         title = customtkinter.CTkLabel(master=self.popup,
                                        text=f'Let the Challenge Begin 🕹️\n\n'
                                             f'Challenge : {challenge_name} !\n',

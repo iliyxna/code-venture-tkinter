@@ -367,6 +367,7 @@ class SystemStorage:  # change to system storage later
 
     def check_learner_module(self, module_id, username):
         """
+        Query to check if learner have completed the module
         """
         self.cursor.execute('SELECT * FROM Module_Completion_Data WHERE module_id = ? AND username = ?',
                             (module_id, username))

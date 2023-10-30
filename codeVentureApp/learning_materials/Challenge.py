@@ -1,4 +1,7 @@
 class Challenge:
+    """
+    Class for challenge
+    """
 
     def __init__(self, challenge_id, challenge_name, intro, difficulty,question , solution, badge_award):
         """

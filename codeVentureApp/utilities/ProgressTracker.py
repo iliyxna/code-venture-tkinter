@@ -89,6 +89,9 @@ class ProgressTracker:
             self.rank = Rank.NOVICE
 
     def show_completed_modules(self):
+        """
+        Method to display completed module
+        """
         modules = ""
         if len(self.get_modules_completed()) > 0:
             modules += "\n"
@@ -99,6 +102,9 @@ class ProgressTracker:
         return modules
 
     def show_enrolled_modules(self):
+        """
+        Method to display enrolled modules
+        """
         modules = ""
         if len(self.get_modules_completed()) > 0:
             modules += "\n"
@@ -109,6 +115,9 @@ class ProgressTracker:
         return modules
 
     def show_badges(self):
+        """
+        Method to display the badges earned
+        """
         badges = ""
         if len(self.get_badges_earned()) > 0:
             badges += "\n"
@@ -119,6 +128,9 @@ class ProgressTracker:
         return badges
 
     def __str__(self):
+        """
+        To String method
+        """
         return (f"Current rank: {self.get_rank().name}\n"
                 f"Badges earned: {self.show_badges()}\n"
                 f"Modules completed: {self.show_completed_modules()}\n"

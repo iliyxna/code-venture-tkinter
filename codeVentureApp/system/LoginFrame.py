@@ -123,12 +123,10 @@ class LoginFrame(customtkinter.CTkFrame):
         username = self.username.get()
         password = self.password.get()
 
-        # user = self.system_storage.get_user(username, password)
         user = self.user_storage.get_user(username, password)
 
         if user is not None:
             self.user = user
-            # print(user.get_role())
             # output a Label to show login successful in a pop-up
             messagebox.showinfo(title="Login Successful", message="Login Successful!")
             # print(user.get_role())
