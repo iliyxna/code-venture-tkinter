@@ -44,7 +44,7 @@ class ParentFrame(customtkinter.CTkFrame):
                                                    fg_color="transparent",
                                                    hover_color="#878787",
                                                    font=("Cascadia Mono Bold", 18),
-                                                   command=self.show_dashboard_frame
+                                                   # command=self.show_dashboard_frame
                                                    )
         dashboard_option.place(relx=0, rely=0.25, relwidth=self.nav_bar.winfo_width())  # Centered vertically
 
@@ -288,7 +288,7 @@ class ParentFrame(customtkinter.CTkFrame):
 
                     # If successfully linked, update the message and remove the add child button
                     if self.system_storage.check_parent_child(self.user.get_username()):
-                        self.welcome_frame.place_forget()
+                        self.welcome_frame.grid_forget()
 
                         # Recreate with child's progress once linked
                         self.welcome_frame = customtkinter.CTkFrame(self.parent_frame,
@@ -304,7 +304,6 @@ class ParentFrame(customtkinter.CTkFrame):
                                                                justify="left"
                                                                )
                         welcome_title.grid(row=0, column=0, padx=30, pady=50, sticky="ew")
-
 
                         parent_username, child_username = self.system_storage.get_parent_data(self.user.get_username())
                         (learner_username, learner_points, learner_rank,

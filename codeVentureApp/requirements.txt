@@ -1,0 +1,6 @@
+Requirements:
+
+Additional Python packages:
+- tkinter
+- packaging
+- customtkinter

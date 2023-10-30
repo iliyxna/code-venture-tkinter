@@ -85,7 +85,7 @@ class ProgressTrackerFrame(customtkinter.CTkFrame):
                 module = self.system_storage.get_module_data(self.completed_modules[i][0])
                 score = self.completed_modules[i][3]
                 module_completed = customtkinter.CTkLabel(module_frame,
-                                                          text=f'Module ({module.get_module_id()}) '
+                                                          text=f'Module ({module.get_module_id()+1}) '
                                                                f'{module.get_module_name()}',
                                                           font=("Calibri Bold", 14),
                                                           text_color="white")
