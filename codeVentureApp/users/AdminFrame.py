@@ -131,7 +131,7 @@ class AdminFrame(customtkinter.CTkFrame):
         profile_label.place(relx=0, y=100, relwidth=self.profile_frame.winfo_width())
 
         # Set current frame
-        self.current_frame = self.welcome_frame
+        self.current_frame = self.admin_frame
 
         avatar_path = "images/admin.png"
         self.avatar = tk.PhotoImage(file=avatar_path)

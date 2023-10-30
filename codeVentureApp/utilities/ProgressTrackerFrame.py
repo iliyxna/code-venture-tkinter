@@ -22,9 +22,9 @@ class ProgressTrackerFrame(customtkinter.CTkFrame):
         self.system_storage = SystemStorage()
 
         # Badges
-        self.badge_display_one = tk.PhotoImage(file='../images/badge1.png')
-        self.badge_display_two = tk.PhotoImage(file='../images/badge2.png')
-        self.badge_display_three = tk.PhotoImage(file='../images/badge3.png')
+        self.badge_display_one = tk.PhotoImage(file='./images/badge1.png')
+        self.badge_display_two = tk.PhotoImage(file='./images/badge2.png')
+        self.badge_display_three = tk.PhotoImage(file='./images/badge3.png')
 
         # Retrieve user's earned badges and completed modules
         self.badge_earned_list = self.system_storage.get_learner_badge(self.user.get_username())

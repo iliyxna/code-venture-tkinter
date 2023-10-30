@@ -2,7 +2,7 @@ class Module:
     """
     Class for Module
     """
-    def __init__(self, id, educator, module_name, intro, tutorial_id, module_level):
+    def __init__(self, id, educator, module_name, intro, award_points, tutorial_id, difficulty):
         """
         Constructor
         """
@@ -12,7 +12,8 @@ class Module:
         self.intro = intro
         self.tutorial_id = tutorial_id
         self.discussion_forum = None
-        self.module_level = module_level
+        self.module_level = difficulty
+        # self.difficulty = difficulty
 
     def get_module_id(self):
         """
@@ -31,7 +32,6 @@ class Module:
         Method to get the introduction of the module
         """
         return self.intro
-
 
     def get_tutorial_id(self):
         """

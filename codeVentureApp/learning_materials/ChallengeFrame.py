@@ -36,11 +36,11 @@ class ChallengeFrame(customtkinter.CTkFrame):
         # assigning images based on badges
         self.badge_image = None
         if challenge_level == "Easy":
-            self.badge_image = tk.PhotoImage(file='../images/badge1.png')
+            self.badge_image = tk.PhotoImage(file='./images/badge1.png')
         elif challenge_level == "Intermediate":
-            self.badge_image = tk.PhotoImage(file='../images/badge2.png')
+            self.badge_image = tk.PhotoImage(file='./images/badge2.png')
         elif challenge_level == "Hard":
-            self.badge_image = tk.PhotoImage(file='../images/badge3.png')
+            self.badge_image = tk.PhotoImage(file='./images/badge3.png')
 
         # attributes for pop-up
         self.popup_success = None
