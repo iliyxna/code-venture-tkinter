@@ -35,7 +35,6 @@ class ModuleFrame(customtkinter.CTkFrame):
 
         self.forum_open = False
         self.forum_window = None
-        self.forum_image = tk.PhotoImage(file='images/forum.png')
 
         self.system_storage = SystemStorage()
 
