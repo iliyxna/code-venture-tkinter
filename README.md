@@ -16,7 +16,7 @@ Clone the repository to your local machine:
 git clone https://github.com/iliyxna/code-venture1056.git
 ```
 ## Getting Started
-To launch CodeVenture, navigate to the project directory and launch the codeventure.exe executable file.
+To launch CodeVenture, open the cloned file in your PyCharm, go to the main.py file and run the code.
 Follow the on-screen instructions to create a new learner account and begin your adventure in the world of coding!
 
 ## Features:
