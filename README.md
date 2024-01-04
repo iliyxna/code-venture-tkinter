@@ -49,13 +49,5 @@ Scores"
 24. Parental progress Monitoring View
 25. Admin Administrative Management View
 
-## Contact Information
-Email:
-* isam0004@student.monash.edu
-* nahm0035@student.monash.edu
-* wtan0106@student.monash.edu
-* ppal0006@student.monash.edu
 
-GitHub:
-* github.com/iliyxna
-* github.com/nurindamia123
+(Monash University) FIT1056 Project
